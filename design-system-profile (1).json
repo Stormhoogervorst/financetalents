@@ -1,0 +1,345 @@
+{
+  "meta": {
+    "profile_name": "OPUS HQ Design System",
+    "description": "A minimalist, editorial-grade digital agency design system. High contrast, generous whitespace, bold typography, and restrained use of a single accent color. The aesthetic is premium, confident, and modern — inspired by luxury branding and architectural photography.",
+    "design_philosophy": "Less is more. Every element earns its place. Typography does the heavy lifting; color is used as punctuation, not decoration. The design trusts whitespace to create hierarchy and breathing room."
+  },
+
+  "color_palette": {
+    "brand_colors_source": "Extracted from brand banner. Two core colors: a vibrant periwinkle-blue (#587DFE) and a deep navy (#2C337A), plus derived light tints.",
+
+    "primary_background": "#FFFFFF",
+    "secondary_background": "#F5F7FF",
+    "secondary_background_notes": "Very faint blue-white tint — keeps the clean feel but subtly ties to the brand blue. Use for alternating sections or card backgrounds.",
+    "tertiary_background": "#EEF1FF",
+    "tertiary_background_notes": "Slightly more visible blue tint. Use for feature highlight sections, code blocks, or callout areas.",
+
+    "primary_text": "#000000",
+    "primary_text_notes": "Black — extracted from the banner dark text. Used instead of pure black for all headings and primary text. Creates a softer, more branded feel than #000.",
+    "secondary_text": "#5A6094",
+    "secondary_text_notes": "A mid-tone navy-gray. For body text, descriptions, and supporting content.",
+    "muted_text": "#8B91B8",
+    "muted_text_notes": "Lighter navy-lavender. For metadata, dates, captions, and tertiary information.",
+
+    "accent": "#587DFE",
+    "accent_notes": "The vibrant periwinkle-blue from the banner background. Primary accent for interactive elements, brand marks, links, and highlights.",
+    "accent_hover": "#4A6CE6",
+    "accent_light": "#8CA6FE",
+    "accent_light_notes": "For subtle hover backgrounds, active states, or secondary highlights.",
+    "accent_lighter": "#BDD0FF",
+    "accent_lighter_notes": "For tag backgrounds, light badges, or selected states.",
+    "accent_lightest": "#E9EEFF",
+    "accent_lightest_notes": "Near-white blue tint for subtle section backgrounds, input focus rings, or notification backgrounds.",
+
+    "navy": "#2C337A",
+    "navy_notes": "The deep navy from the banner dark text. For high-emphasis text, dark UI elements, or inverted sections.",
+    "navy_light": "#3B4CA7",
+
+    "accent_usage": "More present than a typical minimal palette — use for brand icon/logo mark, interactive link underlines, quote marks, hover states, section accents, and occasional full background fills on CTA or hero sections. Still intentional, not everywhere.",
+
+    "dividers": "#E2E5F0",
+    "dividers_notes": "Cool-tinted light gray that harmonizes with the blue palette.",
+    "card_overlay": "rgba(44, 51, 122, 0.03)",
+
+    "inverted_section": {
+      "background": "#587DFE",
+      "text": "#FFFFFF",
+      "text_secondary": "rgba(255, 255, 255, 0.8)",
+      "notes": "For CTA banners or hero sections. White text on brand blue — as shown in the banner."
+    },
+    "inverted_section_dark": {
+      "background": "#2C337A",
+      "text": "#FFFFFF",
+      "text_secondary": "rgba(255, 255, 255, 0.7)",
+      "notes": "Alternative inverted section using deep navy. More serious/authoritative tone."
+    },
+
+    "full_scale_summary": {
+      "darkest": "#2C337A",
+      "dark": "#3B4CA7",
+      "medium": "#587DFE",
+      "medium_light": "#8CA6FE",
+      "light": "#BDD0FF",
+      "lighter": "#E9EEFF",
+      "lightest": "#F5F7FF",
+      "white": "#FFFFFF"
+    }
+  },
+
+  "typography": {
+    "approach": "Type-driven design. Headlines are the dominant visual element on every section. No decorative fonts — one family throughout with weight variation creating hierarchy.",
+    "font_stack": {
+      "primary": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+      "alternative_suggestion": "Can substitute with 'Neue Haas Grotesk', 'Helvetica Neue', or 'Switzer' for a similar geometric sans-serif feel."
+    },
+    "scale": {
+      "hero_headline": {
+        "size_range": "clamp(48px, 6vw, 80px)",
+        "weight": 700,
+        "line_height": 1.05,
+        "letter_spacing": "-0.03em",
+        "case": "sentence-case",
+        "notes": "Extremely large, tight leading. These headlines command attention and often span 2-3 lines. They use natural sentence casing, never all-caps."
+      },
+      "section_headline": {
+        "size_range": "clamp(36px, 4.5vw, 64px)",
+        "weight": 700,
+        "line_height": 1.1,
+        "letter_spacing": "-0.025em",
+        "case": "sentence-case"
+      },
+      "card_title": {
+        "size_range": "clamp(18px, 1.5vw, 22px)",
+        "weight": 600,
+        "line_height": 1.3,
+        "letter_spacing": "-0.01em"
+      },
+      "body": {
+        "size_range": "clamp(15px, 1.1vw, 17px)",
+        "weight": 400,
+        "line_height": 1.65,
+        "letter_spacing": "0",
+        "color": "secondary_text",
+        "max_width": "600px",
+        "notes": "Body text is always in the muted/secondary color, never full black. This creates a clear visual hierarchy where headlines pop."
+      },
+      "label": {
+        "size_range": "13px-14px",
+        "weight": 500,
+        "line_height": 1.4,
+        "letter_spacing": "0.02em",
+        "case": "uppercase or sentence-case depending on context",
+        "notes": "Used for metadata like dates, categories, section labels (e.g., '/BLOG/'). Always in muted_text color."
+      },
+      "nav_link": {
+        "size_range": "14px-15px",
+        "weight": 500,
+        "line_height": 1,
+        "letter_spacing": "0"
+      },
+      "blockquote": {
+        "size_range": "clamp(24px, 3vw, 40px)",
+        "weight": 600,
+        "line_height": 1.3,
+        "letter_spacing": "-0.02em",
+        "notes": "Large, impactful pull quotes. Accompanied by a large blue quotation mark icon positioned to the left."
+      }
+    }
+  },
+
+  "spacing": {
+    "philosophy": "Extremely generous whitespace. Sections are separated by vast empty space that would feel 'too much' in conventional design but creates a premium, editorial feel here.",
+    "section_padding": {
+      "vertical": "clamp(100px, 12vh, 180px)",
+      "horizontal": "clamp(24px, 5vw, 80px)"
+    },
+    "content_gaps": {
+      "between_headline_and_body": "24px-32px",
+      "between_body_and_cta": "32px-40px",
+      "between_grid_items": "24px-32px",
+      "between_label_and_headline": "12px-16px"
+    },
+    "max_content_width": "1400px",
+    "text_max_width": "640px",
+    "notes": "Content never stretches full-width. Even on large screens, text blocks are constrained to ~640px wide. The remaining space is either empty or used for secondary content in a split layout."
+  },
+
+  "layout_patterns": {
+    "grid_system": {
+      "columns": 12,
+      "gutter": "24px-32px",
+      "notes": "Asymmetric layouts are preferred over centered content. Content often sits at the left third while the right two-thirds hold a different element (or vice versa)."
+    },
+
+    "section_types": {
+      "split_layout": {
+        "description": "Content divided into two unequal columns. One side holds text (headline + body + CTA), the other holds imagery, a form, or a quote. Used for contact sections, about sections, and CTAs.",
+        "ratio": "roughly 35/65 or 40/60",
+        "alignment": "Text column is top-aligned, not vertically centered."
+      },
+      "hero_cta_section": {
+        "description": "A large bold headline with a short description and a single text-link CTA. Content is right-aligned or centered with massive surrounding whitespace.",
+        "elements": ["accent_icon", "headline", "description", "text_link_cta"]
+      },
+      "blog_grid": {
+        "description": "Featured post takes up the left half as a large card with full-bleed image. Two smaller cards stack vertically on the right. Below, additional articles are listed in a horizontal row format.",
+        "featured_card_ratio": "roughly 50% width, large image with title below",
+        "secondary_cards": "smaller, equal-sized, with image and title below",
+        "list_format": "horizontal row: thumbnail (small square) | date | title"
+      },
+      "article_list": {
+        "description": "Clean horizontal rows with small square thumbnail on the left, date in the middle, and title on the right. Separated by subtle horizontal dividers.",
+        "thumbnail_size": "approximately 80px x 80px, with subtle rounded corners (4px)",
+        "row_height": "approximately 100px",
+        "divider": "1px solid #E5E5E5"
+      },
+      "quote_section": {
+        "description": "Full-width section with a large blockquote. Blue quotation mark icon on the left, quote text on the right. Attribution below with circular avatar photo, name, and title.",
+        "avatar_size": "56px-64px, fully circular",
+        "attribution_style": "Name in bold (600), title in muted text below"
+      },
+      "contact_section": {
+        "description": "Split layout. Left column has contact details (email, phone, address) stacked vertically with labels. Right column has a large italic/bold headline, followed by a minimal form.",
+        "form_style": "Underline-only inputs (no borders, no backgrounds). Fields: Name, Email side by side, then a large textarea for project info. Submit is a text link, not a button."
+      }
+    }
+  },
+
+  "components": {
+    "buttons_and_ctas": {
+      "primary_style": "text-link with underline",
+      "description": "This design avoids traditional filled buttons entirely. CTAs are text links with a subtle underline and an arrow icon (↗). The underline is typically in the accent blue color.",
+      "arrow_icon": "A small northeast-pointing arrow (↗) placed after the text",
+      "hover_behavior": "Underline expands or arrow moves slightly on hover",
+      "examples": ["Start now ↗", "All articles ↗", "Send message ↗", "Load More +"]
+    },
+
+    "cards": {
+      "blog_card": {
+        "structure": "Image on top (no border-radius or very subtle 4px-8px), date label below, then title",
+        "image_aspect_ratio": "roughly 16:10 for featured, 4:3 for secondary",
+        "border": "none",
+        "shadow": "none",
+        "background": "transparent or very subtle #F5F5F5",
+        "hover": "subtle scale transform on image (1.02-1.03) or opacity shift"
+      }
+    },
+
+    "form_fields": {
+      "style": "minimalist underline-only",
+      "border": "none — only a bottom border of 1px solid #CCCCCC",
+      "background": "transparent",
+      "padding": "12px 0",
+      "font_size": "15px-16px",
+      "placeholder_color": "#999999",
+      "focus_state": "bottom border transitions to #0A0A0A or accent blue",
+      "label_style": "placeholder doubles as label (placeholder shown inside field)",
+      "textarea": "same underline style, taller, with resize handle"
+    },
+
+    "brand_mark": {
+      "icon": "A 4-pointed star/sparkle shape",
+      "color": "white on accent blue circular background",
+      "sizes": {
+        "inline_with_headline": "40px-48px",
+        "standalone": "56px-64px"
+      },
+      "usage": "Placed next to major headlines or CTAs as a visual anchor. Never overused — appears 2-3 times max per page."
+    },
+
+    "section_labels": {
+      "style": "Uppercase or slash-wrapped path-like labels (e.g., '/BLOG/')",
+      "font": "label typography style",
+      "position": "Above the section headline, left-aligned",
+      "color": "muted_text"
+    },
+
+    "dividers": {
+      "style": "1px solid, very light gray (#E5E5E5)",
+      "usage": "Between list items (article rows). Never between major sections — whitespace handles that separation."
+    },
+
+    "avatars": {
+      "shape": "circular",
+      "size": "56px-64px",
+      "border": "none",
+      "usage": "Used in testimonial/quote attribution only"
+    }
+  },
+
+  "imagery": {
+    "style": "High-contrast, moody, often dark or desaturated. Architectural and abstract photography. Minimal color in images — lots of blacks, grays, and whites.",
+    "treatment": {
+      "blog_thumbnails": "Square or landscape crops with no border-radius or very subtle radius (4px). No overlays or filters applied via CSS.",
+      "featured_images": "Large, immersive. Often dark/moody with a single human figure for scale, or abstract geometric shapes.",
+      "article_list_thumbnails": "Small squares (~80px), same moody/abstract style"
+    },
+    "color_palette_of_images": "Predominantly monochrome or desaturated. Occasional warm tones (orange clouds, green foliage) but always muted. Never bright or saturated stock photography.",
+    "ai_generation_guidance": "If generating images for this system, prompt for: architectural photography, abstract 3D renders, moody lighting, single focal point, lots of negative space, dark backgrounds with subtle light sources, minimalist compositions."
+  },
+
+  "animations_and_interactions": {
+    "philosophy": "Subtle and refined. Nothing flashy or attention-grabbing. Animations should feel like natural physics, not decorative.",
+    "suggested_transitions": {
+      "page_elements": "fade-in on scroll, slight upward translate (20px), duration 0.5-0.7s, ease-out",
+      "links": "underline width transition on hover, 0.2-0.3s ease",
+      "images": "subtle scale on hover (1.02), 0.3s ease",
+      "buttons": "arrow icon translate-x on hover (4px right), 0.2s ease"
+    },
+    "scroll_behavior": "smooth",
+    "loading": "No spinners or skeleton screens visible in design — implies fast loading. If needed, use subtle fade-in."
+  },
+
+  "responsive_behavior": {
+    "approach": "Desktop-first but fluid. Typography scales with viewport using clamp(). Layouts shift from multi-column to single-column below tablet breakpoints.",
+    "breakpoints": {
+      "desktop": "1200px+",
+      "tablet": "768px-1199px",
+      "mobile": "below 768px"
+    },
+    "mobile_adjustments": {
+      "typography": "Headlines scale down but remain bold and dominant. Minimum hero headline size: ~36px.",
+      "layout": "All split layouts collapse to single column. Text stacks above images.",
+      "spacing": "Section padding reduces to ~60px-80px vertical.",
+      "grid": "Blog cards stack vertically. Article list remains horizontal rows."
+    }
+  },
+
+  "do_and_dont": {
+    "do": [
+      "Use massive whitespace between sections — when it feels like too much, it's just right",
+      "Let typography be the hero — headlines should be the first thing the eye hits",
+      "Keep accent color usage to 5% or less of the total visual weight",
+      "Use moody, high-contrast imagery with minimal color",
+      "Make CTAs text-links with arrows, not chunky buttons",
+      "Constrain text blocks to ~640px max width for readability",
+      "Use asymmetric layouts (35/65 splits) over centered designs",
+      "Keep forms minimal — underline-only inputs, no backgrounds or borders",
+      "Use sentence-case for headlines, never all-caps for display text",
+      "Maintain tight letter-spacing on headlines (-0.02em to -0.03em)"
+    ],
+    "dont": [
+      "Don't use filled/solid buttons — this design relies on text-link CTAs",
+      "Don't use bright, saturated colors anywhere — even images should be muted",
+      "Don't add drop shadows, glows, or gradients to cards or sections",
+      "Don't use decorative borders, rounded corners larger than 8px, or badge-style elements",
+      "Don't center-align body text — always left-aligned",
+      "Don't use icons extensively — the only recurring icon is the brand star mark and the arrow (↗)",
+      "Don't crowd sections together — whitespace is a core design element",
+      "Don't use stock photography with bright colors, smiling people, or busy compositions",
+      "Don't use more than 2 font weights on a single page section (typically 400 and 700)",
+      "Don't add background colors to sections — keep everything on white or near-white"
+    ]
+  },
+
+  "code_implementation_notes": {
+    "css_approach": "Use CSS custom properties (variables) for all colors and spacing values. Prefer CSS Grid for page layouts and Flexbox for component-level alignment.",
+    "framework_agnostic": true,
+    "suggested_css_variables": {
+      "--color-bg": "#FFFFFF",
+      "--color-bg-subtle": "#F5F7FF",
+      "--color-bg-muted": "#EEF1FF",
+      "--color-text": "#2C337A",
+      "--color-text-secondary": "#5A6094",
+      "--color-text-muted": "#8B91B8",
+      "--color-accent": "#587DFE",
+      "--color-accent-hover": "#4A6CE6",
+      "--color-accent-light": "#8CA6FE",
+      "--color-accent-lighter": "#BDD0FF",
+      "--color-accent-lightest": "#E9EEFF",
+      "--color-navy": "#2C337A",
+      "--color-navy-light": "#3B4CA7",
+      "--color-border": "#E2E5F0",
+      "--color-on-accent": "#FFFFFF",
+      "--font-primary": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+      "--space-section": "clamp(100px, 12vh, 180px)",
+      "--space-content": "clamp(24px, 5vw, 80px)",
+      "--max-width-content": "1400px",
+      "--max-width-text": "640px",
+      "--radius-subtle": "4px",
+      "--transition-default": "0.3s ease"
+    },
+    "html_semantics": "Use semantic HTML5: <section>, <article>, <header>, <blockquote>, <figure>, <figcaption>. Each major page section should be a <section> with generous padding.",
+    "accessibility": "Ensure sufficient color contrast (the secondary text #6B6B6B on white passes AA for large text). Form fields need associated <label> elements even if visually hidden."
+  }
+}
