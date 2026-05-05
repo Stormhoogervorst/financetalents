@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import NavbarPublic from "@/components/NavbarPublic";
 import Footer from "@/components/Footer";
@@ -10,10 +11,74 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { SITE_URL as BASE_URL } from "@/lib/site";
 
 const categoryLabels: Record<string, string> = {
-  carriere: "Carrière",
-  juridisch: "Juridisch",
-  kantoorleven: "Werkgeversleven",
+  carriere: "Career",
+  finance: "Finance",
+  kantoorleven: "Life at the firm",
 };
+
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString("nl-NL", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+function excerptFromHtml(html: string) {
+  return html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 130);
+}
+
+function RelatedArticleCard({ blog }: { blog: Blog }) {
+  const category = categoryLabels[blog.category] ?? blog.category;
+  const excerpt = excerptFromHtml(blog.content);
+
+  return (
+    <Link href={`/kennisbank/${blog.slug}`} className="group block h-full">
+      <article className="flex h-full min-h-[320px] flex-col border border-[#222222] bg-white p-5 transition-colors duration-200 group-hover:bg-[#0A0A0A]">
+        <div className="flex items-start justify-between gap-4">
+          <span className="max-w-[12rem] text-[12px] font-medium leading-[1.25] text-[#222222]/60 transition-colors duration-200 group-hover:text-white/55">
+            {category}
+          </span>
+          <ArrowUpRight className="h-5 w-5 shrink-0 text-[#222222] transition-colors duration-200 group-hover:text-[#E85A00]" />
+        </div>
+
+        {blog.image_url && (
+          <div className="relative mt-8 aspect-[5/3] overflow-hidden border border-[#222222]/15 transition-colors duration-200 group-hover:border-white/15">
+            <Image
+              src={blog.image_url}
+              alt={blog.title}
+              fill
+              className="object-cover grayscale transition duration-200 group-hover:grayscale-0"
+              sizes="(max-width: 768px) 100vw, 33vw"
+            />
+          </div>
+        )}
+
+        <div className="mt-auto pt-10">
+          <time
+            dateTime={blog.created_at}
+            className="text-[12px] font-medium text-[#222222]/50 transition-colors duration-200 group-hover:text-white/50"
+          >
+            {formatDate(blog.created_at)}
+          </time>
+          <h3 className="ft-display mt-4 text-[clamp(26px,2.4vw,38px)] font-extrabold leading-[0.95] tracking-[-0.06em] text-[#222222] transition-colors duration-200 group-hover:text-[#E85A00]">
+            {blog.title}
+          </h3>
+          {excerpt && (
+            <p className="mt-5 line-clamp-3 text-[14px] leading-[1.55] text-[#222222]/60 transition-colors duration-200 group-hover:text-white/60">
+              {excerpt}
+              {blog.content.length > excerpt.length ? "..." : ""}
+            </p>
+          )}
+        </div>
+      </article>
+    </Link>
+  );
+}
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -98,6 +163,25 @@ export default async function BlogArticlePage({ params }: Props) {
 
   const firm = blog.firms;
 
+  const { data: relatedData } = await supabase
+    .from("blogs")
+    .select(
+      `
+      id, title, slug, category, content, image_url, created_at,
+      firms ( name, slug, logo_url, description, location )
+    `
+    )
+    .eq("status", "published")
+    .eq("category", blog.category)
+    .neq("id", blog.id)
+    .order("created_at", { ascending: false })
+    .limit(3);
+
+  const relatedBlogs = ((relatedData ?? []) as unknown as Blog[]).map((b) => ({
+    ...b,
+    firms: Array.isArray(b.firms) ? b.firms[0] ?? null : b.firms,
+  }));
+
   const plainContent = blog.content
     .replace(/<[^>]*>/g, " ")
     .replace(/\s+/g, " ")
@@ -120,7 +204,7 @@ export default async function BlogArticlePage({ params }: Props) {
           },
           publisher: {
             "@type": "Organization",
-            name: "Legal Talents",
+            name: "Finance Talents",
             url: BASE_URL,
           },
         }
@@ -128,74 +212,49 @@ export default async function BlogArticlePage({ params }: Props) {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-white">
+    <div className="relative min-h-screen flex flex-col bg-[#EBEBEB] text-[#222222]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
       <NavbarPublic variant="hero" />
 
-      {/* Hero — vivid mesh gradient header for the article, fading to white */}
       <div className="-mt-[4.25rem]">
-        <section
-          className="relative isolate overflow-hidden"
-          style={{
-            background: `linear-gradient(135deg,
-              #4B3BD6 0%,
-              #5668E8 22%,
-              #7A8BF5 42%,
-              #A8B6FF 62%,
-              #C9D4FF 82%,
-              #FFFFFF 100%)`,
-          }}
-        >
+        <section className="relative isolate overflow-hidden bg-[#EBEBEB]">
           <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background: `
-                radial-gradient(60% 55% at 50% 40%,
-                  rgba(178, 140, 255, 0.65) 0%,
-                  rgba(140, 120, 255, 0.30) 35%,
-                  rgba(120, 150, 255, 0) 70%),
-                radial-gradient(50% 60% at 50% 60%,
-                  rgba(255, 255, 255, 0.45) 0%,
-                  rgba(255, 255, 255, 0) 60%),
-                radial-gradient(55% 70% at 96% 6%,
-                  rgba(42, 20, 230, 0.80) 0%,
-                  rgba(59, 44, 220, 0.35) 22%,
-                  rgba(88, 125, 254, 0) 60%),
-                radial-gradient(32% 38% at 2% 0%,
-                  rgba(215, 168, 255, 0.85) 0%,
-                  rgba(215, 168, 255, 0) 65%),
-                radial-gradient(38% 45% at 10% 55%,
-                  rgba(255, 255, 255, 0.55) 0%,
-                  rgba(255, 255, 255, 0) 65%)
-              `,
-            }}
-          />
-
-          {/* Seamless fade to pure white at the bottom */}
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-[24vw] top-[8vh] h-[62vw] max-h-[800px] min-h-[360px] w-[62vw] min-w-[360px] max-w-[800px] overflow-hidden rounded-full border border-[#222222]/10"
+          >
+            <Image
+              src="/icon FT.png"
+              alt=""
+              fill
+              className="object-contain opacity-[0.15]"
+              sizes="62vw"
+              priority
+            />
+          </div>
           <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-40 md:h-56"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 55%, #FFFFFF 100%)",
-            }}
-          />
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-[-24vw] left-[clamp(24px,5vw,80px)] h-[46vw] max-h-[600px] min-h-[280px] w-[46vw] min-w-[280px] max-w-[600px] overflow-hidden rounded-full bg-white"
+          >
+            <Image
+              src="/icon FT.png"
+              alt=""
+              fill
+              className="object-contain opacity-[0.1]"
+              sizes="46vw"
+            />
+          </div>
 
           <div
-            className="max-w-[1400px] mx-auto relative"
+            className="relative mx-auto max-w-[1600px]"
             style={{
               padding:
-                "calc(4.25rem + clamp(48px, 6vh, 96px)) clamp(24px, 5vw, 80px) clamp(72px, 9vh, 120px)",
+                "calc(4.25rem + clamp(44px, 8vh, 110px)) clamp(24px, 5vw, 80px) clamp(36px, 5vh, 72px)",
             }}
           >
-            <div
-              className="text-white"
-              style={{ textShadow: "0 1px 16px rgba(20, 24, 80, 0.25)" }}
-            >
+            <div className="text-[#222222]">
               <Breadcrumbs
                 items={[
                   { label: "Home", href: "/" },
@@ -209,82 +268,41 @@ export default async function BlogArticlePage({ params }: Props) {
               />
             </div>
 
-            <div className="mt-8 mb-6 flex items-center gap-3">
-              <span
-                className="text-[13px] font-medium tracking-[0.02em] text-white/80"
-                style={{ textShadow: "0 1px 16px rgba(20, 24, 80, 0.22)" }}
-              >
-                {categoryLabels[blog.category] ?? blog.category}
-              </span>
-              <span className="text-white/40">·</span>
-              <time
-                className="text-[13px] font-medium text-white/80"
-                style={{ textShadow: "0 1px 16px rgba(20, 24, 80, 0.22)" }}
-              >
-                {new Date(blog.created_at).toLocaleDateString("nl-NL", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
-              </time>
-            </div>
-
-            <h1
-              className="font-bold leading-[1.05] max-w-[960px]"
-              style={{
-                fontSize: "clamp(36px, 5vw, 64px)",
-                letterSpacing: "-0.03em",
-                color: "#FFFFFF",
-                textShadow: "0 1px 24px rgba(20, 24, 80, 0.25)",
-              }}
-            >
-              {blog.title}
-            </h1>
-
-            {firm && (
-              <div className="mt-8 flex items-center gap-3">
-                {firm.logo_url && (
-                  <div className="w-9 h-9 rounded-[10px] bg-white/15 backdrop-blur-[6px] border border-white/25 flex items-center justify-center overflow-hidden shrink-0">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={firm.logo_url}
-                      alt={`${firm.name} logo`}
-                      className="w-full h-full object-contain p-1"
-                    />
-                  </div>
-                )}
-                <Link
-                  href={`/werkgevers/${firm.slug}`}
-                  className="text-[14px] font-medium text-white/90 hover:text-white transition-colors duration-200"
-                  style={{ textShadow: "0 1px 16px rgba(20, 24, 80, 0.22)" }}
-                >
-                  {firm.name}
-                  {firm.location && (
-                    <span className="text-white/65"> · {firm.location}</span>
-                  )}
-                </Link>
+            <div className="mt-10">
+              <div className="mb-8 flex flex-wrap items-center gap-x-3 gap-y-2 text-[13px] font-medium text-[#222222]/60">
+                <span>{categoryLabels[blog.category] ?? blog.category}</span>
+                <span aria-hidden="true" className="text-[#E85A00]">
+                  /
+                </span>
+                <time dateTime={blog.created_at}>
+                  {formatDate(blog.created_at)}
+                </time>
               </div>
-            )}
+
+              <h1 className="ft-display max-w-[24ch] text-[clamp(32px,4vw,56px)] font-extrabold leading-[1.02] tracking-[-0.05em] text-[#222222]">
+                {blog.title}
+              </h1>
+            </div>
           </div>
         </section>
       </div>
 
-      {/* Featured image */}
       {blog.image_url && (
         <section
+          className="bg-[#EBEBEB]"
           style={{
             paddingLeft: "clamp(24px, 5vw, 80px)",
             paddingRight: "clamp(24px, 5vw, 80px)",
-            paddingTop: "clamp(16px, 2vh, 32px)",
+            paddingBottom: "clamp(70px, 9vh, 130px)",
           }}
         >
-          <div className="max-w-[1400px] mx-auto">
-            <div className="relative aspect-[21/9] w-full rounded-[16px] overflow-hidden bg-[#F5F5F5]">
+          <div className="mx-auto max-w-[1400px]">
+            <div className="relative aspect-[21/9] w-full overflow-hidden border border-[#222222] bg-white">
               <Image
                 src={blog.image_url}
                 alt={blog.title}
                 fill
-                className="object-cover saturate-[0.95]"
+                className="object-cover grayscale"
                 sizes="(max-width: 768px) 100vw, 1400px"
                 priority
               />
@@ -293,72 +311,63 @@ export default async function BlogArticlePage({ params }: Props) {
         </section>
       )}
 
-      {/* Article body + sidebar */}
       <section
+        className="bg-white"
         style={{
           paddingLeft: "clamp(24px, 5vw, 80px)",
           paddingRight: "clamp(24px, 5vw, 80px)",
-          paddingTop: "clamp(40px, 6vh, 80px)",
-          paddingBottom: "clamp(80px, 10vh, 140px)",
+          paddingTop: "clamp(72px, 10vh, 150px)",
+          paddingBottom: "clamp(80px, 11vh, 160px)",
         }}
       >
-        <div className="max-w-[1400px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-12 lg:gap-20">
-            {/* Main content */}
-            <article>
+        <div className="mx-auto max-w-[1400px]">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
+            <article className="lg:col-span-7">
               <div
-                className="prose prose-lg max-w-[640px]
-                  prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-[#0A0A0A]
-                  prose-h2:text-[22px] prose-h2:mt-12 prose-h2:mb-4 prose-h2:leading-[1.2]
-                  prose-h3:text-[18px] prose-h3:mt-10 prose-h3:mb-3 prose-h3:leading-[1.3]
-                  prose-p:text-[#6B6B6B] prose-p:leading-[1.65] prose-p:text-[16px]
-                  prose-a:text-[#587DFE] prose-a:no-underline hover:prose-a:underline prose-a:font-medium
-                  prose-li:text-[#6B6B6B] prose-li:text-[16px] prose-li:leading-[1.65]
-                  prose-strong:text-[#0A0A0A] prose-strong:font-semibold
-                  prose-blockquote:border-l-[#587DFE] prose-blockquote:border-l-2 prose-blockquote:pl-6 prose-blockquote:text-[#0A0A0A] prose-blockquote:font-semibold prose-blockquote:text-[20px] prose-blockquote:leading-[1.4] prose-blockquote:not-italic
-                  prose-img:rounded-[12px]
-                  prose-hr:border-[#E5E5E5]"
+                className="prose prose-lg max-w-[760px]
+                  prose-headings:font-extrabold prose-headings:tracking-[-0.055em] prose-headings:text-[#222222]
+                  prose-h2:mt-14 prose-h2:mb-5 prose-h2:text-[clamp(34px,4vw,62px)] prose-h2:leading-[0.95]
+                  prose-h3:mt-10 prose-h3:mb-4 prose-h3:text-[clamp(26px,3vw,40px)] prose-h3:leading-[1]
+                  prose-p:text-[17px] prose-p:leading-[1.75] prose-p:text-[#222222]/70
+                  prose-a:font-medium prose-a:text-[#E85A00] prose-a:no-underline hover:prose-a:underline
+                  prose-li:text-[17px] prose-li:leading-[1.75] prose-li:text-[#222222]/70
+                  prose-strong:font-semibold prose-strong:text-[#222222]
+                  prose-blockquote:border-l-2 prose-blockquote:border-l-[#E85A00] prose-blockquote:pl-6 prose-blockquote:text-[clamp(24px,3vw,40px)] prose-blockquote:font-semibold prose-blockquote:leading-[1.05] prose-blockquote:tracking-[-0.04em] prose-blockquote:text-[#222222] prose-blockquote:not-italic
+                  prose-img:border prose-img:border-[#222222] prose-img:rounded-none
+                  prose-hr:border-[#222222]/15"
                 dangerouslySetInnerHTML={{ __html: blog.content }}
               />
             </article>
 
-            {/* Sidebar */}
             {firm && (
-              <aside className="lg:pt-2">
+              <aside className="lg:col-span-4 lg:col-start-9">
                 <div className="lg:sticky lg:top-24">
-                  <p className="text-[13px] font-medium tracking-[0.02em] uppercase text-[#999] mb-5">
-                    Over de werkgever
-                  </p>
+                  <div className="border border-[#222222] bg-[#0A0A0A] p-6 text-white md:p-7">
+                    <p className="text-[13px] font-medium text-white/45">
+                      Over de werkgever
+                    </p>
 
-                  <div
-                    className="rounded-[16px] p-6"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(135deg, rgba(88,125,254,0.10) 0%, rgba(88,125,254,0.04) 45%, rgba(255,255,255,0.85) 100%)",
-                      backgroundColor: "#F5F7FF",
-                    }}
-                  >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 rounded-[10px] bg-white border border-[#E2E5F0] flex items-center justify-center shrink-0 overflow-hidden">
+                    <div className="mt-8 flex items-center gap-4">
+                      <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden border border-white/15 bg-white">
                         {firm.logo_url ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img
                             src={firm.logo_url}
                             alt={`${firm.name} logo`}
-                            className="w-full h-full object-contain p-1"
+                            className="h-full w-full object-contain p-2"
                           />
                         ) : (
-                          <span className="text-[12px] font-bold text-[#587DFE]">
+                          <span className="text-[13px] font-bold text-[#E85A00]">
                             {firm.name.slice(0, 2).toUpperCase()}
                           </span>
                         )}
                       </div>
                       <div className="min-w-0">
-                        <p className="text-[15px] font-semibold text-[#2C337A] truncate">
+                        <p className="ft-display truncate text-[28px] font-extrabold leading-[0.95] tracking-[-0.06em] text-white">
                           {firm.name}
                         </p>
                         {firm.location && (
-                          <p className="text-[13px] text-[#8B91B8]">
+                          <p className="mt-1 text-[13px] text-white/50">
                             {firm.location}
                           </p>
                         )}
@@ -366,16 +375,17 @@ export default async function BlogArticlePage({ params }: Props) {
                     </div>
 
                     {firm.description && (
-                      <p className="text-[14px] text-[#5A6094] leading-[1.65] mb-5 line-clamp-4">
+                      <p className="mt-8 line-clamp-5 text-[15px] leading-[1.65] text-white/65">
                         {firm.description}
                       </p>
                     )}
 
                     <Link
                       href={`/werkgevers/${firm.slug}`}
-                      className="btn-primary"
+                      className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[14px] font-medium text-[#222222] transition-colors duration-200 hover:bg-[#E85A00] hover:text-white"
                     >
                       Werkgeversprofiel bekijken
+                      <ArrowUpRight className="h-4 w-4" />
                     </Link>
                   </div>
                 </div>
@@ -384,6 +394,40 @@ export default async function BlogArticlePage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {relatedBlogs.length > 0 && (
+        <section
+          className="bg-[#EBEBEB]"
+          style={{
+            paddingLeft: "clamp(24px, 5vw, 80px)",
+            paddingRight: "clamp(24px, 5vw, 80px)",
+            paddingTop: "clamp(80px, 10vh, 150px)",
+            paddingBottom: "clamp(80px, 10vh, 150px)",
+          }}
+        >
+          <div className="mx-auto max-w-[1400px]">
+            <div className="mb-10 grid grid-cols-1 gap-8 md:mb-16 lg:grid-cols-12 lg:items-end">
+              <h2 className="ft-display text-[clamp(54px,9vw,132px)] font-extrabold leading-[0.9] tracking-[-0.075em] text-[#222222] lg:col-span-8">
+                Related articles.
+              </h2>
+              <div className="lg:col-span-4">
+                <p className="max-w-[390px] text-[17px] leading-[1.45] tracking-[-0.02em] text-[#222222]/65">
+                  More thinking from the same corner of the finance market.
+                </p>
+                <Link href="/kennisbank" className="btn-primary mt-6">
+                  All articles
+                </Link>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3">
+              {relatedBlogs.map((relatedBlog) => (
+                <RelatedArticleCard key={relatedBlog.id} blog={relatedBlog} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <CtaBand />
 
