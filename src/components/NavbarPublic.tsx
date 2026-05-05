@@ -180,7 +180,6 @@ export default function NavbarPublic({
               <Link
                 key={item.href}
                 href={item.href}
-                title={item.title}
                 onClick={() => setMenuOpen(false)}
                 className={cn(
                   "block w-full py-4 text-[16px] font-medium border-b border-white/30 transition-colors duration-200",

@@ -170,6 +170,7 @@ export async function POST(request: NextRequest) {
       promises.push(
         resend.emails.send({
           from: "Finance Talents <noreply@finance-talents.com>",
+          to: notificationEmail,
           ...(ccEmails.length > 0 ? { cc: ccEmails } : {}),
           subject: `Nieuwe sollicitatie (LinkedIn): ${fullName} voor ${job.title}`,
           html: firmHtml({
