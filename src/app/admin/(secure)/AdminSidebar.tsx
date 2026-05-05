@@ -23,8 +23,8 @@ export function AdminSidebar({ email }: { email: string | null }) {
     <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 lg:bg-white lg:text-slate-700 lg:border-r lg:border-gray-200">
       <div className="flex items-center gap-2 px-6 py-5 border-b border-gray-200">
         <Image
-          src="/legal-talents-logo.png"
-          alt="Legal Talents logo"
+          src="/logo FT.png"
+          alt="Finance Talents logo"
           width={130}
           height={32}
           className="h-7 w-auto"

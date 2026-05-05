@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Search, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import NavbarPublic from "@/components/NavbarPublic";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Pagina niet gevonden",
   description:
-    "De pagina die je zoekt bestaat niet of is verplaatst. Doorzoek vacatures, stages of de kennisbank.",
+    "De pagina die je zoekt bestaat niet of is verplaatst. Ga terug naar de homepage of bezoek de kennisbank.",
   robots: {
     index: false,
     follow: false,
@@ -20,22 +20,12 @@ const QUICK_LINKS: Array<{ label: string; href: string; description: string }> =
   {
     label: "Homepage",
     href: "/",
-    description: "Terug naar het beginpunt van Legal Talents.",
+    description: "Back to the start of Finance Talents.",
   },
   {
-    label: "Vacatures",
-    href: "/vacatures",
-    description: "Bekijk het volledige aanbod aan juridische vacatures.",
-  },
-  {
-    label: "Stages",
-    href: "/stages",
-    description: "Vind student-stages en advocaat-stagiaire plekken.",
-  },
-  {
-    label: "Kennisbank",
+    label: "Insights",
     href: "/kennisbank",
-    description: "Lees artikelen en inzichten uit de juridische sector.",
+    description: "Read articles and guides on finance careers.",
   },
 ];
 
@@ -84,40 +74,8 @@ export default function NotFound() {
             }}
           >
             De pagina is mogelijk verplaatst, verwijderd of de link is niet
-            meer actueel. Doorzoek hieronder de vacatures of ga rechtstreeks
-            naar een van de hoofdsecties.
+            meer actueel. Ga rechtstreeks naar een van de hoofdsecties.
           </p>
-
-          {/* Search */}
-          <form
-            action="/vacatures"
-            method="get"
-            role="search"
-            aria-label="Zoek in vacatures"
-            className="mt-10 flex w-full max-w-[560px] items-stretch gap-2 rounded-full border border-[#E2E5F0] bg-white p-1.5 shadow-[0_4px_20px_rgba(15,23,75,0.06)] focus-within:border-[#587DFE] focus-within:shadow-[0_6px_24px_rgba(88,125,254,0.18)] transition-all"
-          >
-            <label htmlFor="not-found-search" className="sr-only">
-              Zoek vacatures, kantoren of rechtsgebied
-            </label>
-            <div className="flex items-center pl-4 pr-1 text-[#8B91B8]">
-              <Search className="h-4 w-4" aria-hidden />
-            </div>
-            <input
-              id="not-found-search"
-              type="search"
-              name="q"
-              placeholder="Zoek op functie, kantoor of rechtsgebied"
-              autoComplete="off"
-              className="flex-1 bg-transparent border-0 outline-none text-[15px] text-[#0A0A0A] placeholder:text-[#8B91B8]"
-            />
-            <button
-              type="submit"
-              className="btn-primary shrink-0"
-              style={{ borderRadius: "9999px" }}
-            >
-              Zoeken
-            </button>
-          </form>
 
           {/* Quick links */}
           <div className="mt-14">

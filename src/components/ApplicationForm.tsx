@@ -6,8 +6,6 @@ import {
   sanitizeLinkedInProfileUrl,
   isValidLinkedInInUrl,
 } from "@/lib/linkedin-profile-url";
-import { RecaptchaCheckbox } from "@/components/recaptcha/RecaptchaCheckbox";
-import { useRecaptcha } from "@/hooks/useRecaptcha";
 
 interface Props {
   jobId: string;
@@ -39,9 +37,6 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
   const [fileError, setFileError] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { widgetKey: recaptchaWidgetKey, token: recaptchaToken, setToken: setRecaptchaToken, reset: resetRecaptcha, siteKeyConfigured } =
-    useRecaptcha();
-  const recaptchaRequired = siteKeyConfigured;
 
   const wordCount = countWords(motivation);
   const wordsOver = wordCount > MAX_WORDS;
@@ -91,11 +86,6 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
     }
     if (linkedInClean) setLinkedInUrl(linkedInClean);
 
-    if (recaptchaRequired && !recaptchaToken) {
-      setError("Voltooi de reCAPTCHA-verificatie.");
-      return;
-    }
-
     setLoading(true);
 
     const formData = new FormData();
@@ -109,9 +99,6 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
     formData.append("motivation", motivation.trim());
     formData.append("linkedInUrl", linkedInClean);
     formData.append("cv", cvFile);
-    if (recaptchaToken) {
-      formData.append("recaptchaToken", recaptchaToken);
-    }
 
     try {
       const res = await fetch("/api/apply", { method: "POST", body: formData });
@@ -128,7 +115,6 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
 
       if (!res.ok || !data.success) {
         setError(data.error ?? "Er is iets misgegaan. Probeer het opnieuw.");
-        resetRecaptcha();
         setLoading(false);
         return;
       }
@@ -383,12 +369,6 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
           <p className="text-[14px] text-red-500">{error}</p>
         </div>
       )}
-
-      <RecaptchaCheckbox
-        widgetKey={recaptchaWidgetKey}
-        onChange={setRecaptchaToken}
-        className="flex justify-start mb-4"
-      />
 
       {/* Submit */}
       <div className="pt-4">

@@ -196,14 +196,14 @@ export function buildJobPostingSchema(
     description: descriptionHtml,
     identifier: {
       "@type": "PropertyValue",
-      name: "Legal Talents",
+      name: "Finance Talents",
       value: job.id,
     },
     datePosted: new Date(job.created_at).toISOString(),
     validThrough: validThrough.toISOString(),
     employmentType: EMPLOYMENT_TYPE_MAP[job.type] ?? "OTHER",
     directApply: true,
-    industry: "Legal Services",
+    industry: "Financial Services",
     url: `${baseUrl}/vacature/${job.slug}`,
   };
 

@@ -6,7 +6,6 @@ import {
   sanitizeLinkedInProfileUrl,
   isValidLinkedInInUrl,
 } from "@/lib/linkedin-profile-url";
-import { verifyRecaptchaToken } from "@/lib/recaptcha/verify-server";
 import { checkRateLimit, getRequestIp } from "@/lib/security/rate-limit";
 import { SITE_URL } from "@/lib/site";
 
@@ -34,18 +33,6 @@ export async function POST(request: NextRequest) {
   const linkedinUrl = (formData.get("linkedinUrl") as string | null)?.trim();
   const phone = (formData.get("phone") as string | null)?.trim();
   const cvFile = formData.get("cv") as File | null;
-
-  if (process.env.RECAPTCHA_SECRET_KEY) {
-    const rawToken = formData.get("recaptchaToken");
-    const token = typeof rawToken === "string" ? rawToken.trim() : "";
-    const captcha = await verifyRecaptchaToken(token);
-    if (!captcha.ok) {
-      return NextResponse.json(
-        { error: "reCAPTCHA-verificatie mislukt. Probeer opnieuw." },
-        { status: 400 }
-      );
-    }
-  }
 
   if (!jobId || !linkedinUrl || !phone) {
     return NextResponse.json({ error: "Vul alle velden in." }, { status: 400 });
@@ -182,8 +169,7 @@ export async function POST(request: NextRequest) {
     if (notificationEmail) {
       promises.push(
         resend.emails.send({
-          from: "Legal Talents <noreply@legal-talents.nl>",
-          to: notificationEmail,
+          from: "Finance Talents <noreply@finance-talents.com>",
           ...(ccEmails.length > 0 ? { cc: ccEmails } : {}),
           subject: `Nieuwe sollicitatie (LinkedIn): ${fullName} voor ${job.title}`,
           html: firmHtml({
@@ -211,9 +197,9 @@ export async function POST(request: NextRequest) {
     if (email) {
       promises.push(
         resend.emails.send({
-          from: "Legal Talents <noreply@legal-talents.nl>",
+          from: "Finance Talents <noreply@finance-talents.com>",
           to: email,
-          subject: `Je sollicitatie bij ${firmName} is ontvangen`,
+          subject: `Your application at ${firmName} has been received`,
           html: studentHtml({ firstName, jobTitle: job.title, firmName }),
         })
       );
@@ -244,7 +230,7 @@ function firmHtml(data: {
 <head><meta charset="UTF-8" /></head>
 <body style="font-family: Arial, sans-serif; color: #0F0F0F; max-width: 600px; margin: 0 auto; padding: 24px;">
   <div style="background: #587DFE; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-    <p style="color: white; font-size: 20px; font-weight: 800; font-style: italic; margin: 0;">Legal Talents.</p>
+    <p style="color: white; font-size: 20px; font-weight: 800; font-style: italic; margin: 0;">Finance Talents.</p>
   </div>
   <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 4px;">Nieuwe sollicitatie via LinkedIn</h2>
   <p style="color: #4B5563; margin-bottom: 24px;">Voor de functie <strong>${data.jobTitle}</strong></p>
@@ -267,9 +253,9 @@ function firmHtml(data: {
     </tr>
   </table>
   ${data.hasCv ? `<p style="font-size: 13px; color: #9CA3AF; border-top: 1px solid #F3F4F6; padding-top: 16px;">
-    CV is bijgevoegd als bijlage · Ontvangen via <a href="${SITE_URL}" style="color: #587DFE;">Legal Talents</a>
+    CV attached as file · Received via <a href="${SITE_URL}" style="color: #587DFE;">Finance Talents</a>
   </p>` : `<p style="font-size: 13px; color: #9CA3AF; border-top: 1px solid #F3F4F6; padding-top: 16px;">
-    Ontvangen via <a href="${SITE_URL}" style="color: #587DFE;">Legal Talents</a>
+    Received via <a href="${SITE_URL}" style="color: #587DFE;">Finance Talents</a>
   </p>`}
 </body>
 </html>`;
@@ -286,7 +272,7 @@ function studentHtml(data: {
 <head><meta charset="UTF-8" /></head>
 <body style="font-family: Arial, sans-serif; color: #0F0F0F; max-width: 600px; margin: 0 auto; padding: 24px;">
   <div style="background: #587DFE; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-    <p style="color: white; font-size: 20px; font-weight: 800; font-style: italic; margin: 0;">Legal Talents.</p>
+    <p style="color: white; font-size: 20px; font-weight: 800; font-style: italic; margin: 0;">Finance Talents.</p>
   </div>
   <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Je sollicitatie is ontvangen!</h2>
   <p style="color: #4B5563; font-size: 15px; line-height: 1.6; margin-bottom: 20px;">
@@ -301,9 +287,9 @@ function studentHtml(data: {
     </p>
   </div>
   <p style="font-size: 14px; color: #4B5563;">Succes!</p>
-  <p style="font-size: 14px; font-weight: 700; color: #587DFE;">Het Legal Talents team</p>
+  <p style="font-size: 14px; font-weight: 700; color: #587DFE;">The Finance Talents team</p>
   <p style="font-size: 13px; color: #9CA3AF; border-top: 1px solid #F3F4F6; padding-top: 16px; margin-top: 24px;">
-    <a href="${SITE_URL}" style="color: #587DFE;">legal-talents.nl</a>
+    <a href="${SITE_URL}" style="color: #587DFE;">finance-talents.com</a>
   </p>
 </body>
 </html>`;

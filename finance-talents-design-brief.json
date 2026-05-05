@@ -1,0 +1,105 @@
+{
+  "brand": "Finance Talents",
+  "slogan": "Elite finance jobs. One platform.",
+  "logo": {
+    "wordmark": "(finance talents)",
+    "style": "lowercase, bracketed",
+    "icon": "dotted circle / halftone dot pattern in accent color"
+  },
+  "colors": {
+    "background": "#EBEBEB",
+    "primary_text": "#222222",
+    "accent": "#E85A00",
+    "surface_dark": "#0A0A0A",
+    "surface_white": "#FFFFFF"
+  },
+  "typography": {
+    "style": "large, bold, high-contrast headings — editorial feel",
+    "heading_font": "TT Firs Neue",
+    "heading_weight": "800",
+    "body_font": "system-ui or matching grotesque sans-serif",
+    "body_weight": "400",
+    "case": "sentence case — never all caps",
+    "scale": "oversized headings dominate the layout (inspired by Sofinnova Partners)",
+    "notes": "TT Firs Neue is used exclusively for all headings and display text. Load via @font-face from /public/fonts/"
+  },
+  "layout": {
+    "grid": "generous whitespace, content breathes",
+    "columns": "asymmetric — large heading left, body text bottom-right",
+    "card_grid": "5-column grid with bordered cards, category label top-left, name bottom-left, icon bottom-right",
+    "section_transitions": "alternating light/dark sections for contrast and rhythm",
+    "border_radius": "minimal — sharp edges preferred, pill shape only for CTA buttons"
+  },
+  "components": {
+    "navbar": {
+      "style": "minimal, transparent or white",
+      "logo_position": "top-left",
+      "cta_button": "pill shape, dark fill, white text",
+      "search": "icon only"
+    },
+    "hero": {
+      "heading_size": "display — fills viewport width",
+      "layout": "full-bleed text, no imagery in hero",
+      "background": "white or light grey"
+    },
+    "job_cards": {
+      "style": "bordered grid cards",
+      "hover_state": "invert to dark background with accent text",
+      "info_layout": "category top-left, job title bottom-left, arrow or plus icon bottom-right"
+    },
+    "section_dark": {
+      "background": "#0A0A0A",
+      "text": "#FFFFFF",
+      "accent": "#E85A00",
+      "usage": "CTA sections, footer, contact"
+    },
+    "decorative_element": {
+      "type": "large geometric circle",
+      "style": "half visible, bleeds off edge",
+      "color": "white on dark, or dark on light",
+      "usage": "section transitions and hero backgrounds"
+    },
+    "buttons": {
+      "primary": {
+        "background": "#222222",
+        "text": "#FFFFFF",
+        "shape": "pill"
+      },
+      "secondary": {
+        "background": "transparent",
+        "border": "1px solid #222222",
+        "text": "#222222",
+        "shape": "pill"
+      }
+    }
+  },
+  "motion": {
+    "style": "subtle and purposeful",
+    "hover_cards": "smooth background inversion",
+    "transitions": "fast — 150-200ms ease"
+  },
+  "photography": {
+    "style": "aspirational but real — offices, city skylines, people in professional settings",
+    "treatment": "no filters, natural light preferred",
+    "usage": "supporting sections only, not hero"
+  },
+  "tone_of_voice": {
+    "adjectives": ["modern", "direct", "premium", "confident"],
+    "avoid": ["corporate jargon", "buzzwords", "passive voice", "hype"],
+    "examples": {
+      "good": "Elite finance jobs. One platform.",
+      "bad": "We offer a comprehensive suite of career solutions."
+    }
+  },
+  "inspiration": {
+    "primary_reference": "https://sofinnovapartners.com",
+    "key_elements_borrowed": [
+      "oversized display typography",
+      "alternating dark/light sections",
+      "large geometric circle as decorative element",
+      "bordered card grid layout",
+      "minimal navigation",
+      "asymmetric text layout (heading left, body bottom-right)"
+    ]
+  }
+}

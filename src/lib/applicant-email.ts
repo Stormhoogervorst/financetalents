@@ -1,10 +1,10 @@
 /**
- * LinkedIn-sollicitanten die hun e-mailadres niet delen krijgen een
- * placeholder-adres in het formaat: `linkedin+<slug>@legal-talents.nl`.
- * Zie `src/app/api/auth/linkedin-apply/auto/route.ts`.
+ * LinkedIn applicants who don't share their email address get a
+ * placeholder address in the format: `linkedin+<slug>@finance-talents.com`.
+ * See `src/app/api/auth/linkedin-apply/auto/route.ts`.
  */
 const LINKEDIN_PLACEHOLDER_EMAIL_REGEX =
-  /^linkedin\+[^@]+@legal-talents\.nl$/i;
+  /^linkedin\+[^@]+@finance-talents\.com$/i;
 
 export function isLinkedInPlaceholderEmail(
   email: string | null | undefined

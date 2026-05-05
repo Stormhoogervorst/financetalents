@@ -42,15 +42,10 @@ export default function VacatureListMobile({ jobs, limit = 5 }: Props) {
           <li key={job.id}>
             <Link
               href={`/vacature/${job.slug}`}
-              className="flex gap-4 rounded-[16px] p-5 transition-all duration-200 active:scale-[0.99]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(135deg, rgba(88,125,254,0.10) 0%, rgba(88,125,254,0.04) 45%, rgba(255,255,255,0.85) 100%)",
-                backgroundColor: "#F5F7FF",
-              }}
+              className="group flex gap-4 border border-[#222222] bg-white p-5 transition-colors duration-200 active:scale-[0.99] active:bg-[#0A0A0A]"
             >
               {/* Logo */}
-              <div className="w-14 h-14 rounded-[12px] bg-white border border-[#E2E5F0] flex items-center justify-center overflow-hidden p-2 shrink-0">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden border border-[#222222] bg-white p-2">
                 {logoUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -59,26 +54,24 @@ export default function VacatureListMobile({ jobs, limit = 5 }: Props) {
                     className="w-full h-full object-contain"
                   />
                 ) : (
-                  <Building2 className="h-5 w-5 text-[#8B91B8]" />
+                  <Building2 className="h-5 w-5 text-[#222222]/55" />
                 )}
               </div>
 
               {/* Content */}
               <div className="flex-1 min-w-0">
                 <h3
-                  className="font-semibold leading-snug line-clamp-2 break-words"
+                  className="line-clamp-2 break-words font-semibold leading-[1.08] text-[#222222] transition-colors duration-200 group-active:text-[#E85A00]"
                   style={{
-                    fontSize: "16px",
-                    letterSpacing: "-0.01em",
-                    color: "#2C337A",
+                    fontSize: "20px",
+                    letterSpacing: "-0.035em",
                   }}
                 >
                   {job.title}
                 </h3>
 
                 <div
-                  className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2"
-                  style={{ fontSize: "13px", color: "#8B91B8" }}
+                  className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[13px] text-[#222222]/55 transition-colors duration-200 group-active:text-white/55"
                 >
                   {firmName && (
                     <span className="flex items-center gap-1 min-w-0">
@@ -96,8 +89,7 @@ export default function VacatureListMobile({ jobs, limit = 5 }: Props) {
 
                 {job.location && (
                   <div
-                    className="flex items-center gap-1 mt-1"
-                    style={{ fontSize: "13px", color: "#8B91B8" }}
+                    className="mt-1 flex items-center gap-1 text-[13px] text-[#222222]/55 transition-colors duration-200 group-active:text-white/55"
                   >
                     <MapPin className="h-3.5 w-3.5 shrink-0" />
                     <span className="truncate">{job.location}</span>
@@ -109,7 +101,7 @@ export default function VacatureListMobile({ jobs, limit = 5 }: Props) {
                     <span
                       style={{
                         fontSize: "11px",
-                        color: "#B0B8D8",
+                        color: "#22222280",
                         fontWeight: 500,
                       }}
                     >
@@ -117,7 +109,7 @@ export default function VacatureListMobile({ jobs, limit = 5 }: Props) {
                     </span>
                   )}
                   {job.practice_area && (
-                    <span className="bg-[#2C337A] text-white text-[11px] font-semibold px-2.5 py-1 rounded-full leading-none truncate max-w-[55%]">
+                    <span className="max-w-[55%] truncate rounded-full border border-[#222222] px-2.5 py-1 text-[11px] font-medium leading-none text-[#222222]">
                       {job.practice_area}
                     </span>
                   )}

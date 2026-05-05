@@ -10,7 +10,10 @@ import VacatureListMobile from "@/components/VacatureListMobile";
 import OrganizationJsonLd from "@/components/OrganizationJsonLd";
 import { createClient } from "@/lib/supabase/server";
 import { Firm, Job } from "@/types";
-import { RECHTSGEBIEDEN } from "@/lib/constants/rechtsgebieden";
+import {
+  getRechtsgebiedSlug,
+  RECHTSGEBIEDEN,
+} from "@/lib/constants/rechtsgebieden";
 
 interface BlogPreview {
   id: string;
@@ -24,41 +27,35 @@ interface BlogPreview {
 }
 
 const blogCategoryLabels: Record<string, string> = {
-  carriere: "Carrière",
-  juridisch: "Juridisch",
-  kantoorleven: "Kantoorleven",
+  carriere: "Career",
+  finance: "Finance",
+  kantoorleven: "Life at the firm",
 };
 
 /**
- * Rechtsgebieden voor de interne-linking sectie onderaan de homepage.
- * Links naar /vacatures?rechtsgebied=... — bestaande filter matcht via ilike.
- * Zie `@/lib/constants/rechtsgebieden` voor de canonieke lijst.
- */
-
-/**
- * FAQ-content en FAQPage JSON-LD worden uit dezelfde array opgebouwd,
- * zodat zichtbare DOM en structured data gegarandeerd matchen.
+ * FAQ content and FAQPage JSON-LD are built from the same array,
+ * so visible DOM and structured data are guaranteed to match.
  */
 const FAQS: Array<{ q: string; a: string }> = [
   {
-    q: "Hoe vind ik een juridische stage?",
-    a: "Op Legal Talents filter je het vacature-aanbod op stagetype, rechtsgebied en stad. Zoek bijvoorbeeld op student-stages in Amsterdam of zomer-stages in het arbeidsrecht. Je sollicitatie stuur je rechtstreeks naar het kantoor. Wil je een overzicht per stad? Bekijk dan de pagina's voor juridische stages in Amsterdam, Rotterdam, Utrecht of Den Haag.",
+    q: "How do I find a finance internship?",
+    a: "On Finance Talents you can filter all opportunities by type, sector and city. Search for internships in Private Equity, Venture Capital or Investment Banking. You apply directly to the firm — no middleman, no fees.",
   },
   {
-    q: "Wat verdient een advocaat-stagiaire?",
-    a: "Het startsalaris van een advocaat-stagiaire ligt gemiddeld tussen de €3.200 en €4.500 bruto per maand, afhankelijk van het kantoor en de stad. Grote Zuidas-kantoren betalen doorgaans hoger dan middelgrote en kleinere kantoren in de regio. Bij veel vacatures op Legal Talents staat een indicatie van het salaris vermeld.",
+    q: "What does an analyst earn at a PE fund?",
+    a: "Salaries vary significantly by firm type and geography. At large buyout funds an analyst can expect £60–90k base, while boutique firms may offer £45–65k. Many listings on Finance Talents include a salary indication.",
   },
   {
-    q: "Wat is het verschil tussen een stage en een student-stageplek?",
-    a: "Een advocaat-stagiaire is een volwaardige functie: je hebt je master afgerond en doorloopt de driejarige beroepsopleiding tot advocaat. Een student-stageplek is bedoeld voor rechtenstudenten die nog studeren en kennis willen maken met het kantoorleven, vaak voor een paar weken tot enkele maanden. Beide vind je op Legal Talents, onder aparte categorieën.",
+    q: "What is the difference between an internship and a full-time role?",
+    a: "An internship is a structured programme — typically 8–12 weeks — designed to give students and recent graduates hands-on experience. A full-time role is a permanent or fixed-term position. Both are listed on Finance Talents under their respective categories.",
   },
   {
-    q: "Hoe schrijf ik een goede motivatiebrief voor een advocatenkantoor?",
-    a: "Een goede motivatiebrief is kort, concreet en persoonlijk. Leg uit waarom je juist voor dit kantoor kiest — verwijs naar een specifiek rechtsgebied, een recente zaak of iets dat jou aanspreekt in hun cultuur. Vermijd standaardzinnen en laat je unieke motivatie zien. Voeg ook een cijferlijst toe en eventueel je scriptieonderwerp, want beide worden bij juridische sollicitaties doorgaans gewaardeerd.",
+    q: "How do I write a strong application for a finance role?",
+    a: "Keep it concise and specific. Explain why this firm, why this role, and why now. Reference a deal, a fund strategy, or something concrete about their culture. Avoid generic phrases. A strong CV with relevant experience and grades matters — attach it alongside a tight cover letter.",
   },
   {
-    q: "Wat doet Legal Talents precies?",
-    a: "Legal Talents is het carrièreplatform voor de Nederlandse juridische sector. We brengen werkgevers en talent samen: advocatenkantoren, notariskantoren en juridische afdelingen plaatsen hun vacatures en stages, en rechtenstudenten en juristen solliciteren rechtstreeks. Je gebruikt het platform gratis, je hoeft geen account aan te maken om te zoeken, en je betaalt nooit voor een sollicitatie.",
+    q: "What does Finance Talents do?",
+    a: "Finance Talents is the curated career platform for Private Equity, Venture Capital, Investment Banking and FinTech. We connect ambitious professionals at every level with the firms shaping the future of finance. Listings are free to browse, you never need an account to search, and applying is always free.",
   },
 ];
 
@@ -114,7 +111,7 @@ export default async function HomePage() {
   }));
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-white">
+    <div className="relative min-h-screen flex flex-col bg-[#EBEBEB] text-[#222222]">
       <OrganizationJsonLd />
       <NavbarPublic variant="hero" />
 
@@ -126,26 +123,32 @@ export default async function HomePage() {
 
       {/* ── Top vacatures carrousel ───────────────────────────── */}
       <section
+        className="bg-white"
         style={{ padding: "clamp(80px, 10vh, 160px) clamp(24px, 5vw, 80px)" }}
       >
         <div className="max-w-[1400px] mx-auto">
-          {/* Eén H2 voor mobile én desktop. Knop alleen op desktop (mobiel staat ie onder de lijst). */}
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between md:gap-6 mb-10 md:mb-16">
+          <div className="mb-10 grid grid-cols-1 gap-8 md:mb-16 lg:grid-cols-12 lg:items-end">
             <h2
-              className="text-left"
+              className="ft-display lg:col-span-8"
               style={{
-                fontSize: "clamp(30px, 6vw, 56px)",
-                fontWeight: 700,
-                lineHeight: 1.05,
-                letterSpacing: "-0.025em",
-                color: "#0A0A0A",
+                fontSize: "clamp(54px, 9vw, 132px)",
+                fontWeight: 800,
+                lineHeight: 0.9,
+                letterSpacing: "-0.075em",
+                color: "#222222",
               }}
             >
-              De nieuwste juridische vacatures
+              Latest finance jobs.
             </h2>
-            <Link href="/vacatures" className="btn-primary shrink-0 mb-1 hidden md:inline-flex">
-              Alle vacatures
-            </Link>
+            <div className="lg:col-span-4">
+              <p className="max-w-[390px] text-[17px] leading-[1.45] tracking-[-0.02em] text-[#222222]/65">
+                Fresh openings at ambitious finance firms, selected for people
+                who want signal over volume.
+              </p>
+              <Link href="/vacatures" className="btn-primary mt-6 shrink-0 hidden md:inline-flex">
+                View all jobs
+              </Link>
+            </div>
           </div>
 
           {allJobs.length > 0 ? (
@@ -153,12 +156,6 @@ export default async function HomePage() {
               {/* Mobile: compact vertical list (max 5) */}
               <div className="md:hidden">
                 <VacatureListMobile jobs={allJobs} limit={5} />
-                <Link
-                  href="/vacatures"
-                  className="btn-primary mt-6 w-full justify-center inline-flex"
-                >
-                  Alle vacatures
-                </Link>
               </div>
 
               {/* Desktop / tablet: existing carousel */}
@@ -167,8 +164,8 @@ export default async function HomePage() {
               </div>
             </>
           ) : (
-            <p style={{ fontSize: "15px", color: "#8B91B8" }}>
-              Er zijn momenteel geen vacatures beschikbaar.
+            <p style={{ fontSize: "15px", color: "rgba(34,34,34,0.55)" }}>
+              No jobs available at the moment.
             </p>
           )}
         </div>
@@ -176,9 +173,9 @@ export default async function HomePage() {
 
       {/* ── Werkgevers grid ───────────────────────────────────── */}
       <section
-        className="bg-white"
+        className="bg-[#EBEBEB]"
         style={{
-          paddingTop: "clamp(40px, 5vh, 80px)",
+          paddingTop: "clamp(80px, 10vh, 150px)",
           paddingBottom: "clamp(80px, 10vh, 160px)",
           paddingLeft: "clamp(24px, 5vw, 80px)",
           paddingRight: "clamp(24px, 5vw, 80px)",
@@ -186,23 +183,27 @@ export default async function HomePage() {
       >
         <div className="max-w-[1400px] mx-auto">
 
-          {/* Eén H2 voor mobile én desktop. Knop alleen op desktop (mobiel staat ie onder de lijst). */}
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between md:gap-6 mb-8 md:mb-16">
+          <div className="mb-8 grid grid-cols-1 gap-8 md:mb-16 lg:grid-cols-12 lg:items-end">
             <h2
-              className="text-left"
+              className="ft-display lg:col-span-8"
               style={{
-                fontSize: "clamp(30px, 6vw, 56px)",
-                fontWeight: 700,
-                lineHeight: 1.05,
-                letterSpacing: "-0.025em",
-                color: "#0A0A0A",
+                fontSize: "clamp(54px, 9vw, 132px)",
+                fontWeight: 800,
+                lineHeight: 0.9,
+                letterSpacing: "-0.075em",
+                color: "#222222",
               }}
             >
-              Uitgelichte juridische werkgevers
+              Featured companies.
             </h2>
-            <Link href="/werkgevers" className="btn-primary shrink-0 mb-1 hidden md:inline-flex">
-              Alle werkgevers
-            </Link>
+            <div className="lg:col-span-4">
+              <p className="max-w-[390px] text-[17px] leading-[1.45] tracking-[-0.02em] text-[#222222]/65">
+                Discover the funds, banks and builders shaping modern finance.
+              </p>
+              <Link href="/werkgevers" className="btn-primary mt-6 shrink-0 hidden md:inline-flex">
+                All companies
+              </Link>
+            </div>
           </div>
 
           {/* ── Mobile: vertical list with roomier cards ── */}
@@ -212,15 +213,10 @@ export default async function HomePage() {
                 <li key={firm.id}>
                   <Link
                     href={`/werkgevers/${firm.slug}`}
-                    className="flex items-center gap-4 rounded-[16px] px-4 py-5 transition-all duration-200 active:scale-[0.99]"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(135deg, rgba(88,125,254,0.10) 0%, rgba(88,125,254,0.04) 45%, rgba(255,255,255,0.85) 100%)",
-                      backgroundColor: "#F5F7FF",
-                    }}
+                    className="group flex items-center gap-4 border border-[#222222] bg-white px-4 py-5 transition-colors duration-200 active:bg-[#0A0A0A]"
                   >
                     {/* Logo */}
-                    <div className="w-14 h-14 rounded-[12px] bg-white border border-[#E2E5F0] flex items-center justify-center overflow-hidden p-2 shrink-0">
+                    <div className="w-14 h-14 bg-white border border-[#222222] flex items-center justify-center overflow-hidden p-2 shrink-0">
                       {firm.logo_url ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -229,7 +225,7 @@ export default async function HomePage() {
                           className="w-full h-full object-contain"
                         />
                       ) : (
-                        <span style={{ fontSize: "14px", fontWeight: 700, color: "#2C337A" }}>
+                        <span style={{ fontSize: "14px", fontWeight: 700, color: "#222222" }}>
                           {firm.name.slice(0, 2).toUpperCase()}
                         </span>
                       )}
@@ -238,11 +234,10 @@ export default async function HomePage() {
                     {/* Info */}
                     <div className="flex-1 min-w-0">
                       <h3
-                        className="font-semibold leading-snug line-clamp-2"
+                        className="font-semibold leading-[1.08] line-clamp-2 text-[#222222] transition-colors duration-200 group-active:text-[#E85A00]"
                         style={{
-                          fontSize: "16px",
-                          letterSpacing: "-0.01em",
-                          color: "#2C337A",
+                          fontSize: "20px",
+                          letterSpacing: "-0.035em",
                         }}
                       >
                         {firm.name}
@@ -251,7 +246,7 @@ export default async function HomePage() {
                       {firm.location && (
                         <div
                           className="flex items-center gap-1 mt-1.5"
-                          style={{ fontSize: "13px", color: "#8B91B8" }}
+                          style={{ fontSize: "13px", color: "rgba(34,34,34,0.55)" }}
                         >
                           <MapPin className="h-3.5 w-3.5 shrink-0" />
                           <span className="truncate">
@@ -268,7 +263,7 @@ export default async function HomePage() {
                           {firm.practice_areas.slice(0, 2).map((area) => (
                             <span
                               key={area}
-                              className="bg-[#2C337A] text-white text-[11px] font-semibold px-2.5 py-1 rounded-full leading-none"
+                              className="border border-[#222222] text-[#222222] text-[11px] font-medium px-2.5 py-1 rounded-full leading-none"
                             >
                               {area}
                             </span>
@@ -285,56 +280,50 @@ export default async function HomePage() {
               href="/werkgevers"
               className="btn-primary mt-6 w-full justify-center inline-flex"
             >
-              Alle werkgevers
+              View all companies
             </Link>
           </div>
 
           {/* ── Desktop: existing grid ── */}
-          <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          <div className="hidden md:grid grid-cols-2 lg:grid-cols-4">
             {featuredFirms.map((firm) => (
               <Link
                 key={firm.id}
                 href={`/werkgevers/${firm.slug}`}
-                className="group rounded-[16px] p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(88,125,254,0.12)]"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(135deg, rgba(88,125,254,0.10) 0%, rgba(88,125,254,0.04) 45%, rgba(255,255,255,0.85) 100%)",
-                  backgroundColor: "#F5F7FF",
-                }}
+                className="group flex min-h-[320px] flex-col border border-[#222222] bg-white p-6 transition-colors duration-200 hover:bg-[#0A0A0A]"
               >
-                <div className="w-14 h-14 rounded-[10px] bg-white border border-[#E2E5F0] flex items-center justify-center mb-5 overflow-hidden p-2">
+                <div className="w-14 h-14 bg-white border border-[#222222] flex items-center justify-center mb-5 overflow-hidden p-2">
                   {firm.logo_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={firm.logo_url} alt={`${firm.name} logo`} className="w-full h-full object-contain" />
                   ) : (
-                    <span style={{ fontSize: "14px", fontWeight: 700, color: "#2C337A" }}>
+                    <span style={{ fontSize: "14px", fontWeight: 700, color: "#222222" }}>
                       {firm.name.slice(0, 2).toUpperCase()}
                     </span>
                   )}
                 </div>
 
                 <h3
-                  className="group-hover:text-[#587DFE] transition-colors duration-200"
+                  className="mt-auto text-[#222222] transition-colors duration-200 group-hover:text-[#E85A00]"
                   style={{
-                    fontSize: "clamp(17px, 1.4vw, 20px)",
+                    fontSize: "clamp(24px, 2.3vw, 36px)",
                     fontWeight: 600,
-                    lineHeight: 1.3,
-                    letterSpacing: "-0.01em",
-                    color: "#2C337A",
+                    lineHeight: 1.02,
+                    letterSpacing: "-0.045em",
                   }}
                 >
                   {firm.name}
                 </h3>
                 {firm.location && (
                   <p
-                    className="flex items-center gap-1 mt-2 w-full overflow-hidden"
-                    style={{ fontSize: "12px", color: "#8B91B8", letterSpacing: "-0.01em", lineHeight: 1.3 }}
+                    className="flex items-center gap-1 mt-3 w-full overflow-hidden text-[#222222]/55 transition-colors duration-200 group-hover:text-white/55"
+                    style={{ fontSize: "12px", letterSpacing: "-0.01em", lineHeight: 1.3 }}
                   >
                     <MapPin className="h-3 w-3 shrink-0" />
                     <span className="min-w-0 truncate">
                       {firm.location}
                       {firm.team_size && (
-                        <><span className="mx-1">·</span>{firm.team_size} medewerkers</>
+                        <><span className="mx-1">·</span>{firm.team_size} employees</>
                       )}
                     </span>
                   </p>
@@ -344,7 +333,7 @@ export default async function HomePage() {
                     {firm.practice_areas.slice(0, 2).map((area) => (
                       <span
                         key={area}
-                        className="bg-[#2C337A] text-white text-[12px] font-semibold px-3 py-1 rounded-full"
+                        className="border border-[#222222] text-[#222222] text-[12px] font-medium px-3 py-1 rounded-full transition-colors duration-200 group-hover:border-[#E85A00] group-hover:text-[#E85A00]"
                       >
                         {area}
                       </span>
@@ -360,91 +349,51 @@ export default async function HomePage() {
 
       {/* ── Voor werkgevers ───────────────────────────────────── */}
       <section
-        className="relative isolate overflow-hidden"
+        className="relative isolate overflow-hidden bg-[#0A0A0A]"
         style={{ padding: "clamp(80px, 10vh, 160px) clamp(24px, 5vw, 80px)" }}
       >
-        {/* Pure CSS mesh gradient — overlapping radial layers in soft blue/purple tones */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-10 pointer-events-none"
-          style={{
-            backgroundColor: "#EEF1FF",
-            backgroundImage: `
-              radial-gradient(55% 60% at 8% 18%,
-                rgba(88, 125, 254, 0.85) 0%,
-                rgba(88, 125, 254, 0.35) 35%,
-                rgba(88, 125, 254, 0) 70%),
-              radial-gradient(50% 55% at 92% 28%,
-                rgba(178, 140, 255, 0.90) 0%,
-                rgba(178, 140, 255, 0.35) 40%,
-                rgba(178, 140, 255, 0) 72%),
-              radial-gradient(65% 60% at 50% 55%,
-                rgba(120, 150, 255, 0.75) 0%,
-                rgba(120, 150, 255, 0.25) 45%,
-                rgba(120, 150, 255, 0) 72%),
-              radial-gradient(45% 55% at 14% 88%,
-                rgba(215, 168, 255, 0.85) 0%,
-                rgba(215, 168, 255, 0.30) 40%,
-                rgba(215, 168, 255, 0) 70%),
-              radial-gradient(55% 55% at 90% 92%,
-                rgba(75, 59, 214, 0.70) 0%,
-                rgba(75, 59, 214, 0.25) 40%,
-                rgba(75, 59, 214, 0) 72%)
-            `,
-            WebkitMaskImage:
-              "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 18%, rgba(0,0,0,1) 82%, rgba(0,0,0,0) 100%)",
-            maskImage:
-              "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 18%, rgba(0,0,0,1) 82%, rgba(0,0,0,0) 100%)",
-          }}
+          className="pointer-events-none absolute -left-[20vw] top-1/2 -z-10 h-[62vw] max-h-[760px] min-h-[360px] w-[62vw] min-w-[360px] max-w-[760px] -translate-y-1/2 rounded-full border border-white/15"
         />
         <div className="max-w-[1400px] mx-auto relative">
-          <div
-            className="grid grid-cols-1 lg:grid-cols-2 items-stretch gap-12 lg:gap-20"
-          >
-            {/* Left column */}
-            <div className="flex flex-col">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-8">
               <h2
+                className="ft-display"
                 style={{
-                  fontSize: "clamp(36px, 4vw, 52px)",
-                  fontWeight: 700,
-                  lineHeight: 1.15,
-                  letterSpacing: "-0.01em",
-                  color: "#0A0A0A",
+                  fontSize: "clamp(54px, 9vw, 142px)",
+                  fontWeight: 800,
+                  lineHeight: 0.88,
+                  letterSpacing: "-0.075em",
+                  color: "#FFFFFF",
                 }}
               >
-                Bereik juridisch talent gemakkelijk online
-                <span style={{ color: "#587DFE" }}>.</span>
+                Reach finance talent directly.
               </h2>
+            </div>
 
-              <p
-                style={{
-                  fontSize: "16px",
-                  lineHeight: 1.65,
-                  color: "#5A6094",
-                  maxWidth: "480px",
-                  marginTop: "28px",
-                }}
-              >
-                Maak eenvoudig een werkgeversprofiel aan en plaats je vacatures
-                online. Sollicitaties komen direct binnen via de mail en in het
-                dashboard. Zo houd je makkelijk overzicht.
+            <div className="lg:col-span-4">
+              <p className="max-w-[460px] text-[18px] leading-[1.45] tracking-[-0.02em] text-white/70">
+                Set up a company profile and post your jobs in minutes.
+                Applications land directly in your inbox and dashboard.
               </p>
 
               <div className="flex flex-col gap-5 mt-10">
                 {[
-                  { label: "Gratis profiel", desc: "Maak direct een werkgeversprofiel aan." },
-                  { label: "Onbeperkt plaatsen", desc: "Publiceer zoveel vacatures als u wilt." },
-                  { label: "Direct ontvangen", desc: "Sollicitaties recht in uw inbox." },
+                  { label: "Free profile", desc: "Set up a company profile instantly." },
+                  { label: "Unlimited postings", desc: "Publish as many jobs as you want." },
+                  { label: "Direct applications", desc: "Applications straight to your inbox." },
                 ].map((item) => (
                   <div key={item.label} className="flex items-start gap-3.5">
-                    <div className="w-7 h-7 rounded-full bg-[#587DFE] flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-7 h-7 rounded-full bg-[#E85A00] flex items-center justify-center shrink-0 mt-0.5">
                       <svg width="13" height="13" viewBox="0 0 12 12" fill="none">
                         <path d="M2.5 6L5 8.5L9.5 3.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
-                    <p style={{ fontSize: "15px", lineHeight: 1.5, color: "#5A6094" }}>
-                      <span style={{ fontWeight: 600, color: "#2C337A" }}>{item.label}</span>
-                      {" – "}
+                    <p style={{ fontSize: "15px", lineHeight: 1.5, color: "rgba(255,255,255,0.65)" }}>
+                      <span style={{ fontWeight: 600, color: "#FFFFFF" }}>{item.label}</span>
+                      {" - "}
                       {item.desc}
                     </p>
                   </div>
@@ -452,124 +401,59 @@ export default async function HomePage() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                <Link href="/voor-werkgevers" className="btn-secondary sm:w-auto w-full">
-                  Meer info
+                <Link href="/voor-werkgevers" className="inline-flex items-center justify-center rounded-full border border-white px-5 py-2.5 text-[14px] font-medium text-white transition-colors duration-200 hover:bg-white hover:text-[#222222] sm:w-auto w-full">
+                  Learn more
                 </Link>
-                <Link href="/register" className="btn-primary sm:w-auto w-full">
-                  Upload vacature
+                <Link href="/register" className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-[14px] font-medium text-[#222222] transition-colors duration-200 hover:bg-[#E85A00] hover:text-white sm:w-auto w-full">
+                  Post a job
                 </Link>
-              </div>
-            </div>
-
-            {/* Right column — image with floating pills (hidden on mobile) */}
-            <div className="hidden md:block relative lg:overflow-visible overflow-hidden h-full">
-              <div className="relative rounded-[16px] overflow-hidden h-full min-h-[400px]">
-                <Image
-                  src="/foto 4.jpg"
-                  alt="Juridisch team in vergadering"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </div>
-
-              {/* Floating pills */}
-              <div
-                className="absolute hidden sm:block rounded-full"
-                style={{
-                  top: "20%",
-                  right: "-20px",
-                  padding: "10px 20px",
-                  fontSize: "13px",
-                  fontWeight: 600,
-                  letterSpacing: "0.02em",
-                  color: "#FFFFFF",
-                  background: "#587DFE",
-                  transform: "rotate(3deg)",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                JURIDISCH TALENT
-              </div>
-              <div
-                className="absolute hidden sm:block rounded-full"
-                style={{
-                  top: "38%",
-                  right: "-30px",
-                  padding: "10px 20px",
-                  fontSize: "13px",
-                  fontWeight: 600,
-                  letterSpacing: "0.02em",
-                  color: "#FFFFFF",
-                  background: "#3B4CA7",
-                  transform: "rotate(-2deg)",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                YOUNG PROFESSIONALS
-              </div>
-              <div
-                className="absolute hidden sm:block rounded-full"
-                style={{
-                  top: "56%",
-                  right: "-15px",
-                  padding: "10px 20px",
-                  fontSize: "13px",
-                  fontWeight: 600,
-                  letterSpacing: "0.02em",
-                  color: "#FFFFFF",
-                  background: "#8CA6FE",
-                  transform: "rotate(4deg)",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                RECHTENSTUDENTEN
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Waarom Legal Talents ──────────────────────────────── */}
+      {/* ── Why Finance Talents ──────────────────────────────── */}
       <section
         style={{ padding: "clamp(80px, 10vh, 160px) clamp(24px, 5vw, 80px)" }}
       >
         <div className="max-w-[1400px] mx-auto">
           <h2
+            className="ft-display"
             style={{
-              fontSize: "clamp(30px, 4vw, 52px)",
-              fontWeight: 700,
-              lineHeight: 1.05,
-              letterSpacing: "-0.025em",
-              color: "#0A0A0A",
+              fontSize: "clamp(54px, 9vw, 132px)",
+              fontWeight: 800,
+              lineHeight: 0.9,
+              letterSpacing: "-0.075em",
+              color: "#222222",
             }}
           >
-            Waarom Legal Talents
+            Why Finance Talents
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 mt-12 md:mt-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 mt-12 md:mt-16">
             {[
               {
-                title: "Het meest complete aanbod",
-                body: "Op Legal Talents vind je vacatures en stages van de grootste advocatenkantoren tot kleinere nichekantoren. Je ziet alles op één plek, zonder dat je tien verschillende carrièresites hoeft af te struinen.",
+                title: "The most complete offering",
+                body: "On Finance Talents you find jobs and internships at the largest buyout funds, boutique advisory firms, and fast-growing FinTechs. Everything in one place — no endless career-page trawling.",
               },
               {
-                title: "Gemaakt voor juridisch Nederland",
-                body: "Geen generieke banenbank. Alle vacatures zijn gericht op juridische functies — van student-stagiaire tot senior advocaat. Je filtert direct op rechtsgebied, type functie en stad, zodat je snel vindt wat bij jou past.",
+                title: "Built for finance",
+                body: "Not a generalist job board. Every listing is aimed at finance professionals — from student intern to Managing Director. Filter by sector, type and city and find what fits you quickly.",
               },
               {
-                title: "Direct contact met de werkgever",
-                body: "Je solliciteert rechtstreeks bij het kantoor. Geen tussenpersonen, geen recruiters die je CV doorverkopen. Dat scheelt jou tijd en betekent dat werkgevers hun volledige aandacht aan jouw sollicitatie geven.",
+                title: "Direct contact with the employer",
+                body: "You apply straight to the firm. No middlemen, no recruiters reselling your CV. That saves you time and means employers give your application their full attention.",
               },
             ].map((usp) => (
-              <div key={usp.title}>
+              <div key={usp.title} className="border border-[#222222] bg-white p-6 md:min-h-[260px]">
                 <h3
                   style={{
-                    fontSize: "clamp(18px, 1.5vw, 22px)",
+                    fontSize: "clamp(24px, 2.4vw, 34px)",
                     fontWeight: 600,
-                    lineHeight: 1.3,
-                    letterSpacing: "-0.015em",
-                    color: "#2C337A",
+                    lineHeight: 1.02,
+                    letterSpacing: "-0.045em",
+                    color: "#222222",
                   }}
                 >
                   {usp.title}
@@ -579,7 +463,7 @@ export default async function HomePage() {
                   style={{
                     fontSize: "15px",
                     lineHeight: 1.65,
-                    color: "#5A6094",
+                    color: "rgba(34,34,34,0.62)",
                   }}
                 >
                   {usp.body}
@@ -594,59 +478,60 @@ export default async function HomePage() {
       <section
         style={{
           padding: "clamp(80px, 10vh, 160px) clamp(24px, 5vw, 80px)",
-          backgroundColor: "#FAFBFF",
+          backgroundColor: "#FFFFFF",
         }}
       >
         <div className="max-w-[1400px] mx-auto">
           <div className="max-w-[720px]">
             <h2
+              className="ft-display"
               style={{
-                fontSize: "clamp(30px, 4vw, 52px)",
-                fontWeight: 700,
-                lineHeight: 1.05,
-                letterSpacing: "-0.025em",
-                color: "#0A0A0A",
+                fontSize: "clamp(54px, 9vw, 132px)",
+                fontWeight: 800,
+                lineHeight: 0.9,
+                letterSpacing: "-0.075em",
+                color: "#222222",
               }}
             >
-              Hoe het werkt
+              How it works
             </h2>
             <p
               className="mt-5"
               style={{
                 fontSize: "16px",
                 lineHeight: 1.65,
-                color: "#5A6094",
+                color: "rgba(34,34,34,0.62)",
               }}
             >
-              Van rechtenstudie naar eerste juridische ervaring in drie stappen.
+              From student to first finance role in three steps.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 mt-12 md:mt-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 mt-12 md:mt-16">
             {[
               {
                 n: "01",
-                title: "Zoek",
-                body: "Filter op stad, rechtsgebied en type stage. Of blader door het volledige aanbod en laat je inspireren door kantoren die je nog niet kent.",
+                title: "Search",
+                body: "Filter by city, sector and job type. Or browse the full listing and discover firms you haven't heard of yet.",
               },
               {
                 n: "02",
-                title: "Solliciteer",
-                body: "Klik op een vacature en stuur je motivatiebrief en CV direct naar het kantoor. Geen account, geen tussenstappen.",
+                title: "Apply",
+                body: "Click a listing and send your cover letter and CV directly to the firm. No account, no extra steps.",
               },
               {
                 n: "03",
                 title: "Start",
-                body: "De werkgever neemt contact met je op. Is het een match? Dan begin je aan je eerste juridische ervaring.",
+                body: "The employer gets in touch. If it's a match, you're on your way to your next finance role.",
               },
             ].map((step) => (
-              <div key={step.n}>
+              <div key={step.n} className="border border-[#222222] p-6">
                 <span
                   style={{
-                    fontSize: "clamp(40px, 4.5vw, 56px)",
-                    fontWeight: 700,
+                    fontSize: "clamp(56px, 7vw, 104px)",
+                    fontWeight: 800,
                     letterSpacing: "-0.03em",
-                    color: "#587DFE",
+                    color: "#E85A00",
                     lineHeight: 1,
                   }}
                 >
@@ -655,11 +540,11 @@ export default async function HomePage() {
                 <h3
                   className="mt-5"
                   style={{
-                    fontSize: "clamp(18px, 1.5vw, 22px)",
+                    fontSize: "clamp(24px, 2.4vw, 34px)",
                     fontWeight: 600,
-                    lineHeight: 1.3,
-                    letterSpacing: "-0.015em",
-                    color: "#2C337A",
+                    lineHeight: 1.02,
+                    letterSpacing: "-0.045em",
+                    color: "#222222",
                   }}
                 >
                   {step.title}
@@ -669,7 +554,7 @@ export default async function HomePage() {
                   style={{
                     fontSize: "15px",
                     lineHeight: 1.65,
-                    color: "#5A6094",
+                    color: "rgba(34,34,34,0.62)",
                   }}
                 >
                   {step.body}
@@ -682,60 +567,58 @@ export default async function HomePage() {
 
       {/* ── Rechtsgebieden ────────────────────────────────────── */}
       <section
+        className="bg-[#0A0A0A]"
         style={{ padding: "clamp(80px, 10vh, 160px) clamp(24px, 5vw, 80px)" }}
       >
         <div className="max-w-[1400px] mx-auto">
           <div className="max-w-[720px]">
             <h2
+              className="ft-display"
               style={{
-                fontSize: "clamp(30px, 4vw, 52px)",
-                fontWeight: 700,
-                lineHeight: 1.05,
-                letterSpacing: "-0.025em",
-                color: "#0A0A0A",
+                fontSize: "clamp(38px, 9vw, 132px)",
+                fontWeight: 800,
+                lineHeight: 0.9,
+                letterSpacing: "-0.075em",
+                color: "#FFFFFF",
               }}
             >
-              Vind vacatures per rechtsgebied
+              <span className="whitespace-nowrap">Finance jobs</span>
+              <br />
+              <span className="whitespace-nowrap">by sector</span>
             </h2>
             <p
               className="mt-5"
               style={{
                 fontSize: "16px",
                 lineHeight: 1.65,
-                color: "#5A6094",
+                color: "rgba(255,255,255,0.65)",
               }}
             >
-              Specialiseer je in het gebied dat bij je past — van arbeidsrecht
-              tot Europees recht.
+              Specialise in the sector that fits you - from Private Equity
+              to FinTech.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 mt-12 md:mt-16">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-12 md:mt-16">
             {RECHTSGEBIEDEN.map((area) => (
               <Link
                 key={area}
-                href={{ pathname: "/vacatures", query: { rechtsgebied: area } }}
-                className="group flex items-center justify-between rounded-[14px] px-5 py-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(88,125,254,0.10)]"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(135deg, rgba(88,125,254,0.10) 0%, rgba(88,125,254,0.04) 45%, rgba(255,255,255,0.85) 100%)",
-                  backgroundColor: "#F5F7FF",
-                }}
+                href={`/vacatures/${getRechtsgebiedSlug(area)}`}
+                className="group flex min-h-[112px] items-start justify-between border border-white/35 px-5 py-5 transition-colors duration-150 hover:border-[#EBEBEB] hover:bg-[#EBEBEB] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E85A00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
               >
                 <span
-                  className="group-hover:text-[#587DFE] transition-colors duration-200"
+                  className="text-white transition-colors duration-150 group-hover:text-[#222222]"
                   style={{
                     fontSize: "clamp(14px, 1.1vw, 16px)",
                     fontWeight: 600,
                     letterSpacing: "-0.01em",
-                    color: "#2C337A",
                     lineHeight: 1.3,
                   }}
                 >
                   {area}
                 </span>
                 <ArrowUpRight
-                  className="h-4 w-4 shrink-0 text-[#8B91B8] group-hover:text-[#587DFE] transition-colors duration-200"
+                  className="h-4 w-4 shrink-0 text-[#E85A00] transition-colors duration-150"
                   aria-hidden
                 />
               </Link>
@@ -748,7 +631,7 @@ export default async function HomePage() {
       <section
         style={{
           padding: "clamp(80px, 10vh, 160px) clamp(24px, 5vw, 80px)",
-          backgroundColor: "#FAFBFF",
+          backgroundColor: "#EBEBEB",
         }}
       >
         <script
@@ -757,47 +640,46 @@ export default async function HomePage() {
         />
         <div className="max-w-[880px] mx-auto">
           <h2
+            className="ft-display"
             style={{
-              fontSize: "clamp(30px, 4vw, 52px)",
-              fontWeight: 700,
-              lineHeight: 1.05,
-              letterSpacing: "-0.025em",
-              color: "#0A0A0A",
+              fontSize: "clamp(54px, 9vw, 120px)",
+              fontWeight: 800,
+              lineHeight: 0.9,
+              letterSpacing: "-0.075em",
+              color: "#222222",
             }}
           >
-            Veelgestelde vragen
+            Frequently asked questions
           </h2>
 
           <div className="mt-10 md:mt-14 flex flex-col gap-3">
             {FAQS.map(({ q, a }) => (
               <details
                 key={q}
-                className="group rounded-[14px] bg-white border border-[#E2E5F0] transition-colors duration-200 hover:border-[#C7CFE8] open:border-[#C7CFE8]"
+                className="group border border-[#222222] bg-white transition-colors duration-200 hover:bg-[#0A0A0A] open:bg-[#0A0A0A]"
               >
                 <summary
-                  className="flex items-start justify-between gap-4 cursor-pointer list-none px-5 md:px-6 py-5"
+                  className="flex cursor-pointer list-none items-start justify-between gap-4 px-5 py-5 md:px-6"
                   style={{
                     fontSize: "clamp(16px, 1.25vw, 18px)",
                     fontWeight: 600,
                     letterSpacing: "-0.01em",
-                    color: "#2C337A",
                     lineHeight: 1.4,
                   }}
                 >
-                  <span>{q}</span>
+                  <span className="text-[#222222] transition-colors duration-200 group-hover:text-white group-open:text-white">{q}</span>
                   <span
                     aria-hidden
-                    className="shrink-0 mt-0.5 text-[#587DFE] text-[20px] font-normal leading-none transition-transform duration-200 group-open:rotate-45 select-none"
+                    className="mt-0.5 shrink-0 select-none text-[20px] font-normal leading-none text-[#E85A00] transition-transform duration-200 group-open:rotate-45"
                   >
                     +
                   </span>
                 </summary>
                 <div
-                  className="px-5 md:px-6 pb-5"
+                  className="px-5 pb-5 text-white/70 md:px-6"
                   style={{
                     fontSize: "15px",
                     lineHeight: 1.65,
-                    color: "#5A6094",
                   }}
                 >
                   {a}
@@ -811,40 +693,46 @@ export default async function HomePage() {
       {/* ── Kennisbank ────────────────────────────────────────── */}
       {latestBlogs.length > 0 && (
         <section
+          className="bg-white"
           style={{ padding: "clamp(80px, 10vh, 160px) clamp(24px, 5vw, 80px)" }}
         >
           <div className="max-w-[1400px] mx-auto">
-            <div className="flex flex-row items-end justify-between gap-6 mb-12 sm:mb-16">
+            <div className="mb-12 grid grid-cols-1 gap-8 sm:mb-16 lg:grid-cols-12 lg:items-end">
               <h2
-                className="leading-none m-0 p-0"
+                className="ft-display leading-none m-0 p-0 lg:col-span-8"
                 style={{
-                  fontSize: "clamp(32px, 4vw, 56px)",
-                  fontWeight: 700,
-                  lineHeight: 1,
-                  letterSpacing: "-0.025em",
-                  color: "#0A0A0A",
+                  fontSize: "clamp(54px, 9vw, 132px)",
+                  fontWeight: 800,
+                  lineHeight: 0.9,
+                  letterSpacing: "-0.075em",
+                  color: "#222222",
                   margin: 0,
                   padding: 0,
                 }}
               >
-                Artikelen en inzichten
+                Articles and insights
               </h2>
-              <Link
-                href="/kennisbank"
-                className="btn-primary shrink-0 -translate-y-[8px]"
-              >
-                Alle artikelen
-              </Link>
+              <div className="lg:col-span-4">
+                <p className="max-w-[390px] text-[17px] leading-[1.45] tracking-[-0.02em] text-[#222222]/65">
+                  Direct reads for candidates and hiring teams in finance.
+                </p>
+                <Link
+                  href="/kennisbank"
+                  className="btn-primary mt-6 shrink-0"
+                >
+                  All articles
+                </Link>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               {latestBlogs.slice(0, 3).map((blog) => (
                 <Link
                   key={blog.id}
                   href={`/kennisbank/${blog.slug}`}
-                  className="group block"
+                  className="group block border border-[#222222] bg-white p-4 transition-colors duration-200 hover:bg-[#0A0A0A]"
                 >
-                  <div className="relative w-full aspect-video rounded-xl overflow-hidden">
+                  <div className="relative w-full aspect-video overflow-hidden">
                     {blog.image_url ? (
                       <Image
                         src={blog.image_url}
@@ -854,30 +742,29 @@ export default async function HomePage() {
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
                     ) : (
-                      <div className="absolute inset-0 bg-[#EEF1FF]" />
+                      <div className="absolute inset-0 bg-[#EBEBEB]" />
                     )}
                   </div>
                   <div className="mt-5">
                     <span
-                      className="inline-block rounded-full bg-[#E9EEFF]"
+                      className="inline-block rounded-full border border-[#222222] transition-colors duration-200 group-hover:border-[#E85A00]"
                       style={{
                         padding: "4px 12px",
                         fontSize: "12px",
                         fontWeight: 500,
                         letterSpacing: "0.02em",
-                        color: "#587DFE",
+                        color: "#E85A00",
                       }}
                     >
                       {blogCategoryLabels[blog.category] ?? blog.category}
                     </span>
                     <h3
-                      className="mt-3 line-clamp-2 group-hover:text-[#587DFE] transition-colors duration-200"
+                      className="mt-3 line-clamp-2 text-[#222222] transition-colors duration-200 group-hover:text-[#E85A00]"
                       style={{
-                        fontSize: "clamp(16px, 1.4vw, 20px)",
+                        fontSize: "clamp(22px, 2vw, 32px)",
                         fontWeight: 600,
-                        lineHeight: 1.25,
-                        letterSpacing: "-0.015em",
-                        color: "#2C337A",
+                        lineHeight: 1.05,
+                        letterSpacing: "-0.045em",
                       }}
                     >
                       {blog.title}

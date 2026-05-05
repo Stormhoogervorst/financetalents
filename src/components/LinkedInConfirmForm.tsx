@@ -6,8 +6,6 @@ import {
   sanitizeLinkedInProfileUrl,
   isValidLinkedInInUrl,
 } from "@/lib/linkedin-profile-url";
-import { RecaptchaCheckbox } from "@/components/recaptcha/RecaptchaCheckbox";
-import { useRecaptcha } from "@/hooks/useRecaptcha";
 
 interface Props {
   jobId: string;
@@ -49,14 +47,6 @@ export default function LinkedInConfirmForm({
   const [submitted, setSubmitted] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const {
-    widgetKey: recaptchaWidgetKey,
-    token: recaptchaToken,
-    setToken: setRecaptchaToken,
-    reset: resetRecaptcha,
-    siteKeyConfigured,
-  } = useRecaptcha();
-  const recaptchaRequired = siteKeyConfigured;
 
   const hasFieldErrors = !!(errors.linkedinUrl || errors.phone || errors.cv);
 
@@ -114,10 +104,6 @@ export default function LinkedInConfirmForm({
 
     setLinkedinUrl(cleaned);
     setPhone(phone.trim());
-    if (recaptchaRequired && !recaptchaToken) {
-      setServerError("Voltooi de reCAPTCHA-verificatie.");
-      return;
-    }
     setLoading(true);
 
     try {
@@ -126,9 +112,6 @@ export default function LinkedInConfirmForm({
       formData.append("linkedinUrl", cleaned);
       formData.append("phone", phone.trim());
       formData.append("cv", cvFile!);
-      if (recaptchaToken) {
-        formData.append("recaptchaToken", recaptchaToken);
-      }
 
       const res = await fetch("/api/auth/linkedin-apply/confirm", {
         method: "POST",
@@ -139,7 +122,6 @@ export default function LinkedInConfirmForm({
 
       if (!res.ok || !data.success) {
         setServerError(data.error ?? "Er is iets misgegaan.");
-        resetRecaptcha();
         setLoading(false);
         return;
       }
@@ -147,7 +129,6 @@ export default function LinkedInConfirmForm({
       setSuccess(true);
     } catch {
       setServerError("Geen verbinding. Probeer het opnieuw.");
-      resetRecaptcha();
     } finally {
       setLoading(false);
     }
@@ -374,21 +355,11 @@ export default function LinkedInConfirmForm({
           )}
         </div>
 
-        <div
-          className={`border-b pb-4 ${
-            serverError ? "border-red-300" : "border-transparent"
-          }`}
-          aria-live="polite"
-        >
-          <RecaptchaCheckbox
-            widgetKey={recaptchaWidgetKey}
-            onChange={setRecaptchaToken}
-            className="flex justify-start mb-4"
-          />
-          {serverError && (
+        {serverError && (
+          <div className="border-b border-red-300 pb-4" aria-live="polite">
             <p className="text-[14px] text-red-600">{serverError}</p>
-          )}
-        </div>
+          </div>
+        )}
 
         <button
           type="submit"

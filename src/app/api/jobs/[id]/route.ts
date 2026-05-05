@@ -135,13 +135,13 @@ export async function PATCH(request: NextRequest, { params }: Params) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Ongeldige JSON." }, { status: 400 });
+    return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
   }
 
   const result = updateJobSchema.safeParse(body);
   if (!result.success) {
     return NextResponse.json(
-      { error: "Ongeldige invoer.", details: result.error.flatten() },
+      { error: "Invalid input.", details: result.error.flatten() },
       { status: 400 }
     );
   }

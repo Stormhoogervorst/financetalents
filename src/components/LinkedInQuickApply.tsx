@@ -158,7 +158,7 @@ export default function LinkedInQuickApply({
       <div className="relative w-full basis-full box-border">
         <button
           onClick={() => setShowForm(true)}
-          className="w-full flex justify-center items-center gap-3 rounded-full bg-slate-900 px-6 py-3.5 text-sm sm:text-[15px] font-semibold text-white shadow-[0_12px_28px_-10px_rgba(10,15,61,0.55)] ring-1 ring-white/10 transition-all duration-200 hover:bg-slate-800 hover:shadow-[0_18px_36px_-12px_rgba(10,15,61,0.65)] md:hover:scale-[1.02]"
+          className="w-full flex justify-center items-center gap-3 rounded-full bg-white px-6 py-3.5 text-sm sm:text-[15px] font-semibold text-[#222222] transition-colors duration-200 hover:bg-[#E85A00] hover:text-white md:hover:scale-[1.02]"
         >
           <svg
             className="h-5 w-5 shrink-0"
@@ -175,7 +175,7 @@ export default function LinkedInQuickApply({
 
   // ── Expanded: form with 4 fields ───────────────────────────────────────────
   const inputBase =
-    "w-full bg-white/70 rounded-lg border px-4 py-3 text-[15px] text-[#0A0A0A] placeholder-[#999999] focus:outline-none focus:ring-2 focus:ring-[#587DFE]/30 focus:border-[#587DFE] transition-all duration-200";
+    "w-full bg-white rounded-none border px-4 py-3 text-[15px] text-[#222222] placeholder-[#222222]/45 focus:outline-none focus:ring-2 focus:ring-[#E85A00]/30 focus:border-[#E85A00] transition-all duration-200";
 
   return (
     <form
@@ -183,7 +183,7 @@ export default function LinkedInQuickApply({
         e.preventDefault();
         if (!loading && isFormValid) handleSubmit();
       }}
-      className="relative w-full basis-full box-border space-y-4 border-t border-blue-200 pt-6 mt-2 motion-safe:animate-[fadeInUp_240ms_ease-out]"
+      className="relative w-full basis-full box-border space-y-4 border-t border-white/20 pt-6 mt-2 motion-safe:animate-[fadeInUp_240ms_ease-out]"
     >
       <div className="flex items-center justify-between gap-4">
         <p className="text-[13px] font-medium text-white/90">
@@ -210,7 +210,7 @@ export default function LinkedInQuickApply({
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             placeholder="Voornaam *"
-            className={`${inputBase} border-blue-200`}
+            className={`${inputBase} border-white/25`}
           />
         </div>
 
@@ -225,7 +225,7 @@ export default function LinkedInQuickApply({
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             placeholder="Achternaam *"
-            className={`${inputBase} border-blue-200`}
+            className={`${inputBase} border-white/25`}
           />
         </div>
       </div>
@@ -246,7 +246,7 @@ export default function LinkedInQuickApply({
           }}
           placeholder="LinkedIn profiel-URL *"
           className={`${inputBase} ${
-            urlError ? "border-red-400" : "border-blue-200"
+            urlError ? "border-red-400" : "border-white/25"
           }`}
         />
         {urlError && (
@@ -277,7 +277,7 @@ export default function LinkedInQuickApply({
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="Telefoonnummer *"
-          className={`${inputBase} border-blue-200`}
+          className={`${inputBase} border-white/25`}
         />
       </div>
 
@@ -285,7 +285,7 @@ export default function LinkedInQuickApply({
         <button
           type="submit"
           disabled={loading || !isFormValid}
-          className="w-full flex justify-center items-center gap-3 rounded-full bg-slate-900 px-6 py-3.5 text-[15px] font-semibold text-white shadow-[0_12px_28px_-10px_rgba(10,15,61,0.55)] ring-1 ring-white/10 transition-all duration-200 hover:bg-slate-800 hover:shadow-[0_18px_36px_-12px_rgba(10,15,61,0.65)] md:hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-slate-900"
+          className="w-full flex justify-center items-center gap-3 rounded-full bg-white px-6 py-3.5 text-[15px] font-semibold text-[#222222] transition-colors duration-200 hover:bg-[#E85A00] hover:text-white md:hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-white disabled:hover:text-[#222222]"
         >
           {loading && <Loader2 className="h-5 w-5 animate-spin" />}
           {loading ? "Versturen…" : "Sollicitatie afronden"}

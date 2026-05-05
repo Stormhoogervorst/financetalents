@@ -6,48 +6,48 @@ import Footer from "@/components/Footer";
 const STEPS = [
   {
     num: "1",
-    title: "Account aanmaken",
-    desc: "Binnen twee minuten gepiept. Geen creditcard of KvK-nummer vereist — maak direct een gratis account aan.",
+    title: "Create an account",
+    desc: "Done in two minutes. No credit card required — create your free account now.",
   },
   {
     num: "2",
-    title: "Vacature plaatsen",
-    desc: "Vul het eenvoudige formulier in en uw vacature is direct zichtbaar voor duizenden juridische professionals.",
+    title: "Post a job",
+    desc: "Fill in the simple form and your opening is immediately visible to thousands of finance professionals.",
   },
   {
     num: "3",
-    title: "Dashboard beheren",
-    desc: "Beheer vacatures, sollicitaties en je werkgeversprofiel vanuit één dashboard.",
+    title: "Manage your dashboard",
+    desc: "Manage jobs, applications and your company profile from one place.",
   },
 ];
 
 const FEATURES = [
   {
     icon: Sparkles,
-    label: "Gratis profiel",
-    desc: "Maak direct een werkgeversprofiel aan — zonder kosten, zonder verplichtingen.",
+    label: "Free profile",
+    desc: "Set up a company profile instantly — no cost, no commitment.",
   },
   {
     icon: InfinityIcon,
-    label: "Onbeperkt plaatsen",
-    desc: "Publiceer zoveel vacatures en stages als u wilt, altijd gratis.",
+    label: "Unlimited postings",
+    desc: "Publish as many jobs and internships as you want, always free.",
   },
   {
     icon: Inbox,
-    label: "Direct ontvangen",
-    desc: "Sollicitaties recht in uw inbox. Bekijk kandidaten overzichtelijk in uw dashboard.",
+    label: "Direct applications",
+    desc: "Applications straight to your inbox. Review candidates in your dashboard.",
   },
   {
     icon: Target,
-    label: "Juridische niche",
-    desc: "Bereik 100% juridische professionals — studenten én young professionals.",
+    label: "Finance niche",
+    desc: "Reach 100% finance professionals — from students to senior hires.",
   },
 ];
 
 export const metadata = {
-  title: "Voor Werkgevers",
+  title: "For Employers",
   description:
-    "Plaats gratis vacatures en bereik juridisch talent. Het nicheplatform voor advocatenkantoren en juridische werkgevers.",
+    "Post jobs for free and reach top finance talent. The niche platform for PE, VC, IB and FinTech firms.",
   alternates: {
     canonical: "/voor-werkgevers",
   },
@@ -130,7 +130,7 @@ export default function VoorWerkgeversPage() {
               }}
             >
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-white" />
-              VOOR WERKGEVERS
+              FOR EMPLOYERS
             </span>
 
             <h1
@@ -146,9 +146,9 @@ export default function VoorWerkgeversPage() {
                 textShadow: "0 1px 24px rgba(20, 24, 80, 0.25)",
               }}
             >
-              Vind juridisch talent,
+              Hire finance talent,
               <br className="hidden sm:block" />
-              zonder opstartkosten
+              without the upfront cost
             </h1>
 
             <p
@@ -163,14 +163,14 @@ export default function VoorWerkgeversPage() {
                 textShadow: "0 1px 16px rgba(20, 24, 80, 0.22)",
               }}
             >
-              Het nicheplatform voor advocatenkantoren. Plaats eenvoudig uw
-              vacatures, beheer uw dashboard en bereik uitsluitend juridische
+              The niche platform for finance firms. Post your openings,
+              manage your dashboard, and reach exclusively finance
               professionals.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link href="/register" className="btn-primary">
-                Gratis account aanmaken
+                Create free account
               </Link>
               <Link
                 href="#hoe-het-werkt"
@@ -183,7 +183,7 @@ export default function VoorWerkgeversPage() {
                   WebkitBackdropFilter: "blur(6px)",
                 }}
               >
-                Hoe het werkt
+                How it works
               </Link>
             </div>
           </div>
@@ -208,7 +208,7 @@ export default function VoorWerkgeversPage() {
                 color: "#0A0A0A",
               }}
             >
-              Bereik juridisch talent gemakkelijk online
+              Reach finance talent easily online
               <span style={{ color: "#587DFE" }}>.</span>
             </h2>
             <p
@@ -221,9 +221,9 @@ export default function VoorWerkgeversPage() {
                 marginTop: "24px",
               }}
             >
-              Maak eenvoudig een werkgeversprofiel aan en plaats je vacatures
-              online. Sollicitaties komen direct binnen via de mail en in het
-              dashboard. Zo houd je makkelijk overzicht.
+              Set up a company profile and post your jobs in minutes.
+              Applications land directly in your inbox and dashboard —
+              full oversight, zero friction.
             </p>
           </div>
 
@@ -273,7 +273,7 @@ export default function VoorWerkgeversPage() {
 
           <div className="mt-12">
             <Link href="/register" className="btn-primary">
-              Gratis account aanmaken
+              Create free account
             </Link>
           </div>
         </div>
@@ -341,9 +341,9 @@ export default function VoorWerkgeversPage() {
                 color: "#0A0A0A",
               }}
             >
-              Met Legal Talents bereiken wij precies de juridische
-              professionals die we zoeken. Het platform is intuïtief,
-              effectief en zonder drempels.
+              With Finance Talents we reach exactly the finance
+              professionals we are looking for. The platform is intuitive,
+              effective and frictionless.
             </blockquote>
             <p
               className="mt-8"
@@ -354,8 +354,8 @@ export default function VoorWerkgeversPage() {
                 maxWidth: "560px",
               }}
             >
-              Maak vandaag nog een gratis account aan en bereik duizenden
-              juridische professionals. Geen creditcard vereist, direct actief.
+              Create a free account today and reach thousands of
+              finance professionals. No credit card required, live instantly.
             </p>
           </div>
         </div>
@@ -382,7 +382,7 @@ export default function VoorWerkgeversPage() {
                 color: "#0A0A0A",
               }}
             >
-              In drie stappen live
+              Live in three steps
               <span style={{ color: "#587DFE" }}>.</span>
             </h2>
             <p
@@ -395,8 +395,7 @@ export default function VoorWerkgeversPage() {
                 marginTop: "20px",
               }}
             >
-              Geen ingewikkelde onboarding. Binnen een paar minuten plaatst u
-              uw eerste vacature.
+              No complex onboarding. In a few minutes you can post your first job.
             </p>
           </div>
 
@@ -501,7 +500,7 @@ export default function VoorWerkgeversPage() {
               textShadow: "0 1px 24px rgba(20, 24, 80, 0.28)",
             }}
           >
-            Bereik juridisch talent vandaag nog
+            Reach finance talent today
           </h2>
           <p
             className="mx-auto"
@@ -515,8 +514,8 @@ export default function VoorWerkgeversPage() {
               textShadow: "0 1px 16px rgba(20, 24, 80, 0.25)",
             }}
           >
-            Maak een gratis account aan, plaats uw eerste vacature en ontvang
-            direct sollicitaties van juridische professionals.
+            Create a free account, post your first job and receive
+            applications from finance professionals immediately.
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <Link
@@ -524,7 +523,7 @@ export default function VoorWerkgeversPage() {
               className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-medium transition-transform duration-200 hover:scale-[1.03]"
               style={{ fontSize: "15px", color: "#2C337A" }}
             >
-              Gratis account aanmaken
+              Create free account
             </Link>
             <Link
               href="/login"
@@ -535,7 +534,7 @@ export default function VoorWerkgeversPage() {
                 border: "2px solid rgba(255, 255, 255, 0.85)",
               }}
             >
-              Inloggen
+              Log in
             </Link>
           </div>
         </div>

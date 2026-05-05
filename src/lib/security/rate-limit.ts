@@ -25,7 +25,7 @@ function getRatelimiter(): Ratelimit | null {
     redis,
     // Sliding-window: smooths bursts better than fixed windows.
     limiter: Ratelimit.slidingWindow(10, "10 m"),
-    prefix: "@legaltalents/rl",
+    prefix: "@financetalents/rl",
     analytics: false,
   });
 
@@ -57,7 +57,7 @@ export async function checkRateLimit(
   const perRoute = new Ratelimit({
     redis: (rl as unknown as { redis: Redis }).redis,
     limiter: Ratelimit.slidingWindow(limit, "10 m"),
-    prefix: "@legaltalents/rl",
+    prefix: "@financetalents/rl",
     analytics: false,
   });
 

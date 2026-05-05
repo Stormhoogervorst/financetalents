@@ -1,163 +1,90 @@
-import { Search } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
 export default function HeroSection() {
   return (
     <section
       className="relative isolate overflow-hidden"
       style={{
-        background: `linear-gradient(135deg,
-          #4B3BD6 0%,
-          #5668E8 22%,
-          #7A8BF5 42%,
-          #A8B6FF 62%,
-          #C9D4FF 82%,
-          #FFFFFF 100%)`,
+        background: "#EBEBEB",
       }}
     >
-      {/* Static layered radial gradients — soft "liquid" purple → blue → light-blue wash. */}
       <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: `
-            radial-gradient(60% 55% at 50% 40%,
-              rgba(178, 140, 255, 0.65) 0%,
-              rgba(140, 120, 255, 0.30) 35%,
-              rgba(120, 150, 255, 0) 70%),
-            radial-gradient(50% 60% at 50% 60%,
-              rgba(255, 255, 255, 0.45) 0%,
-              rgba(255, 255, 255, 0) 60%),
-            radial-gradient(55% 70% at 96% 6%,
-              rgba(42, 20, 230, 0.80) 0%,
-              rgba(59, 44, 220, 0.35) 22%,
-              rgba(88, 125, 254, 0) 60%),
-            radial-gradient(32% 38% at 2% 0%,
-              rgba(215, 168, 255, 0.85) 0%,
-              rgba(215, 168, 255, 0) 65%),
-            radial-gradient(38% 45% at 10% 55%,
-              rgba(255, 255, 255, 0.55) 0%,
-              rgba(255, 255, 255, 0) 65%)
-          `,
-        }}
-      />
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-[18vw] top-[12vh] hidden h-[56vw] max-h-[760px] min-h-[420px] w-[56vw] min-w-[420px] max-w-[760px] opacity-[0.08] md:block"
+      >
+        <Image
+          src="/icon FT.png"
+          alt=""
+          fill
+          className="object-contain"
+          sizes="56vw"
+          priority
+        />
+      </div>
 
-      {/* Seamless fade to pure white at the bottom */}
       <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-48 md:h-64"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 55%, #FFFFFF 100%)",
-        }}
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-[18vw] bottom-[-28vw] h-[44vw] max-h-[560px] min-h-[280px] w-[44vw] min-w-[280px] max-w-[560px] rounded-full border border-[#222222]/10"
       />
 
       <div
-        className="max-w-[1400px] mx-auto relative"
+        className="max-w-[1600px] mx-auto relative"
         style={{
-          // Top padding accounts for the overlapping 4.25rem (68px) navbar
           padding:
-            "calc(4.25rem + clamp(60px, 8vh, 120px)) clamp(24px, 5vw, 80px) clamp(80px, 12vh, 160px)",
+            "calc(4.25rem + clamp(44px, 8vh, 110px)) clamp(24px, 5vw, 80px) clamp(72px, 12vh, 150px)",
         }}
       >
-        {/* Badge */}
-        <span
-          className="inline-flex items-center gap-2 rounded-full backdrop-blur-[6px]"
-          style={{
-            padding: "7px 16px",
-            fontSize: "13px",
-            fontWeight: 500,
-            letterSpacing: "0.02em",
-            color: "#FFFFFF",
-            background: "rgba(255, 255, 255, 0.18)",
-            border: "1px solid rgba(255, 255, 255, 0.28)",
-          }}
-        >
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-white" />
-          #1 Juridisch Carrièreplatform
-        </span>
+        <div className="grid min-h-[calc(100vh-4.25rem)] grid-cols-1 content-between gap-12">
+          <div>
+            <p
+              className="ft-display text-[15px] font-normal tracking-[-0.02em] text-[#222222]/70 md:text-[18px]"
+            >
+              Elite finance jobs. One platform.
+            </p>
+            <h1
+              className="ft-display mt-8 max-w-[14ch] text-[clamp(64px,14vw,220px)] font-extrabold leading-[0.82] tracking-[-0.08em] text-[#222222]"
+            >
+              Finance without the noise.
+            </h1>
+          </div>
 
-        {/* Headline */}
-        <h1
-          style={{
-            fontSize: "clamp(44px, 5.2vw, 72px)",
-            fontWeight: 700,
-            lineHeight: 1.05,
-            letterSpacing: "-0.03em",
-            color: "#FFFFFF",
-            marginTop: "24px",
-            maxWidth: "960px",
-            textShadow: "0 1px 24px rgba(20, 24, 80, 0.25)",
-          }}
-        >
-          Vind jouw{" "}
-          <span style={{ color: "#FFFFFF", whiteSpace: "nowrap" }}>
-            stage of baan
-          </span>
-          <br />
-          in de juridische wereld
-        </h1>
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-5 lg:col-start-8">
+              <p className="max-w-[560px] text-[clamp(18px,2vw,28px)] leading-[1.15] tracking-[-0.03em] text-[#222222]">
+                A curated platform for Private Equity, Venture Capital,
+                Investment Banking and FinTech roles.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link href="/register" className="btn-primary">
+                  Create profile
+                  <ArrowUpRight className="h-4 w-4" />
+                </Link>
+                <Link href="/werkgevers" className="btn-secondary">
+                  Browse companies
+                </Link>
+              </div>
+            </div>
+          </div>
 
-        {/* Subheadline */}
-        <p
-          style={{
-            fontSize: "clamp(15px, 1.1vw, 17px)",
-            lineHeight: 1.65,
-            color: "#FFFFFF",
-            opacity: 0.95,
-            maxWidth: "520px",
-            marginTop: "24px",
-            textShadow: "0 1px 16px rgba(20, 24, 80, 0.22)",
-          }}
-        >
-          Ontdek stages en vacatures bij de beste juridische werkgevers van
-          Nederland. Het platform voor studenten en young professionals.
-        </p>
-
-        {/* Composite pill search bar — deep navy for strong contrast */}
-        <form
-          action="/vacatures"
-          method="GET"
-          className="mt-8"
-          style={{ maxWidth: "580px" }}
-        >
           <div
-            className="flex items-center rounded-full"
+            className="grid grid-cols-2 border-y border-[#222222] text-[13px] text-[#222222]/70 md:grid-cols-4"
             style={{
-              padding: "6px 6px 6px 22px",
-              background: "#0A0F3D",
-              boxShadow:
-                "0 20px 40px -18px rgba(10, 15, 61, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.10) inset",
+              marginBottom: "calc(clamp(72px, 12vh, 150px) * -0.2)",
             }}
           >
-            <Search
-              className="h-[18px] w-[18px] shrink-0"
-              style={{ color: "rgba(255, 255, 255, 0.75)" }}
-            />
-            <input
-              name="q"
-              type="text"
-              placeholder="Functie of rechtsgebied..."
-              className="flex-1 min-w-0 bg-transparent border-none outline-none focus:outline-none placeholder:text-white/55"
-              style={{
-                padding: "10px 14px",
-                fontSize: "15px",
-                color: "#FFFFFF",
-              }}
-            />
-            <button
-              type="submit"
-              className="shrink-0 rounded-full inline-flex items-center justify-center font-semibold text-white transition-all duration-200 hover:bg-[#4A6CE6] hover:scale-[1.03] focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-[#0A0F3D]"
-              style={{
-                padding: "12px 26px",
-                fontSize: "14px",
-                background: "#587DFE",
-                whiteSpace: "nowrap",
-              }}
-            >
-              Zoeken
-            </button>
+            {["Private Equity", "Venture Capital", "Investment Banking", "FinTech"].map((item) => (
+              <div
+                key={item}
+                className="flex items-center justify-between border-[#222222] px-4 py-4 md:border-r md:last:border-r-0"
+              >
+                {item}
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </div>
+            ))}
           </div>
-        </form>
+        </div>
       </div>
     </section>
   );

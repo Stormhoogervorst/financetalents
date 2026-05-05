@@ -117,7 +117,7 @@ export default async function JobsPage() {
             Nog geen vacatures
           </h2>
           <p className="text-sm text-gray-500 mb-6 max-w-sm">
-            Maak je eerste vacature aan en bereik studenten rechtstreeks via Legal Talents.
+            Post your first job and reach candidates directly via Finance Talents.
           </p>
           <Link
             href="/portal/jobs/new"

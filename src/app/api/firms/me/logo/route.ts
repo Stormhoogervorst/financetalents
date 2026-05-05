@@ -5,7 +5,7 @@ import { getImpersonatedFirmId } from "@/lib/impersonation";
 
 // ── POST /api/firms/me/logo ──────────────────────────────────────────────
 //
-// Uploadt een logo naar de `logos`-storage bucket en geeft de publieke URL
+// Uploadt een logo naar de `logo's`-storage bucket en geeft de publieke URL
 // terug. Authorisatie:
 //
 //  1) Normaal: de ingelogde gebruiker uploadt voor zijn eigen firm —
@@ -19,6 +19,20 @@ import { getImpersonatedFirmId } from "@/lib/impersonation";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"] as const;
 const MAX_BYTES = 2 * 1024 * 1024;
+const LOGO_BUCKETS = ["logo's", "logos"] as const;
+
+function isBucketNotFound(error: { message?: string } | null) {
+  return error?.message?.toLowerCase().includes("bucket not found") ?? false;
+}
+
+function isMissingTableError(error: { message?: string; code?: string } | null) {
+  const message = error?.message?.toLowerCase() ?? "";
+  return (
+    error?.code === "PGRST205" ||
+    message.includes("could not find the table") ||
+    message.includes("schema cache")
+  );
+}
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient();
@@ -72,13 +86,20 @@ export async function POST(request: NextRequest) {
 
   let targetFirmId: string | null = null;
   let ownerUserId: string | null = null;
+  let useLegacyProfileLogo = false;
 
   if (impersonatedFirmId) {
-    const { data } = await admin
+    const { data, error } = await admin
       .from("firms")
       .select("id, user_id")
       .eq("id", impersonatedFirmId)
       .maybeSingle();
+    if (isMissingTableError(error)) {
+      return NextResponse.json(
+        { error: "Werkgeversprofielen gebruiken in deze database geen firms-tabel." },
+        { status: 409 }
+      );
+    }
     if (!data) {
       return NextResponse.json(
         { error: "Geïmpersoneerde werkgever niet gevonden." },
@@ -88,18 +109,21 @@ export async function POST(request: NextRequest) {
     targetFirmId = data.id as string;
     ownerUserId = data.user_id as string;
   } else {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("firms")
       .select("id, user_id")
       .eq("user_id", user.id)
       .maybeSingle();
-    if (data) {
+    if (isMissingTableError(error)) {
+      ownerUserId = user.id;
+      useLegacyProfileLogo = true;
+    } else if (data) {
       targetFirmId = data.id as string;
       ownerUserId = data.user_id as string;
     } else {
       // Eerste profielaanmaak — logo kan pas nadat de firm bestaat worden
       // gekoppeld; upload onder het eigen user-id zodat het consistent is
-      // met de `logos`-bucket-conventie en later door de PATCH-route aan
+      // met de `logo's`-bucket-conventie en later door de PATCH-route aan
       // de nieuwe firm wordt gekoppeld.
       ownerUserId = user.id;
     }
@@ -118,25 +142,45 @@ export async function POST(request: NextRequest) {
 
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  const { error: uploadError } = await admin.storage
-    .from("logos")
-    .upload(path, buffer, {
-      upsert: true,
-      contentType: file.type,
-    });
+  let logoUrl: string | null = null;
+  let lastBucketError: string | null = null;
 
-  if (uploadError) {
-    console.error("[POST /api/firms/me/logo] upload error:", uploadError.message);
+  for (const bucket of LOGO_BUCKETS) {
+    const { error: uploadError } = await admin.storage
+      .from(bucket)
+      .upload(path, buffer, {
+        upsert: true,
+        contentType: file.type,
+      });
+
+    if (!uploadError) {
+      const { data: urlData } = admin.storage.from(bucket).getPublicUrl(path);
+      // Cache-busting query param zodat de browser direct de nieuwe versie
+      // laadt nadat de upload het oude bestand overschreven heeft.
+      logoUrl = `${urlData.publicUrl}?v=${Date.now()}`;
+      break;
+    }
+
+    if (!isBucketNotFound(uploadError)) {
+      console.error("[POST /api/firms/me/logo] upload error:", uploadError.message);
+      return NextResponse.json(
+        { error: `Logo uploaden mislukt: ${uploadError.message}` },
+        { status: 500 }
+      );
+    }
+
+    lastBucketError = uploadError.message;
+  }
+
+  if (!logoUrl) {
+    console.error("[POST /api/firms/me/logo] bucket lookup error:", lastBucketError);
     return NextResponse.json(
-      { error: `Logo uploaden mislukt: ${uploadError.message}` },
+      {
+        error: `Logo bucket niet gevonden. Geprobeerd: ${LOGO_BUCKETS.join(", ")}.`,
+      },
       { status: 500 }
     );
   }
-
-  const { data: urlData } = admin.storage.from("logos").getPublicUrl(path);
-  // Cache-busting query param zodat de browser direct de nieuwe versie
-  // laadt nadat de upload het oude bestand overschreven heeft.
-  const logoUrl = `${urlData.publicUrl}?v=${Date.now()}`;
 
   // Persist de URL meteen op de firm zodat client-side alleen nog het
   // formulier hoeft te submitten — voorkomt ook dat het logo "los" blijft
@@ -153,6 +197,22 @@ export async function POST(request: NextRequest) {
       );
       return NextResponse.json(
         { error: "Logo geüpload, maar kon niet aan werkgever gekoppeld worden." },
+        { status: 500 }
+      );
+    }
+  } else if (useLegacyProfileLogo) {
+    const { error: profileUpdateError } = await admin
+      .from("profiles")
+      .update({ company_logo_url: logoUrl })
+      .eq("id", user.id);
+
+    if (profileUpdateError) {
+      console.error(
+        "[POST /api/firms/me/logo] profile company_logo_url update error:",
+        profileUpdateError.message
+      );
+      return NextResponse.json(
+        { error: "Logo geüpload, maar kon niet aan je profiel gekoppeld worden." },
         { status: 500 }
       );
     }

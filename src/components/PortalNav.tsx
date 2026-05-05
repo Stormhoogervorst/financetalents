@@ -45,8 +45,8 @@ export default function PortalNav() {
         <div className="px-5 py-6 border-b border-gray-100 shrink-0">
           <Link href="/" className="inline-flex items-center">
             <Image
-              src="/legal-talents-logo.png"
-              alt="Legal Talents logo"
+              src="/logo FT.png"
+              alt="Finance Talents logo"
               width={150}
               height={40}
               className="h-8 w-auto"
@@ -90,8 +90,8 @@ export default function PortalNav() {
         <div className="flex items-center justify-between px-4 h-14">
           <Link href="/" className="inline-flex items-center">
             <Image
-              src="/legal-talents-logo.png"
-              alt="Legal Talents logo"
+              src="/logo FT.png"
+              alt="Finance Talents logo"
               width={150}
               height={40}
               className="h-7 w-auto"

@@ -29,16 +29,14 @@ export default function GridCard({
   return (
     <Link
       href={href}
-      className="group flex flex-col h-full rounded-[16px] p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(88,125,254,0.12)]"
+      className="group flex h-full min-h-[300px] flex-col border border-[#222222] bg-white p-6 transition-colors duration-200 hover:bg-[#0A0A0A]"
       style={{
-        backgroundImage:
-          "linear-gradient(135deg, rgba(88,125,254,0.10) 0%, rgba(88,125,254,0.04) 45%, rgba(255,255,255,0.85) 100%)",
-        backgroundColor: "#F5F7FF",
+        borderRadius: 0,
       }}
     >
       {/* Logo + top-right label */}
       <div className="flex items-start justify-between mb-5">
-        <div className="w-14 h-14 rounded-[10px] bg-white border border-[#E2E5F0] flex items-center justify-center overflow-hidden p-2 shrink-0">
+        <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden border border-[#222222] bg-white p-2 transition-colors duration-200 group-hover:border-white/20">
           {logoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -47,13 +45,12 @@ export default function GridCard({
               className="w-full h-full object-contain"
             />
           ) : (
-            logoFallback ?? <Building2 className="h-5 w-5 text-[#8B91B8]" />
+            logoFallback ?? <Building2 className="h-5 w-5 text-[#222222]/55" />
           )}
         </div>
         {topRight && (
           <span
-            className="text-[11px] font-medium"
-            style={{ color: "#B0B8D8" }}
+            className="text-[11px] font-medium text-[#222222]/50 transition-colors duration-200 group-hover:text-white/50"
           >
             {topRight}
           </span>
@@ -62,11 +59,10 @@ export default function GridCard({
 
       {/* Title */}
       <h3
-        className="font-semibold leading-snug group-hover:text-[#587DFE] transition-colors duration-200"
+        className="mt-auto font-semibold leading-[1.05] text-[#222222] transition-colors duration-200 group-hover:text-[#E85A00]"
         style={{
-          fontSize: "clamp(15px, 1.2vw, 18px)",
-          letterSpacing: "-0.01em",
-          color: "#2C337A",
+          fontSize: "clamp(22px, 2vw, 32px)",
+          letterSpacing: "-0.04em",
         }}
       >
         {title}
@@ -74,7 +70,7 @@ export default function GridCard({
 
       {/* Subtitle */}
       {subtitle && (
-        <p className="mt-1 text-[13px]" style={{ color: "#8B91B8" }}>
+        <p className="mt-3 text-[13px] text-[#222222]/55 transition-colors duration-200 group-hover:text-white/55">
           {subtitle}
         </p>
       )}
@@ -85,8 +81,7 @@ export default function GridCard({
           {meta.map((item, i) => (
             <span
               key={i}
-              className="flex items-center gap-1 text-[12px]"
-              style={{ color: "#8B91B8" }}
+            className="flex items-center gap-1 text-[12px] text-[#222222]/55 transition-colors duration-200 group-hover:text-white/55"
             >
               {item.icon}
               {item.text}
@@ -101,7 +96,7 @@ export default function GridCard({
           {pills.map((pill) => (
             <span
               key={pill}
-              className="bg-[#2C337A] text-white text-[12px] font-semibold px-3 py-1 rounded-full"
+              className="rounded-full border border-[#222222] px-3 py-1 text-[12px] font-medium text-[#222222] transition-colors duration-200 group-hover:border-[#E85A00] group-hover:text-[#E85A00]"
             >
               {pill}
             </span>

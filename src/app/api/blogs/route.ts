@@ -1,16 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 
 // ── Zod schema ────────────────────────────────────────────────────────────
 
-const BLOG_CATEGORIES = ["carriere", "juridisch", "kantoorleven"] as const;
+const BLOG_CATEGORIES = ["carriere", "finance", "kantoorleven"] as const;
 
 const createBlogSchema = z.object({
-  title: z.string().min(1, "Titel is verplicht").max(300).trim(),
+  title: z.string().min(1, "Title is required").max(300).trim(),
   slug: z.string().min(1).max(400),
-  category: z.enum(BLOG_CATEGORIES, { message: "Ongeldige categorie" }),
-  content: z.string().min(1, "Inhoud is verplicht").max(500_000),
+  category: z.enum(BLOG_CATEGORIES, { message: "Invalid category" }),
+  content: z.string().min(1, "Content is required").max(500_000),
   image_url: z.string().url().max(1_000).nullable().optional(),
   status: z.enum(["draft", "published"]),
 });
@@ -27,15 +28,24 @@ export async function POST(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   if (authError || !user) {
-    return NextResponse.json({ error: "Niet ingelogd." }, { status: 401 });
+    return NextResponse.json({ error: "Not authenticated." }, { status: 401 });
   }
 
-  // Step B: resolve the firm via the user's profile (works for owners AND team members)
-  const { data: profile } = await supabase
+  // Step B: resolve the firm via profiles.firm_id (works for owners AND team members)
+  const admin = createAdminClient();
+  const { data: profile, error: profileError } = await admin
     .from("profiles")
     .select("firm_id")
     .eq("id", user.id)
-    .single();
+    .maybeSingle<{ firm_id: string | null }>();
+
+  if (profileError) {
+    console.error("[POST /api/blogs] profile firm_id lookup error:", profileError.message);
+    return NextResponse.json(
+      { error: "Could not verify your company profile." },
+      { status: 500 }
+    );
+  }
 
   const firmId = profile?.firm_id;
 
@@ -43,7 +53,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error:
-          "Je account is nog niet gekoppeld aan een kantoor. Neem contact op met de beheerder.",
+          "Your account is not linked to a company yet. Please contact the administrator.",
       },
       { status: 403 }
     );
@@ -54,13 +64,13 @@ export async function POST(request: NextRequest) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Ongeldige JSON." }, { status: 400 });
+    return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
   }
 
   const result = createBlogSchema.safeParse(body);
   if (!result.success) {
     return NextResponse.json(
-      { error: "Ongeldige invoer.", details: result.error.flatten() },
+      { error: "Invalid input.", details: result.error.flatten() },
       { status: 400 }
     );
   }

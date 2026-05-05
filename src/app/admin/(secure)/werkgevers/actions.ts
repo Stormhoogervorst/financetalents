@@ -7,6 +7,8 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { IMPERSONATION_COOKIE } from "@/lib/impersonation";
 
+const LOGO_BUCKETS = ["logo's", "logos"] as const;
+
 // ── deleteEmployerAction ─────────────────────────────────────────────────
 //
 // Verwijdert een werkgever volledig vanuit het admin-dashboard.
@@ -15,7 +17,7 @@ import { IMPERSONATION_COOKIE } from "@/lib/impersonation";
 //  1. Verifieer dat de ingelogde gebruiker admin is (defense-in-depth;
 //     middleware + (secure)/layout doen dit ook al).
 //  2. Resolve firm + firm-owner user_id via service-role client.
-//  3. Best-effort: verwijder logo-bestanden uit de `logos`-bucket onder
+//  3. Best-effort: verwijder logo-bestanden uit de `logo's`-bucket onder
 //     de firm-owner.
 //  4. Verwijder de auth.users-rij van de firm-owner. De
 //     ON DELETE CASCADE-keten (zie
@@ -120,12 +122,14 @@ export async function deleteEmployerAction(
   // we willen nooit falen op een losse logo-file als de delete zelf
   // prima gaat.
   try {
-    const { data: files } = await admin.storage
-      .from("logos")
-      .list(firm.user_id);
-    if (files && files.length > 0) {
-      const paths = files.map((f) => `${firm.user_id}/${f.name}`);
-      await admin.storage.from("logos").remove(paths);
+    for (const bucket of LOGO_BUCKETS) {
+      const { data: files } = await admin.storage
+        .from(bucket)
+        .list(firm.user_id);
+      if (files && files.length > 0) {
+        const paths = files.map((f) => `${firm.user_id}/${f.name}`);
+        await admin.storage.from(bucket).remove(paths);
+      }
     }
   } catch (err) {
     console.error("[deleteEmployerAction] storage cleanup failed:", err);

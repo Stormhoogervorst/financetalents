@@ -27,7 +27,7 @@ export default function HeroParallaxImages() {
       >
         <Image
           src="/foto 1.jpg"
-          alt="Juridische professionals aan het werk"
+          alt="Finance professionals at work"
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
           priority
@@ -41,7 +41,7 @@ export default function HeroParallaxImages() {
       >
         <Image
           src="/foto 4.jpg"
-          alt="Juridisch team in vergadering"
+          alt="Finance team in a meeting"
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
           sizes="300px"
@@ -54,7 +54,7 @@ export default function HeroParallaxImages() {
       >
         <Image
           src="/foto 5.jpg"
-          alt="Young professional in de juridische sector"
+          alt="Young professional in the finance sector"
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
           sizes="200px"

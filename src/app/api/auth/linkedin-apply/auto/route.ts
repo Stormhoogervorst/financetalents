@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
   // duplicate detection keeps working and the column is satisfied.
   const linkedinSlug =
     cleanLinkedinUrl.split("/in/")[1]?.replace(/\/+$/, "") ?? "";
-  const placeholderEmail = `linkedin+${linkedinSlug}@legal-talents.nl`;
+  const placeholderEmail = `linkedin+${linkedinSlug}@finance-talents.com`;
   const fullName = `${firstName} ${lastName}`.trim();
 
   const admin = createAdminClient();
@@ -149,7 +149,7 @@ export async function POST(request: NextRequest) {
     try {
       const resend = createResend();
       await resend.emails.send({
-        from: "Legal Talents <noreply@legal-talents.nl>",
+        from: "Finance Talents <noreply@finance-talents.com>",
         to: notificationEmail,
         ...(ccEmails.length > 0 ? { cc: ccEmails } : {}),
         subject: `Nieuwe sollicitatie (LinkedIn): ${fullName} voor ${job.title}`,
@@ -181,7 +181,7 @@ function firmEmailHtml(data: {
 <head><meta charset="UTF-8" /></head>
 <body style="font-family: Arial, sans-serif; color: #0F0F0F; max-width: 600px; margin: 0 auto; padding: 24px;">
   <div style="background: #587DFE; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
-    <p style="color: white; font-size: 20px; font-weight: 800; font-style: italic; margin: 0;">Legal Talents.</p>
+    <p style="color: white; font-size: 20px; font-weight: 800; font-style: italic; margin: 0;">Finance Talents.</p>
   </div>
   <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 4px;">Nieuwe sollicitatie via LinkedIn</h2>
   <p style="color: #4B5563; margin-bottom: 24px;">Voor de functie <strong>${data.jobTitle}</strong></p>
@@ -200,7 +200,7 @@ function firmEmailHtml(data: {
     </tr>
   </table>
   <p style="font-size: 13px; color: #9CA3AF; border-top: 1px solid #F3F4F6; padding-top: 16px;">
-    Gesolliciteerd via LinkedIn · <a href="${SITE_URL}" style="color: #587DFE;">Legal Talents</a>
+    Applied via LinkedIn · <a href="${SITE_URL}" style="color: #587DFE;">Finance Talents</a>
   </p>
 </body>
 </html>`;

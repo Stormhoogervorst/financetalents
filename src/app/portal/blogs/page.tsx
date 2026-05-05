@@ -44,9 +44,9 @@ export default async function BlogsPage({ searchParams }: Props) {
   const blogList = (blogs ?? []) as Blog[];
 
   const categoryLabels: Record<string, string> = {
-    carriere: "Carrière",
-    juridisch: "Juridisch",
-    kantoorleven: "Werkgeversleven",
+    carriere: "Career",
+    finance: "Finance",
+    kantoorleven: "Life at the firm",
   };
 
   return (
@@ -67,11 +67,10 @@ export default async function BlogsPage({ searchParams }: Props) {
           className="btn-primary"
         >
           <Plus className="h-4 w-4" />
-          Schrijf nieuwe blog
+          Write new article
         </Link>
       </div>
 
-      {/* Empty state */}
       {blogList.length === 0 ? (
         <div className="bg-white border border-gray-200 rounded-2xl p-12 flex flex-col items-center justify-center text-center">
           <div className="w-14 h-14 bg-primary-light rounded-2xl flex items-center justify-center mb-4">
@@ -81,14 +80,14 @@ export default async function BlogsPage({ searchParams }: Props) {
             Nog geen blogs
           </h2>
           <p className="text-sm text-gray-500 mb-6 max-w-sm">
-            Schrijf je eerste blog en laat kandidaten kennismaken met jouw organisatie.
+            Write your first article and let candidates get to know your organisation.
           </p>
           <Link
             href="/portal/blogs/nieuw"
             className="btn-primary"
           >
             <Plus className="h-4 w-4" />
-            Schrijf nieuwe blog
+            Write new article
           </Link>
         </div>
       ) : (

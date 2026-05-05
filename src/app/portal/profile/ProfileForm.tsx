@@ -2,6 +2,7 @@
 
 import { useState, useRef, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import {
   Loader2,
   CheckCircle,
@@ -15,7 +16,7 @@ import { RECHTSGEBIEDEN_MET_OVERIG } from "@/lib/constants/rechtsgebieden";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-// Bedrijfsgrootte (juridische markt). De value wordt opgeslagen in
+// Company size options for the finance market. The value is stored in
 // firms.team_size; het label wordt in de dropdown getoond.
 const TEAM_SIZE_OPTIONS = [
   { value: "1-5", label: "1 - 5 medewerkers" },
@@ -77,6 +78,21 @@ const inputCls =
   "w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors";
 
 const labelCls = "block text-sm font-medium text-gray-700 mb-1";
+const LOGO_BUCKETS = ["logo's", "logos"] as const;
+
+function isBucketNotFound(error: { message?: string } | null) {
+  return error?.message?.toLowerCase().includes("bucket not found") ?? false;
+}
+
+function isStoragePolicyError(error: unknown) {
+  if (!(error instanceof Error)) return false;
+  const message = error.message.toLowerCase();
+  return (
+    message.includes("row-level security") ||
+    message.includes("violates row-level security") ||
+    message.includes("permission denied")
+  );
+}
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
@@ -86,15 +102,8 @@ export default function ProfileForm({
   userEmail,
   isImpersonating = false,
 }: Props) {
-  // `userId` is the session user's id. It is NOT used for the storage
-  // write path anymore — during impersonation the session user is the
-  // admin, so writing to `${userId}/logo.ext` would pollute the admin's
-  // storage and (previously) caused a duplicate firm to be created. The
-  // logo upload now goes through `/api/firms/me/logo`, which derives the
-  // correct target firm + owner on the server.
-  void userId;
-
   const router = useRouter();
+  const supabase = createClient();
   const logoInputRef = useRef<HTMLInputElement>(null);
 
   // Form state — initialise from existing firm or empty defaults
@@ -150,7 +159,7 @@ export default function ProfileForm({
   const missingFields = [
     !name.trim() && "Naam werkgever",
     !location.trim() && "Vestigingsplaats",
-    practiceAreas.length === 0 && "Rechtsgebieden",
+    practiceAreas.length === 0 && "Sectors",
     !description.trim() && "Omschrijving",
     !contactPerson.trim() && "Contactpersoon",
     !notificationEmail.trim() && "Notificatie-emailadres",
@@ -186,6 +195,72 @@ export default function ProfileForm({
     );
   };
 
+  const uploadLogoWithStorageClient = async (file: File): Promise<string> => {
+    const extFromType: Record<string, string> = {
+      "image/jpeg": "jpg",
+      "image/png": "png",
+      "image/webp": "webp",
+    };
+    const ext =
+      extFromType[file.type] ??
+      (file.name.split(".").pop() ?? "jpg").toLowerCase();
+    const path = `${userId}/logo.${ext}`;
+
+    let lastBucketError: string | null = null;
+
+    for (const bucket of LOGO_BUCKETS) {
+      const { error: uploadError } = await supabase.storage
+        .from(bucket)
+        .upload(path, file, {
+          upsert: true,
+          contentType: file.type,
+        });
+
+      if (!uploadError) {
+        const { data } = supabase.storage.from(bucket).getPublicUrl(path);
+        return `${data.publicUrl}?v=${Date.now()}`;
+      }
+
+      if (!isBucketNotFound(uploadError)) {
+        throw new Error(uploadError.message);
+      }
+
+      lastBucketError = uploadError.message;
+    }
+
+    throw new Error(
+      lastBucketError ??
+        `Geen logo bucket gevonden. Geprobeerd: ${LOGO_BUCKETS.join(", ")}.`
+    );
+  };
+
+  const uploadLogoServerSide = async (file: File): Promise<string> => {
+    const fd = new FormData();
+    fd.append("file", file);
+
+    const uploadRes = await fetch("/api/firms/me/logo", {
+      method: "POST",
+      credentials: "include",
+      body: fd,
+    });
+
+    if (!uploadRes.ok) {
+      const json = await uploadRes.json().catch(() => ({}));
+      throw new Error(
+        typeof json?.error === "string" && json.error
+          ? json.error
+          : "Logo uploaden mislukt."
+      );
+    }
+
+    const json = (await uploadRes.json()) as { logo_url?: string };
+    if (!json.logo_url) {
+      throw new Error("Logo uploaden mislukt: publieke URL ontbreekt.");
+    }
+
+    return json.logo_url;
+  };
+
   // ── Save handler ───────────────────────────────────────────────────────────
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -195,33 +270,27 @@ export default function ProfileForm({
 
     let logoUrl = firm?.logo_url ?? null;
 
-    // Upload a new logo server-side. The server route derives the correct
-    // target firm (also when impersonating), so we never rely on the
-    // session user id alone — that was what caused a duplicate firm to be
-    // created when an admin uploaded a logo while impersonating.
     if (logoFile) {
-      const fd = new FormData();
-      fd.append("file", logoFile);
-
-      const uploadRes = await fetch("/api/firms/me/logo", {
-        method: "POST",
-        credentials: "include",
-        body: fd,
-      });
-
-      if (!uploadRes.ok) {
-        const json = await uploadRes.json().catch(() => ({}));
+      try {
+        if (isImpersonating) {
+          logoUrl = await uploadLogoServerSide(logoFile);
+        } else {
+          try {
+            logoUrl = await uploadLogoWithStorageClient(logoFile);
+          } catch (error) {
+            if (!isStoragePolicyError(error)) throw error;
+            logoUrl = await uploadLogoServerSide(logoFile);
+          }
+        }
+      } catch (error) {
         setSaveError(
-          typeof json?.error === "string" && json.error
-            ? json.error
+          error instanceof Error && error.message
+            ? `Logo uploaden mislukt: ${error.message}`
             : "Logo uploaden mislukt."
         );
         setSaving(false);
         return;
       }
-
-      const json = (await uploadRes.json()) as { logo_url?: string };
-      logoUrl = json.logo_url ?? logoUrl;
     } else if (logoPreview === null) {
       // User explicitly removed the logo
       logoUrl = null;
@@ -296,7 +365,7 @@ export default function ProfileForm({
             <CheckCircle className="h-5 w-5 shrink-0" />
             <span>
               Profiel is live —{" "}
-              <span className="font-normal">zichtbaar voor studenten op Legal Talents</span>
+              <span className="font-normal">visible to candidates on Finance Talents</span>
             </span>
           </>
         ) : (
@@ -349,13 +418,13 @@ export default function ProfileForm({
           />
         </div>
 
-        {/* Rechtsgebieden */}
+        {/* Sectors */}
         <div>
           <label className={labelCls}>
-            Rechtsgebieden <span className="text-red-500">*</span>
+            Sectors <span className="text-red-500">*</span>
           </label>
           <p className="text-xs text-gray-400 mb-2">
-            Selecteer één of meerdere rechtsgebieden
+            Select one or more sectors
           </p>
           <div className="flex flex-wrap gap-2">
             {RECHTSGEBIEDEN_MET_OVERIG.map((area) => {
@@ -378,7 +447,7 @@ export default function ProfileForm({
           </div>
           {practiceAreas.length === 0 && (
             <p className="mt-2 text-xs text-red-500">
-              Selecteer minimaal één rechtsgebied
+              Select at least one sector
             </p>
           )}
         </div>

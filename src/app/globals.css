@@ -3,13 +3,51 @@
 @tailwind utilities;
 
 @layer base {
+  @font-face {
+    font-family: "TT Firs Neue";
+    src: url("/fonts/TT Firs Neue Trial ExtraBold.ttf") format("truetype");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "TT Firs Neue";
+    src: url("/fonts/TT Firs Neue Trial Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "TT Firs Neue";
+    src: url("/fonts/TT Firs Neue Trial Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
+    --ft-background: #EBEBEB;
+    --ft-text: #222222;
+    --ft-accent: #E85A00;
+    --ft-dark: #0A0A0A;
+    --ft-white: #FFFFFF;
   }
 
   body {
-    @apply bg-gray-50 text-gray-900 antialiased;
+    @apply antialiased;
+    background: var(--ft-background);
+    color: var(--ft-text);
+  }
+
+  h1,
+  h2,
+  h3,
+  .ft-display {
+    font-family: "TT Firs Neue", system-ui, sans-serif;
   }
 
   button {
@@ -62,50 +100,37 @@
   .btn-secondary,
   .btn-danger,
   .btn-dark {
-    @apply relative inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-[14px] font-medium transition-all duration-300 hover:scale-[1.03] focus:outline-none focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-[initial];
+    @apply relative inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-[14px] font-medium transition-all duration-200 focus:outline-none focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-[initial];
     background-repeat: no-repeat;
-    background-size: 200% 200%;
-    background-position: 0% 0%;
   }
 
   .btn-primary:hover,
   .btn-secondary:hover,
   .btn-danger:hover,
   .btn-dark:hover {
-    background-position: 100% 100%;
+    transform: translateY(-1px);
   }
 
   .btn-primary {
-    @apply text-white focus:ring-2 focus:ring-[#587DFE]/40;
-    background-color: #587DFE;
-    background-image:
-      radial-gradient(70% 85% at 12% 18%, rgba(138, 122, 254, 0.55) 0%, rgba(138, 122, 254, 0) 62%),
-      radial-gradient(75% 90% at 92% 8%, rgba(122, 155, 255, 0.50) 0%, rgba(122, 155, 255, 0) 65%),
-      radial-gradient(85% 90% at 80% 110%, rgba(74, 108, 230, 0.70) 0%, rgba(74, 108, 230, 0) 70%),
-      radial-gradient(55% 70% at 25% 95%, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 70%);
-    box-shadow:
-      0 4px 12px -4px rgba(88, 125, 254, 0.45),
-      inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    @apply text-white focus:ring-2 focus:ring-[#E85A00]/30;
+    background-color: var(--ft-text);
+    box-shadow: none;
   }
 
   .btn-primary:hover {
-    box-shadow:
-      0 10px 24px -6px rgba(88, 125, 254, 0.55),
-      inset 0 1px 0 rgba(255, 255, 255, 0.24);
+    background-color: var(--ft-dark);
+    box-shadow: none;
   }
 
   .btn-secondary {
-    @apply text-[#2C337A] ring-1 ring-inset ring-[#E2E5F0] focus:ring-2 focus:ring-[#587DFE]/40;
-    background-color: #FFFFFF;
-    background-image:
-      radial-gradient(75% 90% at 92% 8%, rgba(88, 125, 254, 0.10) 0%, rgba(88, 125, 254, 0) 65%),
-      radial-gradient(65% 80% at 8% 100%, rgba(138, 122, 254, 0.06) 0%, rgba(138, 122, 254, 0) 70%);
+    @apply text-[#222222] ring-1 ring-inset ring-[#222222] focus:ring-2 focus:ring-[#E85A00]/30;
+    background-color: transparent;
+    background-image: none;
   }
 
   .btn-secondary:hover {
-    background-image:
-      radial-gradient(75% 90% at 92% 8%, rgba(88, 125, 254, 0.16) 0%, rgba(88, 125, 254, 0) 65%),
-      radial-gradient(65% 80% at 8% 100%, rgba(138, 122, 254, 0.10) 0%, rgba(138, 122, 254, 0) 70%);
+    background: var(--ft-text);
+    color: var(--ft-white);
   }
 
   .btn-danger {
@@ -128,20 +153,14 @@
 
   .btn-dark {
     @apply text-white focus:ring-2 focus:ring-white/40;
-    background-color: #0F172A;
-    background-image:
-      radial-gradient(70% 80% at 18% 10%, rgba(88, 125, 254, 0.38) 0%, rgba(88, 125, 254, 0) 65%),
-      radial-gradient(70% 80% at 92% 100%, rgba(138, 122, 254, 0.28) 0%, rgba(138, 122, 254, 0) 70%),
-      radial-gradient(55% 70% at 50% 50%, rgba(59, 76, 167, 0.18) 0%, rgba(59, 76, 167, 0) 70%);
-    box-shadow:
-      0 12px 28px -10px rgba(10, 15, 61, 0.55),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    background-color: var(--ft-dark);
+    background-image: none;
+    box-shadow: none;
   }
 
   .btn-dark:hover {
-    box-shadow:
-      0 18px 36px -12px rgba(10, 15, 61, 0.65),
-      inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    background: var(--ft-accent);
+    box-shadow: none;
   }
 
   .input {

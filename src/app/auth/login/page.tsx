@@ -4,9 +4,6 @@ import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
-import { verifyRecaptchaAction } from "@/app/actions/recaptcha";
-import { RecaptchaCheckbox } from "@/components/recaptcha/RecaptchaCheckbox";
-import { useRecaptcha } from "@/hooks/useRecaptcha";
 import { Briefcase, Eye, EyeOff, Loader2 } from "lucide-react";
 
 function LoginForm() {
@@ -21,10 +18,6 @@ function LoginForm() {
   const [error, setError] = useState<string | null>(null);
 
   const supabase = createClient();
-  const { widgetKey: recaptchaWidgetKey, token: recaptchaToken, setToken: setRecaptchaToken, reset: resetRecaptcha, siteKeyConfigured } =
-    useRecaptcha();
-
-  const recaptchaRequired = siteKeyConfigured;
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,24 +25,6 @@ function LoginForm() {
     setError(null);
 
     try {
-      if (recaptchaRequired) {
-        if (!recaptchaToken) {
-          setError("Please complete the reCAPTCHA verification.");
-          setLoading(false);
-          return;
-        }
-        console.debug("[auth/login] verifying reCAPTCHA token...");
-        const captcha = await verifyRecaptchaAction(recaptchaToken);
-        if (!captcha.ok) {
-          console.error("[auth/login] reCAPTCHA verification failed", captcha);
-          const codes = captcha.codes?.length ? ` (codes: ${captcha.codes.join(", ")})` : "";
-          setError(`${captcha.error}${codes}`);
-          resetRecaptcha();
-          setLoading(false);
-          return;
-        }
-      }
-
       console.debug("[auth/login] calling supabase.auth.signInWithPassword for", email);
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
@@ -62,7 +37,6 @@ function LoginForm() {
           full: error,
         });
         setError(`${error.message}${error.status ? ` (status ${error.status})` : ""}`);
-        resetRecaptcha();
         setLoading(false);
       } else {
         console.debug("[auth/login] signIn success", { userId: data?.user?.id });
@@ -78,7 +52,6 @@ function LoginForm() {
             ? err
             : JSON.stringify(err);
       setError(`Unexpected error: ${message}`);
-      resetRecaptcha();
       setLoading(false);
     }
   };
@@ -126,12 +99,6 @@ function LoginForm() {
             {error}
           </div>
         )}
-
-        <RecaptchaCheckbox
-          widgetKey={recaptchaWidgetKey}
-          onChange={setRecaptchaToken}
-          className="flex justify-start mb-4"
-        />
 
         <button type="submit" disabled={loading} className="btn-primary w-full">
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}

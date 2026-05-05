@@ -12,22 +12,22 @@ const JOB_TYPES = ["fulltime", "parttime", "business-course", "stage"] as const;
 const createJobSchema = z.object({
   title: z.string().min(1, "Titel is verplicht").max(200).trim(),
   location: z.string().min(1, "Vestigingsplaats is verplicht").max(200).trim(),
-  type: z.enum(JOB_TYPES, { message: "Ongeldig type" }),
+  type: z.enum(JOB_TYPES, { message: "Invalid type" }),
   practice_area: z.enum(RECHTSGEBIEDEN_MET_OVERIG, {
-    message: "Ongeldig rechtsgebied",
+    message: "Invalid sector",
   }),
   description: z.string().min(1, "Beschrijving is verplicht").max(100_000),
   salary_indication: z.string().max(200).trim().nullable().optional(),
   start_date: z
     .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/, "Ongeldige datum")
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date")
     .nullable()
     .optional(),
   required_education: z.string().max(300).trim().nullable().optional(),
   hours_per_week: z.number().int().min(1).max(168).nullable().optional(),
   expires_at: z
     .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/, "Ongeldige datum")
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date")
     .nullable()
     .optional(),
   status: z.enum(["draft", "active"]),
@@ -58,13 +58,13 @@ export async function POST(request: NextRequest) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Ongeldige JSON." }, { status: 400 });
+    return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
   }
 
   const result = createJobSchema.safeParse(body);
   if (!result.success) {
     return NextResponse.json(
-      { error: "Ongeldige invoer.", details: result.error.flatten() },
+      { error: "Invalid input.", details: result.error.flatten() },
       { status: 400 }
     );
   }

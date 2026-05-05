@@ -4,13 +4,14 @@ import { useState, useRef, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client"; // used only for image storage upload
+import { BLOG_IMAGES_BUCKET } from "@/lib/blog-images";
 import BlogEditor from "@/components/portal/BlogEditor";
 import { ChevronLeft, Upload, X, Loader2 } from "lucide-react";
 
 const CATEGORIES = [
-  { value: "carriere", label: "Carrière" },
-  { value: "juridisch", label: "Juridisch" },
-  { value: "kantoorleven", label: "Werkgeversleven" },
+  { value: "carriere", label: "Career" },
+  { value: "finance", label: "Finance" },
+  { value: "kantoorleven", label: "Life at the firm" },
 ];
 
 function slugify(text: string): string {
@@ -38,6 +39,26 @@ export default function NewBlogPage() {
 
   const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif"];
 
+  async function uploadBlogImage(file: File): Promise<string> {
+    const ext = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
+    const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from(BLOG_IMAGES_BUCKET)
+      .upload(path, file, {
+        upsert: true,
+        contentType: file.type,
+      });
+
+    if (uploadError) {
+      console.error("[blog-upload] Supabase storage error:", uploadError);
+      throw uploadError;
+    }
+
+    const { data } = supabase.storage.from(BLOG_IMAGES_BUCKET).getPublicUrl(path);
+    return data.publicUrl;
+  }
+
   async function handleImageUpload(file: File) {
     setUploading(true);
     setError(null);
@@ -49,21 +70,9 @@ export default function NewBlogPage() {
     }
 
     try {
-      const ext = file.name.split(".").pop();
-      const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-
-      const { error: uploadError } = await supabase.storage
-        .from("blog-images")
-        .upload(path, file, { upsert: true });
-
-      if (uploadError) {
-        console.error("[blog-upload] Supabase storage error:", uploadError);
-        throw uploadError;
-      }
-
-      const { data } = supabase.storage.from("blog-images").getPublicUrl(path);
-      setImageUrl(data.publicUrl);
-      setImagePreview(URL.createObjectURL(file));
+      const publicUrl = await uploadBlogImage(file);
+      setImageUrl(publicUrl);
+      setImagePreview(publicUrl);
     } catch (err) {
       console.error("[blog-upload] Full error:", err);
       setError("Afbeelding uploaden mislukt. Probeer opnieuw.");
@@ -75,11 +84,11 @@ export default function NewBlogPage() {
   async function handleSubmit(e: FormEvent, status: "draft" | "published") {
     e.preventDefault();
     if (!title.trim()) {
-      setError("Vul een titel in.");
+      setError("Please add a title.");
       return;
     }
     if (!content.trim() || content === "<p></p>") {
-      setError("Schrijf eerst de inhoud van je blog.");
+      setError("Please add content to your article.");
       return;
     }
 
@@ -139,7 +148,7 @@ export default function NewBlogPage() {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Bijv. Werken bij een juridische werkgever op de Zuidas"
+            placeholder="e.g. Working at a PE firm in London"
             className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white"
           />
         </div>
@@ -180,6 +189,7 @@ export default function NewBlogPage() {
                 onClick={() => {
                   setImageUrl(null);
                   setImagePreview(null);
+                  if (fileInputRef.current) fileInputRef.current.value = "";
                 }}
                 className="absolute top-2 right-2 bg-black/50 hover:bg-black/70 text-white p-1.5 rounded-lg transition-colors"
               >

@@ -19,7 +19,7 @@ export const revalidate = 0;
 export const metadata = {
   title: "Events & Business Courses",
   description:
-    "Bekijk alle juridische events en business courses bij werkgevers in Nederland.",
+    "Browse finance events and business courses at top firms on Finance Talents.",
   alternates: {
     canonical: "/events",
   },
@@ -95,8 +95,7 @@ export default async function EventsPage({
               color: "#6B6B6B",
             }}
           >
-            Ontdek juridische events, law courses en business courses bij
-            toonaangevende werkgevers in Nederland.
+            Discover finance events and business courses at leading firms.
           </p>
         </div>
       </section>
@@ -117,13 +116,13 @@ export default async function EventsPage({
             {/* Search */}
             <div className="flex-1 min-w-[200px] max-w-[280px]">
               <label htmlFor="filter-q" className="sr-only">
-                Zoeken
+                Search
               </label>
               <input
                 id="filter-q"
                 name="q"
                 defaultValue={params.q ?? ""}
-                placeholder="Zoek op titel, trefwoord of locatie"
+                placeholder="Search by title, keyword or location"
                 className="w-full bg-transparent border-0 border-b border-[#CCCCCC] py-3 text-[15px] text-[#0A0A0A] placeholder-[#999999] focus:outline-none focus:border-[#0A0A0A] transition-colors duration-200"
               />
             </div>
@@ -131,13 +130,13 @@ export default async function EventsPage({
             {/* Location */}
             <div className="min-w-[160px] max-w-[200px]">
               <label htmlFor="filter-locatie" className="sr-only">
-                Locatie
+                Location
               </label>
               <input
                 id="filter-locatie"
                 name="locatie"
                 defaultValue={params.locatie ?? ""}
-                placeholder="Locatie"
+                placeholder="Location"
                 className="w-full bg-transparent border-0 border-b border-[#CCCCCC] py-3 text-[15px] text-[#0A0A0A] placeholder-[#999999] focus:outline-none focus:border-[#0A0A0A] transition-colors duration-200"
               />
             </div>
@@ -145,7 +144,7 @@ export default async function EventsPage({
             {/* Practice area */}
             <div className="min-w-[180px]">
               <label htmlFor="filter-rechtsgebied" className="sr-only">
-                Rechtsgebied
+                Sector
               </label>
               <select
                 id="filter-rechtsgebied"
@@ -153,7 +152,7 @@ export default async function EventsPage({
                 defaultValue={params.rechtsgebied ?? ""}
                 className="w-full bg-transparent border-0 border-b border-[#CCCCCC] py-3 text-[15px] text-[#0A0A0A] focus:outline-none focus:border-[#0A0A0A] transition-colors duration-200 appearance-none cursor-pointer"
               >
-                <option value="">Alle rechtsgebieden</option>
+                <option value="">All sectors</option>
                 {RECHTSGEBIEDEN.map((area) => (
                   <option key={area} value={area}>
                     {area}
@@ -165,14 +164,14 @@ export default async function EventsPage({
             {/* Actions */}
             <div className="flex items-center gap-6 pb-1">
               <button type="submit" className="btn-primary">
-                Toepassen
+                Apply filters
               </button>
               {hasFilters && (
                 <a
                   href="/events"
                   className="text-[14px] text-[#999999] hover:text-[#0A0A0A] transition-colors duration-200 border-b border-transparent hover:border-[#E5E5E5] pb-1"
                 >
-                  Wissen
+                  Clear
                 </a>
               )}
             </div>
@@ -193,7 +192,7 @@ export default async function EventsPage({
           <div className="flex items-baseline justify-between mb-2">
             <p className="text-[13px] font-medium tracking-[0.02em] text-[#999999]">
               {jobList.length === 0
-                ? "Geen resultaten"
+                ? "No results"
                 : `${jobList.length} event${jobList.length !== 1 ? "s" : ""}`}
             </p>
           </div>
@@ -214,8 +213,8 @@ export default async function EventsPage({
                 style={{ fontSize: "clamp(36px, 4.5vw, 64px)" }}
               >
                 {hasFilters
-                  ? "Geen events gevonden"
-                  : "Binnenkort beschikbaar"}
+                  ? "No events found"
+                  : "Coming soon"}
               </h2>
               <p
                 className="mt-6 leading-relaxed"
@@ -226,12 +225,12 @@ export default async function EventsPage({
                 }}
               >
                 {hasFilters
-                  ? "Probeer andere filters of verwijder de huidige selectie om meer resultaten te zien."
-                  : "Er zijn momenteel geen actieve events of business courses. Kom binnenkort terug voor nieuwe mogelijkheden."}
+                  ? "Try different filters or remove the current selection to see more results."
+                  : "No active events or business courses at the moment. Check back soon."}
               </p>
               {hasFilters && (
                 <a href="/events" className="btn-primary mt-8">
-                  Bekijk alle events
+                  View all events
                 </a>
               )}
             </div>

@@ -1,6 +1,6 @@
 export type UserRole = "job_seeker" | "employer" | "admin";
 
-// ─── Legal Talents schema types ───────────────────────────────────────────────
+// ─── Finance Talents schema types ─────────────────────────────────────────────
 
 export type JobType =
   | "fulltime" | "parttime" | "business-course" | "stage"

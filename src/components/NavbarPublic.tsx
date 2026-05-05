@@ -21,13 +21,11 @@ function useNavActive(pathname: string | null) {
       p.startsWith("/vacatures/") ||
       p === "/vacature" ||
       p.startsWith("/vacature/"),
-    stages: p === "/stages" || p.startsWith("/stages/"),
     werkgevers:
       p === "/werkgevers" ||
       p.startsWith("/werkgevers/") ||
       p === "/voor-werkgevers",
     kennisbank: p === "/kennisbank" || p.startsWith("/kennisbank/"),
-    recruitment: p === "/recruitment" || p.startsWith("/recruitment/"),
   };
 }
 
@@ -66,20 +64,20 @@ export default function NavbarPublic({
       "inline-flex items-center text-[14px] font-medium transition-colors duration-300",
       isHeroTop
         ? active[key]
-          ? "text-white"
-          : "text-white/70 hover:text-white"
+          ? "text-[#222222]"
+          : "text-[#222222]/70 hover:text-[#222222]"
         : active[key]
-          ? "text-[#2C337A]"
-          : "text-[#5A6094] hover:text-[#2C337A]",
+          ? "text-[#222222]"
+          : "text-[#222222]/60 hover:text-[#222222]",
     );
 
   // When the mobile menu is open we render the light liquid-glass panel, so
   // the close icon must be dark to stay visible on that lighter surface.
   const menuIconClass = menuOpen
-    ? "text-[#2C337A] hover:text-[#1E2560]"
+    ? "text-[#222222] hover:text-[#0A0A0A]"
     : isHeroTop
-      ? "text-white/80 hover:text-white"
-      : "text-[#5A6094] hover:text-[#2C337A]";
+      ? "text-[#222222]/80 hover:text-[#222222]"
+      : "text-[#222222]/70 hover:text-[#222222]";
 
   return (
     <nav
@@ -87,11 +85,11 @@ export default function NavbarPublic({
         "sticky top-0 z-50 transition-[background-color,border-color,box-shadow] duration-300",
         variant === "hero"
           ? effectiveScrolled
-            ? "bg-white/80 backdrop-blur-[14px] backdrop-saturate-150 border-b border-[#E2E5F0]/70 shadow-[0_1px_0_0_rgba(44,51,122,0.04)]"
-            : "bg-white/10 backdrop-blur-[12px] backdrop-saturate-150 border-b border-white/10 shadow-[0_1px_0_0_rgba(255,255,255,0.08)_inset]"
+            ? "bg-[#EBEBEB]/86 backdrop-blur-[14px] backdrop-saturate-150 border-b border-[#222222]/10"
+            : "bg-transparent border-b border-transparent"
           : variant === "overlay"
-            ? "bg-white/90 backdrop-blur-sm border-b border-[#E2E5F0]"
-            : "bg-white border-b border-[#E2E5F0]",
+            ? "bg-[#EBEBEB]/90 backdrop-blur-sm border-b border-[#222222]/10"
+            : "bg-[#EBEBEB] border-b border-[#222222]/10",
       )}
       style={
         variant === "hero"
@@ -114,30 +112,24 @@ export default function NavbarPublic({
             <div className="flex items-center min-w-0 gap-8 lg:gap-10">
               <Link href="/" className="flex items-center shrink-0">
                 <Image
-                  src="/legal-talents-logo.png"
-                  alt="Legal Talents logo"
-                  width={150}
-                  height={40}
-                  className="h-8 w-auto"
+                  src="/logo FT.png"
+                  alt="Finance Talents logo"
+                  width={455}
+                  height={95}
+                  className="h-7 w-auto sm:h-8"
                   priority
                 />
               </Link>
 
               <div className="hidden md:flex items-center gap-6 lg:gap-8">
-                <Link href="/vacatures" className={linkClass("vacatures")} title="Juridische Vacatures">
-                  Vacatures
-                </Link>
-                <Link href="/stages" className={linkClass("stages")} title="Juridische Stages">
-                  Stages
+                <Link href="/vacatures" className={linkClass("vacatures")}>
+                  Jobs
                 </Link>
                 <Link href="/werkgevers" className={linkClass("werkgevers")}>
-                  Werkgevers
+                  Companies
                 </Link>
                 <Link href="/kennisbank" className={linkClass("kennisbank")}>
-                  Kennisbank
-                </Link>
-                <Link href="/recruitment" className={linkClass("recruitment")}>
-                  Recruitment
+                  Insights
                 </Link>
               </div>
             </div>
@@ -148,18 +140,18 @@ export default function NavbarPublic({
                 className={cn(
                   "hidden md:inline-flex items-center rounded-full px-5 py-2 text-[14px] font-medium transition-[background-color,color,transform] duration-300 hover:scale-[1.03]",
                   isHeroTop
-                    ? "bg-white text-[#2C337A] hover:bg-white/90"
-                    : "bg-[#587DFE] text-white hover:bg-[#4A6CE6]",
+                    ? "bg-[#222222] text-white hover:bg-[#0A0A0A]"
+                    : "bg-[#222222] text-white hover:bg-[#E85A00]",
                 )}
               >
-                Werkgever aanmelden
+                Post a job
               </Link>
 
               <button
                 type="button"
                 className={cn("md:hidden p-2 -mr-2 transition-colors", menuIconClass)}
                 onClick={() => setMenuOpen(!menuOpen)}
-                aria-label={menuOpen ? "Menu sluiten" : "Menu openen"}
+                aria-label={menuOpen ? "Close menu" : "Open menu"}
               >
                 {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
@@ -170,7 +162,7 @@ export default function NavbarPublic({
 
       {menuOpen && (
         <div
-          className="md:hidden border-t border-white/30 bg-white/70 backdrop-blur-lg backdrop-saturate-150 shadow-[0_8px_24px_-12px_rgba(44,51,122,0.18)]"
+          className="md:hidden border-t border-[#222222]/10 bg-[#EBEBEB]/95 backdrop-blur-lg backdrop-saturate-150"
           style={{
             paddingLeft: "clamp(24px, 5vw, 80px)",
             paddingRight: "clamp(24px, 5vw, 80px)",
@@ -181,11 +173,9 @@ export default function NavbarPublic({
         >
           <div className="max-w-[1400px] mx-auto flex flex-col items-stretch">
             {[
-              { href: "/vacatures", key: "vacatures" as const, label: "Vacatures", title: "Juridische Vacatures" },
-              { href: "/stages", key: "stages" as const, label: "Stages", title: "Juridische Stages" },
-              { href: "/werkgevers", key: "werkgevers" as const, label: "Werkgevers" },
-              { href: "/kennisbank", key: "kennisbank" as const, label: "Kennisbank" },
-              { href: "/recruitment", key: "recruitment" as const, label: "Recruitment" },
+              { href: "/vacatures", key: "vacatures" as const, label: "Jobs" },
+              { href: "/werkgevers", key: "werkgevers" as const, label: "Companies" },
+              { href: "/kennisbank", key: "kennisbank" as const, label: "Insights" },
             ].map((item) => (
               <Link
                 key={item.href}
@@ -194,9 +184,10 @@ export default function NavbarPublic({
                 onClick={() => setMenuOpen(false)}
                 className={cn(
                   "block w-full py-4 text-[16px] font-medium border-b border-white/30 transition-colors duration-200",
+                  "border-[#222222]/10",
                   active[item.key]
-                    ? "text-[#2C337A]"
-                    : "text-[#2C337A]/85 hover:text-[#2C337A]",
+                    ? "text-[#222222]"
+                    : "text-[#222222]/75 hover:text-[#222222]",
                 )}
               >
                 {item.label}
@@ -206,9 +197,9 @@ export default function NavbarPublic({
               <Link
                 href="/register"
                 onClick={() => setMenuOpen(false)}
-                className="btn-primary w-full justify-center text-[15px] py-3 shadow-[0_10px_24px_-8px_rgba(88,125,254,0.55)]"
+                className="btn-primary w-full justify-center text-[15px] py-3"
               >
-                Werkgever aanmelden
+                Post a job
               </Link>
             </div>
           </div>

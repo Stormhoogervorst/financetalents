@@ -10,17 +10,17 @@ export default function OrganizationJsonLd() {
   const organizationSchema = {
     "@context": "https://schema.org/",
     "@type": "Organization",
-    name: "Legal Talents",
+    name: "Finance Talents",
     url: SITE_URL,
-    logo: `${SITE_URL}/legal-talents-logo.png`,
+    logo: `${SITE_URL}/logo FT.png`,
     description:
-      "Hét carrièreplatform voor juridische vacatures en stages in Nederland.",
-    sameAs: ["https://www.linkedin.com/company/legal-talents-recruitment"],
+      "The curated career platform for elite finance jobs in Private Equity, Venture Capital, Investment Banking and FinTech.",
+    sameAs: ["https://www.linkedin.com/company/finance-talents"],
     contactPoint: {
       "@type": "ContactPoint",
-      email: "storm@legal-talents.nl",
+      email: "storm@finance-talents.com",
       contactType: "customer support",
-      availableLanguage: ["Dutch", "English"],
+      availableLanguage: ["English"],
     },
   };
 

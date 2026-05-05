@@ -3,9 +3,9 @@ import NavbarPublic from "@/components/NavbarPublic";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Privacybeleid",
+  title: "Privacy Policy",
   description:
-    "Hoe Legal Talents VOF persoonsgegevens verwerkt van kandidaten, werkgevers en bezoekers van het vacatureplatform, in lijn met de AVG.",
+    "How Finance Talents processes personal data from candidates, employers and visitors of the job platform, in line with GDPR.",
   alternates: {
     canonical: "/privacy",
   },
@@ -40,20 +40,20 @@ const INTRO: Section = {
   blocks: [
     {
       type: "p",
-      body: "Legal Talents hecht grote waarde aan de bescherming van uw persoonsgegevens. Sinds 25 mei 2018 geldt de Algemene Verordening Gegevensbescherming (AVG), en wij verwerken persoonsgegevens volledig in overeenstemming met deze wetgeving. Dit privacybeleid is van toepassing op alle kandidaten, sollicitanten, opdrachtgevers, werkgevers, websitebezoekers en andere relaties die gebruik maken van de diensten van Legal Talents, waaronder het vacatureplatform. Indien u ervoor kiest om vrijwillig persoonsgegevens aan ons te verstrekken — bijvoorbeeld door te solliciteren via het vacatureplatform of u in te schrijven in onze talentpool — verwerken wij deze in overeenstemming met dit privacybeleid.",
+      body: "Finance Talents hecht grote waarde aan de bescherming van uw persoonsgegevens. Sinds 25 mei 2018 geldt de Algemene Verordening Gegevensbescherming (AVG), en wij verwerken persoonsgegevens volledig in overeenstemming met deze wetgeving. Dit privacybeleid is van toepassing op alle kandidaten, sollicitanten, opdrachtgevers, werkgevers, websitebezoekers en andere relaties die gebruik maken van de diensten van Finance Talents, waaronder het vacatureplatform. Indien u ervoor kiest om vrijwillig persoonsgegevens aan ons te verstrekken — bijvoorbeeld door te solliciteren via het vacatureplatform of u in te schrijven in onze talentpool — verwerken wij deze in overeenstemming met dit privacybeleid.",
     },
     {
       type: "p",
-      body: "Legal Talents is een recruitmentbureau gespecialiseerd in de juridische sector en biedt onder meer:",
+      body: "Finance Talents is a recruitment platform specialising in the finance sector, offering:",
     },
     {
       type: "ul",
       items: [
-        "Werving & selectie van juridisch talent",
-        "Detachering en interim-oplossingen",
-        "Bemiddeling van ZZP'ers",
-        "Een vacatureplatform voor juridische functies, waarop werkgevers kosteloos vacatures kunnen publiceren en kandidaten rechtstreeks kunnen solliciteren",
-        "Loopbaanadvies en talentontwikkeling",
+        "Recruitment & search for finance talent",
+        "Contracting and interim solutions",
+        "Freelancer placement",
+        "A job platform for finance roles, where employers can post jobs for free and candidates can apply directly",
+        "Career advice and talent development",
       ],
     },
   ],
@@ -66,29 +66,29 @@ const SECTIONS: Section[] = [
     blocks: [
       {
         type: "p",
-        body: "De rol die Legal Talents onder de AVG vervult, hangt af van de dienst waarvan u gebruik maakt:",
+        body: "De rol die Finance Talents onder de AVG vervult, hangt af van de dienst waarvan u gebruik maakt:",
       },
       {
         type: "ul-labeled",
         items: [
           {
             label: "Werving & selectie en eigen recruitmentactiviteiten:",
-            body: "Legal Talents treedt op als zelfstandig verwerkingsverantwoordelijke voor de verwerking van persoonsgegevens van kandidaten die wij actief werven, voordragen en bemiddelen, en voor de kandidaten in onze talentpool.",
+            body: "Finance Talents treedt op als zelfstandig verwerkingsverantwoordelijke voor de verwerking van persoonsgegevens van kandidaten die wij actief werven, voordragen en bemiddelen, en voor de kandidaten in onze talentpool.",
           },
           {
             label:
               "Sollicitaties via het vacatureplatform zonder werving- en selectieopdracht:",
-            body: "Wanneer een werkgever zelfstandig een vacature plaatst en een kandidaat daarop reageert zonder dat Legal Talents een werving- en selectieopdracht uitvoert, is de werkgever de verwerkingsverantwoordelijke voor de sollicitatiegegevens. Legal Talents treedt in dat geval op als faciliterende partij respectievelijk verwerker die de technische infrastructuur (waaronder de database) aanbiedt waarin sollicitaties worden opgeslagen en doorgestuurd.",
+            body: "Wanneer een werkgever zelfstandig een vacature plaatst en een kandidaat daarop reageert zonder dat Finance Talents een werving- en selectieopdracht uitvoert, is de werkgever de verwerkingsverantwoordelijke voor de sollicitatiegegevens. Finance Talents treedt in dat geval op als faciliterende partij respectievelijk verwerker die de technische infrastructuur (waaronder de database) aanbiedt waarin sollicitaties worden opgeslagen en doorgestuurd.",
           },
           {
             label: "Websitegebruik en talentpool:",
-            body: "Voor de verwerking van gegevens van websitebezoekers en inschrijvingen in de eigen talentpool van Legal Talents, treedt Legal Talents op als zelfstandig verwerkingsverantwoordelijke.",
+            body: "Voor de verwerking van gegevens van websitebezoekers en inschrijvingen in de eigen talentpool van Finance Talents, treedt Finance Talents op als zelfstandig verwerkingsverantwoordelijke.",
           },
         ],
       },
       {
         type: "p",
-        body: "Legal Talents en werkgevers die het vacatureplatform gebruiken, leggen hun onderlinge afspraken over de verwerking van sollicitatiegegevens vast via de Algemene Voorwaarden en, waar nodig, een aanvullende verwerkersovereenkomst.",
+        body: "Finance Talents en werkgevers die het vacatureplatform gebruiken, leggen hun onderlinge afspraken over de verwerking van sollicitatiegegevens vast via de Algemene Voorwaarden en, waar nodig, een aanvullende verwerkersovereenkomst.",
       },
     ],
   },
@@ -318,7 +318,7 @@ const SECTIONS: Section[] = [
     blocks: [
       {
         type: "p",
-        body: "Sollicitaties die via het vacatureplatform binnenkomen, worden opgeslagen in onze eigen beveiligde database. Legal Talents neemt passende technische en organisatorische maatregelen, waaronder:",
+        body: "Sollicitaties die via het vacatureplatform binnenkomen, worden opgeslagen in onze eigen beveiligde database. Finance Talents neemt passende technische en organisatorische maatregelen, waaronder:",
       },
       {
         type: "ul",
@@ -352,7 +352,7 @@ const SECTIONS: Section[] = [
       },
       {
         type: "p",
-        body: "Voor sollicitaties via het vacatureplatform waarbij de werkgever verwerkingsverantwoordelijke is, kunt u deze rechten rechtstreeks bij de betreffende werkgever uitoefenen. Legal Talents zal u op verzoek behulpzaam zijn bij het leggen van dit contact. Voor alle overige verwerkingen kunt u uw rechten uitoefenen door contact met ons op te nemen via de gegevens in artikel 17.",
+        body: "Voor sollicitaties via het vacatureplatform waarbij de werkgever verwerkingsverantwoordelijke is, kunt u deze rechten rechtstreeks bij de betreffende werkgever uitoefenen. Finance Talents zal u op verzoek behulpzaam zijn bij het leggen van dit contact. Voor alle overige verwerkingen kunt u uw rechten uitoefenen door contact met ons op te nemen via de gegevens in artikel 17.",
       },
     ],
   },
@@ -362,7 +362,7 @@ const SECTIONS: Section[] = [
     blocks: [
       {
         type: "p",
-        body: "Legal Talents maakt geen gebruik van volledig geautomatiseerde besluitvorming met rechtsgevolgen voor betrokkenen. Eventuele matching- of sorteerfunctionaliteiten binnen het vacatureplatform zijn uitsluitend ondersteunend en resulteren niet in geautomatiseerde beslissingen over uw sollicitatie.",
+        body: "Finance Talents maakt geen gebruik van volledig geautomatiseerde besluitvorming met rechtsgevolgen voor betrokkenen. Eventuele matching- of sorteerfunctionaliteiten binnen het vacatureplatform zijn uitsluitend ondersteunend en resulteren niet in geautomatiseerde beslissingen over uw sollicitatie.",
       },
     ],
   },
@@ -418,7 +418,7 @@ const SECTIONS: Section[] = [
     blocks: [
       {
         type: "p",
-        body: "Bij een (vermoeden van een) datalek verzoeken wij u dit direct te melden via het in artikel 17 genoemde e-mailadres. Legal Talents beoordeelt ieder incident en doet, indien vereist, binnen 72 uur melding bij de Autoriteit Persoonsgegevens en, waar nodig, bij de betrokken personen.",
+        body: "Bij een (vermoeden van een) datalek verzoeken wij u dit direct te melden via het in artikel 17 genoemde e-mailadres. Finance Talents beoordeelt ieder incident en doet, indien vereist, binnen 72 uur melding bij de Autoriteit Persoonsgegevens en, waar nodig, bij de betrokken personen.",
       },
     ],
   },
@@ -428,7 +428,7 @@ const SECTIONS: Section[] = [
     blocks: [
       {
         type: "p",
-        body: "Legal Talents kan dit privacybeleid wijzigen. De meest actuele versie is altijd beschikbaar op onze website en binnen het vacatureplatform. Bij ingrijpende wijzigingen worden gebruikers actief geïnformeerd.",
+        body: "Finance Talents kan dit privacybeleid wijzigen. De meest actuele versie is altijd beschikbaar op onze website en binnen het vacatureplatform. Bij ingrijpende wijzigingen worden gebruikers actief geïnformeerd.",
       },
     ],
   },
@@ -438,7 +438,7 @@ const SECTIONS: Section[] = [
     blocks: [
       {
         type: "p",
-        body: "Voor vragen, verzoeken of klachten kunt u contact opnemen met Legal Talents VOF, Sint Annastraat 198c, 6525 GX Nijmegen, via storm@legal-talents.nl.",
+        body: "Voor vragen, verzoeken of klachten kunt u contact opnemen met Finance Talents VOF, Sint Annastraat 198c, 6525 GX Nijmegen, via storm@finance-talents.com.",
       },
       {
         type: "p",
@@ -514,7 +514,7 @@ export default function PrivacyPage() {
                 letterSpacing: "-0.02em",
               }}
             >
-              Privacybeleid
+              Privacy Policy
             </h1>
             <p className="mt-3 text-sm text-slate-500 italic">
               Versie april 2026
@@ -551,16 +551,16 @@ export default function PrivacyPage() {
 
           <footer className="mt-8 text-sm text-slate-500">
             <p>
-              Legal Talents VOF — Sint Annastraat 198c, 6525 GX Nijmegen — KvK
+              Finance Talents VOF — Sint Annastraat 198c, 6525 GX Nijmegen — KvK
               98803093
             </p>
             <p className="mt-2">
               Vragen over dit privacybeleid?{" "}
               <a
-                href="mailto:storm@legal-talents.nl"
+                href="mailto:storm@finance-talents.com"
                 className="text-[#587DFE] hover:text-[#4B3BD6] hover:underline"
               >
-                storm@legal-talents.nl
+                storm@finance-talents.com
               </a>
             </p>
           </footer>

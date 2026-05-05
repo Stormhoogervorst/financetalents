@@ -25,6 +25,15 @@ function firmWriteErrorResponse(message: string, code?: string) {
   return NextResponse.json({ error: message }, { status: 500 });
 }
 
+function isMissingTableError(error: { message?: string; code?: string } | null) {
+  const message = error?.message?.toLowerCase() ?? "";
+  return (
+    error?.code === "PGRST205" ||
+    message.includes("could not find the table") ||
+    message.includes("schema cache")
+  );
+}
+
 // ── Zod schemas ────────────────────────────────────────────────────────────
 
 // Bedrijfsgrootte — opties afgestemd op de juridische markt.
@@ -126,14 +135,22 @@ export async function PATCH(request: NextRequest) {
   let targetFirmId: string | null = null;
   let targetUserId: string | null = null;
   let writeClient = supabase;
+  let useLegacyProfileCompanyFields = false;
 
   if (isImpersonating) {
     const admin = createAdminClient();
-    const { data: impersonatedFirm } = await admin
+    const { data: impersonatedFirm, error: impersonatedFirmError } = await admin
       .from("firms")
       .select("id, user_id, slug")
       .eq("id", impersonatedFirmId!)
       .maybeSingle();
+
+    if (isMissingTableError(impersonatedFirmError)) {
+      return NextResponse.json(
+        { error: "Werkgeversprofielen gebruiken in deze database geen firms-tabel." },
+        { status: 409 }
+      );
+    }
 
     if (!impersonatedFirm) {
       return NextResponse.json(
@@ -146,13 +163,16 @@ export async function PATCH(request: NextRequest) {
     targetUserId = impersonatedFirm.user_id as string;
     writeClient = admin;
   } else {
-    const { data: ownedFirm } = await supabase
+    const { data: ownedFirm, error: ownedFirmError } = await supabase
       .from("firms")
       .select("id, user_id, slug")
       .eq("user_id", user.id)
       .maybeSingle();
 
-    if (ownedFirm) {
+    if (isMissingTableError(ownedFirmError)) {
+      useLegacyProfileCompanyFields = true;
+      targetUserId = user.id;
+    } else if (ownedFirm) {
       targetFirmId = ownedFirm.id as string;
       targetUserId = ownedFirm.user_id as string;
     }
@@ -242,6 +262,35 @@ export async function PATCH(request: NextRequest) {
 
   if (Object.keys(validatedData).length === 0) {
     return NextResponse.json({ error: "Geen velden om bij te werken." }, { status: 400 });
+  }
+
+  if (useLegacyProfileCompanyFields) {
+    const profilePatch: Record<string, unknown> = {};
+
+    if (typeof validatedData.name === "string") {
+      profilePatch.company_name = validatedData.name;
+    }
+
+    if ("logo_url" in validatedData) {
+      profilePatch.company_logo_url = validatedData.logo_url ?? null;
+    }
+
+    if (Object.keys(profilePatch).length === 0) {
+      return NextResponse.json({ success: true, profile_id: user.id });
+    }
+
+    const admin = createAdminClient();
+    const { error } = await admin
+      .from("profiles")
+      .update(profilePatch)
+      .eq("id", user.id);
+
+    if (error) {
+      console.error("[PATCH /api/firms/me] legacy profile update error:", error.message);
+      return firmWriteErrorResponse(error.message, error.code);
+    }
+
+    return NextResponse.json({ success: true, profile_id: user.id });
   }
 
   // Step D: perform the mutation.

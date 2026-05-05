@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import NavbarPublic from "@/components/NavbarPublic";
 import Footer from "@/components/Footer";
@@ -36,20 +35,20 @@ export async function generateMetadata({
   const count = await getCityJobCount(city, { stagesOnly: true });
 
   const baseKeywords = [
-    "juridische stages",
-    "stages",
+    "finance internships",
+    "internships",
     name,
-    `juridische stages ${name}`,
-    `stages ${name}`,
-    "advocatuur",
-    `advocatuur ${name}`,
-    "Legal Talents",
+    `finance internships ${name}`,
+    `internships ${name}`,
+    "finance",
+    `finance ${name}`,
+    "Finance Talents",
   ];
 
   if (count === 0) {
     return {
-      title: `Juridische Stages ${name} — geen actuele openingen`,
-      description: `Momenteel geen juridische stages in ${name}. Bekijk alle landelijke juridische stages of schrijf je in voor een job alert om direct geïnformeerd te worden bij nieuwe posities.`,
+      title: `Finance Internships ${name} — no current openings`,
+      description: `No finance internships in ${name} at the moment. Check back soon for new internship opportunities in this city.`,
       robots: { index: false, follow: true },
       keywords: baseKeywords,
       alternates: {
@@ -59,8 +58,8 @@ export async function generateMetadata({
   }
 
   return {
-    title: `Juridische Stages ${name} — ${count} openstaande posities`,
-    description: `${count} actuele juridische stages in ${name}. Ontdek stages bij advocatenkantoren en juridische werkgevers. Solliciteer direct.`,
+    title: `Finance Internships ${name} — ${count} open positions`,
+    description: `${count} current finance internships in ${name}. Discover internships at PE funds, investment banks and FinTechs. Apply directly.`,
     robots: { index: true, follow: true },
     keywords: baseKeywords,
     alternates: {
@@ -105,8 +104,8 @@ export default async function CityStagesPage({
 
   const hasFilters = !!sp.rechtsgebied;
   const headingText = sp.rechtsgebied
-    ? `${sp.rechtsgebied} Stages ${name}`
-    : `Juridische Stages ${name}`;
+    ? `${sp.rechtsgebied} Internships ${name}`
+    : `Finance Internships ${name}`;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -194,7 +193,6 @@ export default async function CityStagesPage({
               <Breadcrumbs
                 items={[
                   { label: "Home", href: "/" },
-                  { label: "Stages", href: "/stages" },
                   { label: name, href: `/stages/${city}` },
                 ]}
               />
@@ -221,8 +219,8 @@ export default async function CityStagesPage({
               }}
             >
               {sp.rechtsgebied
-                ? `Bekijk alle actuele ${sp.rechtsgebied.toLowerCase()} stages bij werkgevers in ${name}.`
-                : `Ontdek alle actuele juridische stages bij werkgevers in ${name}.`}
+                ? `View all current ${sp.rechtsgebied.toLowerCase()} internships at firms in ${name}.`
+                : `Discover all current finance internships at leading firms in ${name}.`}
             </p>
 
             {/* Deep-navy filter pill — matches the homepage/jobs hero contrast */}
@@ -247,7 +245,7 @@ export default async function CityStagesPage({
                     className="w-full bg-transparent border-none outline-none focus:outline-none appearance-none py-3 text-[14px] text-white cursor-pointer pr-6"
                   >
                     <option value="" className="text-[#0A0F3D]">
-                      Alle rechtsgebieden
+                      All sectors
                     </option>
                     {RECHTSGEBIEDEN_MET_OVERIG.map((area) => (
                       <option key={area} value={area} className="text-[#0A0F3D]">
@@ -273,7 +271,7 @@ export default async function CityStagesPage({
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Toepassen
+                  Apply
                 </button>
               </div>
 
@@ -284,7 +282,7 @@ export default async function CityStagesPage({
                     className="text-[13px] font-medium border-b border-white/30 pb-0.5 hover:border-white transition-colors"
                     style={{ color: "rgba(255, 255, 255, 0.8)" }}
                   >
-                    Filters wissen
+                    Clear filters
                   </a>
                 </div>
               )}
@@ -293,7 +291,6 @@ export default async function CityStagesPage({
         </section>
       </div>
 
-      {/* Results */}
       <section
         style={{
           paddingLeft: "clamp(24px, 5vw, 80px)",
@@ -306,8 +303,8 @@ export default async function CityStagesPage({
           <div className="flex items-baseline justify-between mb-2">
             <p className="text-[13px] font-medium tracking-[0.02em] text-[#999999]">
               {jobList.length === 0
-                ? `Geen stages in ${name}`
-                : `${jobList.length} stage${jobList.length !== 1 ? "s" : ""} in ${name}`}
+                ? `No internships in ${name}`
+                : `${jobList.length} internship${jobList.length !== 1 ? "s" : ""} in ${name}`}
             </p>
           </div>
 
@@ -327,8 +324,8 @@ export default async function CityStagesPage({
                 style={{ fontSize: "clamp(36px, 4.5vw, 64px)" }}
               >
                 {hasFilters
-                  ? "Geen stages gevonden"
-                  : `Binnenkort in ${name}`}
+                  ? "No internships found"
+                  : `Coming soon in ${name}`}
               </h2>
               <p
                 className="mt-6 leading-relaxed"
@@ -340,18 +337,15 @@ export default async function CityStagesPage({
               >
                 {hasFilters
                   ? "Probeer een ander rechtsgebied of verwijder het filter om meer resultaten te zien."
-                  : `Momenteel zijn er geen stages in ${name}. Bekijk alle landelijke stages of kom binnenkort terug.`}
+                  : `No internships in ${name} right now. Check back soon for new opportunities.`}
               </p>
               <div className="flex flex-wrap items-center gap-6 mt-8">
-                <Link href="/vacatures?type=stage" className="btn-primary">
-                  Bekijk alle stages
-                </Link>
                 {hasFilters && (
                   <a
                     href={`/stages/${city}`}
                     className="text-[14px] text-[#999999] hover:text-[#0A0A0A] transition-colors duration-200"
                   >
-                    Filters wissen
+                    Clear filters
                   </a>
                 )}
               </div>

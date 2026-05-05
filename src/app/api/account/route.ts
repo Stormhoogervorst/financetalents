@@ -2,12 +2,14 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
+const LOGO_BUCKETS = ["logo's", "logos"] as const;
+
 // ── DELETE /api/account — werkgever verwijdert zijn volledige account ─────
 //
 // Flow:
 //   1. Verifieer sessie (anon client via cookies).
 //   2. Resolve firm van ingelogde user (voor storage-cleanup).
-//   3. Verwijder firm-logos uit de `logos`-storage bucket (best-effort).
+//   3. Verwijder firm-logos uit de `logo's`-storage bucket (best-effort).
 //   4. Verwijder auth.users-rij via service-role client. Alle gekoppelde
 //      rijen in `firms`, `jobs`, `applications`, `blogs`, `invitations`
 //      en `profiles` worden automatisch opgeruimd dankzij de
@@ -34,14 +36,16 @@ export async function DELETE() {
   const admin = createAdminClient();
 
   // Best-effort storage cleanup: logo's leven onder `${user.id}/...` in de
-  // `logos`-bucket. Faalt de cleanup, dan laten we de account-deletion wél
+  // `logo's`-bucket. Faalt de cleanup, dan laten we de account-deletion wél
   // doorgaan — de user-intent is leidend en losse storage-objecten kunnen
   // later handmatig worden opgeruimd.
   try {
-    const { data: files } = await admin.storage.from("logos").list(user.id);
-    if (files && files.length > 0) {
-      const paths = files.map((f) => `${user.id}/${f.name}`);
-      await admin.storage.from("logos").remove(paths);
+    for (const bucket of LOGO_BUCKETS) {
+      const { data: files } = await admin.storage.from(bucket).list(user.id);
+      if (files && files.length > 0) {
+        const paths = files.map((f) => `${user.id}/${f.name}`);
+        await admin.storage.from(bucket).remove(paths);
+      }
     }
   } catch (err) {
     console.error("[DELETE /api/account] storage cleanup failed:", err);

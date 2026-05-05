@@ -3,9 +3,9 @@ import NavbarPublic from "@/components/NavbarPublic";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Algemene Voorwaarden",
+  title: "Terms & Conditions",
   description:
-    "De algemene voorwaarden van Legal Talents VOF voor werving & selectie en het gebruik van het vacatureplatform.",
+    "The terms and conditions of Finance Talents for recruitment & search and use of the job platform.",
   alternates: {
     canonical: "/voorwaarden",
   },
@@ -27,7 +27,7 @@ type Article = {
   clauses: Clause[];
 };
 
-const INTRO = `Dit document bevat de Algemene Voorwaarden van Legal Talents, een vennootschap onder firma, statutair gevestigd te Nijmegen, kantoorhoudende Sint Annastraat 198c, 6525 GX Nijmegen, ingeschreven in het handelsregister van de Kamer van Koophandel onder nummer 98803093, hierna te noemen "Legal Talents". Deze Algemene Voorwaarden zijn van toepassing op alle offertes, aanvragen, opdrachten, overeenkomsten en op het gebruik van het vacatureplatform tussen Legal Talents en haar opdrachtgevers, werkgevers, kandidaten en overige gebruikers. De toepasselijkheid van eventuele inkoop- of andere voorwaarden van de opdrachtgever of gebruiker wordt hierbij uitdrukkelijk van de hand gewezen. Afwijkingen van deze Algemene Voorwaarden zijn slechts geldig indien deze uitdrukkelijk en schriftelijk door Legal Talents zijn aanvaard en overeengekomen.`;
+const INTRO = `Dit document bevat de Algemene Voorwaarden van Finance Talents, een vennootschap onder firma, statutair gevestigd te Nijmegen, kantoorhoudende Sint Annastraat 198c, 6525 GX Nijmegen, ingeschreven in het handelsregister van de Kamer van Koophandel onder nummer 98803093, hierna te noemen "Finance Talents". Deze Algemene Voorwaarden zijn van toepassing op alle offertes, aanvragen, opdrachten, overeenkomsten en op het gebruik van het vacatureplatform tussen Finance Talents en haar opdrachtgevers, werkgevers, kandidaten en overige gebruikers. De toepasselijkheid van eventuele inkoop- of andere voorwaarden van de opdrachtgever of gebruiker wordt hierbij uitdrukkelijk van de hand gewezen. Afwijkingen van deze Algemene Voorwaarden zijn slechts geldig indien deze uitdrukkelijk en schriftelijk door Finance Talents zijn aanvaard en overeengekomen.`;
 
 const ARTICLES: Article[] = [
   {
@@ -36,23 +36,23 @@ const ARTICLES: Article[] = [
     clauses: [
       {
         label: "1.1. Werving & Selectie:",
-        body: 'De opdracht waarbij Legal Talents zich inspant om voor een opdrachtgever geschikte juridische professionals (hierna: "kandidaten") te selecteren ten behoeve van indiensttreding of een vergelijkbare vorm van tewerkstelling. De opdracht wordt als succesvol vervuld beschouwd zodra een door Legal Talents geïntroduceerde kandidaat een arbeidsovereenkomst of een andere vorm van overeenkomst tot tewerkstelling met de opdrachtgever aangaat.',
+        body: 'De opdracht waarbij Finance Talents zich inspant om voor een opdrachtgever geschikte juridische professionals (hierna: "kandidaten") te selecteren ten behoeve van indiensttreding of een vergelijkbare vorm van tewerkstelling. De opdracht wordt als succesvol vervuld beschouwd zodra een door Finance Talents geïntroduceerde kandidaat een arbeidsovereenkomst of een andere vorm van overeenkomst tot tewerkstelling met de opdrachtgever aangaat.',
       },
       {
         label: "1.2. Vacatureplatform:",
-        body: "De door Legal Talents beheerde online omgeving waarop werkgevers kosteloos vacatures kunnen plaatsen en kandidaten kunnen solliciteren. Het vacatureplatform vormt een afzonderlijke dienst van Legal Talents, waarbij Legal Talents optreedt als technisch faciliterende partij tussen werkgever en kandidaat.",
+        body: "De door Finance Talents beheerde online omgeving waarop werkgevers kosteloos vacatures kunnen plaatsen en kandidaten kunnen solliciteren. Het vacatureplatform vormt een afzonderlijke dienst van Finance Talents, waarbij Finance Talents optreedt als technisch faciliterende partij tussen werkgever en kandidaat.",
       },
       {
         label: "1.3. Werkgever:",
-        body: "De natuurlijke of rechtspersoon die via het vacatureplatform één of meer vacatures publiceert, zonder dat daarbij een werving- en selectieopdracht aan Legal Talents is verstrekt.",
+        body: "De natuurlijke of rechtspersoon die via het vacatureplatform één of meer vacatures publiceert, zonder dat daarbij een werving- en selectieopdracht aan Finance Talents is verstrekt.",
       },
       {
         label: "1.4. Opdrachtgever:",
-        body: "De werkgever die daarnaast ook een werving- en selectieopdracht aan Legal Talents heeft verstrekt.",
+        body: "De werkgever die daarnaast ook een werving- en selectieopdracht aan Finance Talents heeft verstrekt.",
       },
       {
         label: "1.5. Kandidaat:",
-        body: "De natuurlijke persoon die via het vacatureplatform solliciteert, zich inschrijft in de database van Legal Talents, of in het kader van een werving- en selectietraject door Legal Talents wordt voorgedragen.",
+        body: "De natuurlijke persoon die via het vacatureplatform solliciteert, zich inschrijft in de database van Finance Talents, of in het kader van een werving- en selectietraject door Finance Talents wordt voorgedragen.",
       },
       {
         label: "1.6. Opdrachtbevestiging:",
@@ -60,7 +60,7 @@ const ARTICLES: Article[] = [
       },
       {
         label: "1.7. Vertrouwelijkheid:",
-        body: "Het is de opdrachtgever en de werkgever niet toegestaan om zonder voorafgaande schriftelijke toestemming van Legal Talents (persoons)gegevens van voorgestelde of sollicitende kandidaten met derden te delen. Indien de introductie of sollicitatie van een kandidaat niet leidt tot een overeenkomst, is de opdrachtgever respectievelijk werkgever verplicht de verstrekte gegevens conform de geldende AVG-wetgeving te vernietigen of te retourneren, tenzij de kandidaat uitdrukkelijk heeft ingestemd met langere bewaring.",
+        body: "Het is de opdrachtgever en de werkgever niet toegestaan om zonder voorafgaande schriftelijke toestemming van Finance Talents (persoons)gegevens van voorgestelde of sollicitende kandidaten met derden te delen. Indien de introductie of sollicitatie van een kandidaat niet leidt tot een overeenkomst, is de opdrachtgever respectievelijk werkgever verplicht de verstrekte gegevens conform de geldende AVG-wetgeving te vernietigen of te retourneren, tenzij de kandidaat uitdrukkelijk heeft ingestemd met langere bewaring.",
       },
     ],
   },
@@ -70,7 +70,7 @@ const ARTICLES: Article[] = [
     clauses: [
       {
         label: "2.1. Kosteloos gebruik:",
-        body: "Het plaatsen van vacatures op het vacatureplatform is voor werkgevers kosteloos. Legal Talents behoudt zich het recht voor om op termijn betaalde functionaliteiten of upgrades aan te bieden; deze zijn uitsluitend van toepassing na uitdrukkelijke schriftelijke aanvaarding door de werkgever.",
+        body: "Het plaatsen van vacatures op het vacatureplatform is voor werkgevers kosteloos. Finance Talents behoudt zich het recht voor om op termijn betaalde functionaliteiten of upgrades aan te bieden; deze zijn uitsluitend van toepassing na uitdrukkelijke schriftelijke aanvaarding door de werkgever.",
       },
       {
         label: "2.2. Accountregistratie:",
@@ -82,15 +82,15 @@ const ARTICLES: Article[] = [
       },
       {
         label: "2.4. Moderatie en verwijdering:",
-        body: "Legal Talents behoudt zich het recht voor om vacatures zonder voorafgaande kennisgeving te weigeren, aan te passen of te verwijderen indien deze naar het oordeel van Legal Talents niet voldoen aan deze voorwaarden, niet passen binnen het juridische segment, of de reputatie van Legal Talents kunnen schaden.",
+        body: "Finance Talents behoudt zich het recht voor om vacatures zonder voorafgaande kennisgeving te weigeren, aan te passen of te verwijderen indien deze naar het oordeel van Finance Talents niet voldoen aan deze voorwaarden, niet passen binnen het juridische segment, of de reputatie van Finance Talents kunnen schaden.",
       },
       {
         label: "2.5. Verwerking van sollicitaties:",
-        body: "Sollicitaties die via het vacatureplatform worden ingediend, worden opgeslagen in de beveiligde database van Legal Talents conform het Privacybeleid en de toepasselijke AVG-wetgeving. De werkgever ontvangt de sollicitatiegegevens via het platform en/of per e-mail en verplicht zich deze uitsluitend te gebruiken voor de beoordeling van de betreffende vacature.",
+        body: "Sollicitaties die via het vacatureplatform worden ingediend, worden opgeslagen in de beveiligde database van Finance Talents conform het Privacybeleid en de toepasselijke AVG-wetgeving. De werkgever ontvangt de sollicitatiegegevens via het platform en/of per e-mail en verplicht zich deze uitsluitend te gebruiken voor de beoordeling van de betreffende vacature.",
       },
       {
         label: "2.6. Rolverdeling onder de AVG:",
-        body: "Ten aanzien van sollicitaties die via het vacatureplatform binnenkomen zonder dat sprake is van een werving- en selectieopdracht, treedt de werkgever op als verwerkingsverantwoordelijke en Legal Talents als technisch verwerker of faciliterende partij. Indien Legal Talents tevens een werving- en selectieopdracht uitvoert, treedt Legal Talents op als (zelfstandig) verwerkingsverantwoordelijke voor haar eigen recruitmentactiviteiten. De nadere uitwerking hiervan is opgenomen in het Privacybeleid van Legal Talents.",
+        body: "Ten aanzien van sollicitaties die via het vacatureplatform binnenkomen zonder dat sprake is van een werving- en selectieopdracht, treedt de werkgever op als verwerkingsverantwoordelijke en Finance Talents als technisch verwerker of faciliterende partij. Indien Finance Talents tevens een werving- en selectieopdracht uitvoert, treedt Finance Talents op als (zelfstandig) verwerkingsverantwoordelijke voor haar eigen recruitmentactiviteiten. De nadere uitwerking hiervan is opgenomen in het Privacybeleid van Finance Talents.",
       },
       {
         label: "2.7. Verplichtingen van de werkgever jegens kandidaten:",
@@ -98,11 +98,11 @@ const ARTICLES: Article[] = [
       },
       {
         label: "2.8. Rechtstreekse benadering van kandidaten:",
-        body: "Indien een werkgever buiten Legal Talents om een kandidaat benadert of aanneemt die oorspronkelijk via een door Legal Talents uitgevoerde werving- en selectieopdracht is geïntroduceerd, is het bepaalde in artikel 3.6 (uitbreiding succesvolle vervulling) onverkort van toepassing. Voor sollicitaties die uitsluitend via het vacatureplatform zijn binnengekomen en waarbij geen werving- en selectieopdracht aan Legal Talents is verstrekt, geldt deze bepaling uitdrukkelijk niet.",
+        body: "Indien een werkgever buiten Finance Talents om een kandidaat benadert of aanneemt die oorspronkelijk via een door Finance Talents uitgevoerde werving- en selectieopdracht is geïntroduceerd, is het bepaalde in artikel 3.6 (uitbreiding succesvolle vervulling) onverkort van toepassing. Voor sollicitaties die uitsluitend via het vacatureplatform zijn binnengekomen en waarbij geen werving- en selectieopdracht aan Finance Talents is verstrekt, geldt deze bepaling uitdrukkelijk niet.",
       },
       {
         label: "2.9. Beschikbaarheid:",
-        body: "Legal Talents spant zich in om het vacatureplatform zo goed mogelijk beschikbaar te houden, maar garandeert geen ononderbroken beschikbaarheid. Legal Talents is niet aansprakelijk voor schade voortvloeiend uit tijdelijke onbeschikbaarheid, onderhoud of technische storingen van het platform.",
+        body: "Finance Talents spant zich in om het vacatureplatform zo goed mogelijk beschikbaar te houden, maar garandeert geen ononderbroken beschikbaarheid. Finance Talents is niet aansprakelijk voor schade voortvloeiend uit tijdelijke onbeschikbaarheid, onderhoud of technische storingen van het platform.",
       },
     ],
   },
@@ -112,7 +112,7 @@ const ARTICLES: Article[] = [
     clauses: [
       {
         label: "3.1. No Cure, No Pay:",
-        body: "Legal Talents werkt voor werving- en selectieopdrachten op basis van 'no cure, no pay'. Dit houdt in dat het honorarium uitsluitend verschuldigd is bij een succesvolle vervulling van de opdracht, zoals gedefinieerd in artikel 1.1 en nader gespecificeerd in artikel 3.6. Voor het gebruik van het vacatureplatform is, behoudens uitdrukkelijk overeengekomen betaalde functionaliteiten, geen honorarium verschuldigd.",
+        body: "Finance Talents werkt voor werving- en selectieopdrachten op basis van 'no cure, no pay'. Dit houdt in dat het honorarium uitsluitend verschuldigd is bij een succesvolle vervulling van de opdracht, zoals gedefinieerd in artikel 1.1 en nader gespecificeerd in artikel 3.6. Voor het gebruik van het vacatureplatform is, behoudens uitdrukkelijk overeengekomen betaalde functionaliteiten, geen honorarium verschuldigd.",
       },
       {
         label: "3.2. Berekening Honorarium:",
@@ -128,11 +128,11 @@ const ARTICLES: Article[] = [
       },
       {
         label: "3.5. Informatieplicht Opdrachtgever:",
-        body: "De opdrachtgever is gehouden om Legal Talents binnen 14 dagen na een daartoe strekkend verzoek te voorzien van een kopie van de getekende arbeidsovereenkomst en de relevante salarisgegevens die noodzakelijk zijn voor de bepaling van het honorarium. Indien de opdrachtgever nalaat deze gegevens tijdig, volledig of correct te verstrekken, is Legal Talents gerechtigd de hoogte van het bruto jaarsalaris redelijkerwijs te schatten en conform die schatting te factureren.",
+        body: "De opdrachtgever is gehouden om Finance Talents binnen 14 dagen na een daartoe strekkend verzoek te voorzien van een kopie van de getekende arbeidsovereenkomst en de relevante salarisgegevens die noodzakelijk zijn voor de bepaling van het honorarium. Indien de opdrachtgever nalaat deze gegevens tijdig, volledig of correct te verstrekken, is Finance Talents gerechtigd de hoogte van het bruto jaarsalaris redelijkerwijs te schatten en conform die schatting te factureren.",
       },
       {
         label: "3.6. Uitbreiding Succesvolle Vervulling:",
-        body: "Het honorarium is eveneens verschuldigd indien een door Legal Talents in het kader van een werving- en selectieopdracht voorgestelde kandidaat binnen 12 maanden na de introductie direct, indirect of via derden, in enige hoedanigheid werkzaam wordt voor de opdrachtgever of een daaraan gelieerde onderneming. Dit geldt ook indien de kandidaat reeds (oppervlakkig) bekend was bij de opdrachtgever, tenzij de opdrachtgever de kandidaat aantoonbaar en actief in een lopende sollicitatieprocedure had op het moment van introductie door Legal Talents en dit binnen 48 uur na introductie schriftelijk meldt. Deze bepaling is uitdrukkelijk niet van toepassing op kandidaten die uitsluitend via het vacatureplatform op een eigen vacature van de werkgever hebben gesolliciteerd zonder dat sprake is geweest van een werving- en selectieopdracht.",
+        body: "Het honorarium is eveneens verschuldigd indien een door Finance Talents in het kader van een werving- en selectieopdracht voorgestelde kandidaat binnen 12 maanden na de introductie direct, indirect of via derden, in enige hoedanigheid werkzaam wordt voor de opdrachtgever of een daaraan gelieerde onderneming. Dit geldt ook indien de kandidaat reeds (oppervlakkig) bekend was bij de opdrachtgever, tenzij de opdrachtgever de kandidaat aantoonbaar en actief in een lopende sollicitatieprocedure had op het moment van introductie door Finance Talents en dit binnen 48 uur na introductie schriftelijk meldt. Deze bepaling is uitdrukkelijk niet van toepassing op kandidaten die uitsluitend via het vacatureplatform op een eigen vacature van de werkgever hebben gesolliciteerd zonder dat sprake is geweest van een werving- en selectieopdracht.",
       },
     ],
   },
@@ -142,7 +142,7 @@ const ARTICLES: Article[] = [
     clauses: [
       {
         label: "4.1.",
-        body: "De betalingstermijn voor facturen van Legal Talents bedraagt 14 dagen na factuurdatum. Bij overschrijding van deze termijn is de opdrachtgever van rechtswege in verzuim, zonder dat een nadere ingebrekestelling is vereist. Indien de opdrachtgever de declaraties niet binnen deze termijn voldoet, is Legal Talents gerechtigd haar werkzaamheden per direct op te schorten en/of de toegang tot het vacatureplatform tijdelijk te blokkeren, zonder dat zij gehouden is eventuele schade die als gevolg hiervan ontstaat te vergoeden.",
+        body: "De betalingstermijn voor facturen van Finance Talents bedraagt 14 dagen na factuurdatum. Bij overschrijding van deze termijn is de opdrachtgever van rechtswege in verzuim, zonder dat een nadere ingebrekestelling is vereist. Indien de opdrachtgever de declaraties niet binnen deze termijn voldoet, is Finance Talents gerechtigd haar werkzaamheden per direct op te schorten en/of de toegang tot het vacatureplatform tijdelijk te blokkeren, zonder dat zij gehouden is eventuele schade die als gevolg hiervan ontstaat te vergoeden.",
       },
     ],
   },
@@ -152,7 +152,7 @@ const ARTICLES: Article[] = [
     clauses: [
       {
         label: "5.1.",
-        body: "Eventuele klachten over de dienstverlening van Legal Talents, waaronder het vacatureplatform, dienen binnen 8 dagen na het ontstaan van de klacht gemotiveerd en schriftelijk te worden gemeld. Het indienen van een klacht schort de betalingsverplichting van de opdrachtgever niet op.",
+        body: "Eventuele klachten over de dienstverlening van Finance Talents, waaronder het vacatureplatform, dienen binnen 8 dagen na het ontstaan van de klacht gemotiveerd en schriftelijk te worden gemeld. Het indienen van een klacht schort de betalingsverplichting van de opdrachtgever niet op.",
       },
     ],
   },
@@ -162,7 +162,7 @@ const ARTICLES: Article[] = [
     clauses: [
       {
         label: "6.1.",
-        body: "Indien de opdrachtgever in verzuim is met de betaling van de factuur, is over het openstaande bedrag de wettelijke handelsrente (ex art. 6:119a BW) verschuldigd. Alle gerechtelijke en buitengerechtelijke (incasso)kosten die Legal Talents maakt als gevolg van de niet-nakoming door de opdrachtgever, komen volledig voor rekening van de opdrachtgever.",
+        body: "Indien de opdrachtgever in verzuim is met de betaling van de factuur, is over het openstaande bedrag de wettelijke handelsrente (ex art. 6:119a BW) verschuldigd. Alle gerechtelijke en buitengerechtelijke (incasso)kosten die Finance Talents maakt als gevolg van de niet-nakoming door de opdrachtgever, komen volledig voor rekening van de opdrachtgever.",
       },
     ],
   },
@@ -172,15 +172,15 @@ const ARTICLES: Article[] = [
     clauses: [
       {
         label: "7.1.",
-        body: "Legal Talents verplicht zich tot een inspanningsverbintenis om naar beste inzicht en vermogen geschikte kandidaten te werven en selecteren, en om het vacatureplatform zo goed mogelijk te faciliteren. De uiteindelijke beslissing om een kandidaat aan te stellen en de inhoud van de arbeidsovereenkomst blijven te allen tijde de verantwoordelijkheid van de opdrachtgever respectievelijk werkgever.",
+        body: "Finance Talents verplicht zich tot een inspanningsverbintenis om naar beste inzicht en vermogen geschikte kandidaten te werven en selecteren, en om het vacatureplatform zo goed mogelijk te faciliteren. De uiteindelijke beslissing om een kandidaat aan te stellen en de inhoud van de arbeidsovereenkomst blijven te allen tijde de verantwoordelijkheid van de opdrachtgever respectievelijk werkgever.",
       },
       {
         label: "7.2.",
-        body: "Legal Talents is niet aansprakelijk voor enige schade of verliezen, inclusief gevolgschade, die voortvloeien uit (i) de selectie van of de gedragingen van een voorgestelde of sollicitende kandidaat, zowel tijdens de selectieprocedure als na indiensttreding, (ii) de inhoud van door werkgevers geplaatste vacatures, (iii) de handelwijze van werkgevers ten aanzien van sollicitanten, of (iv) technische onbeschikbaarheid of storingen van het vacatureplatform. De opdrachtgever respectievelijk werkgever is zelf verantwoordelijk voor het verifiëren van referenties, diploma's en de geschiktheid van de kandidaat.",
+        body: "Finance Talents is niet aansprakelijk voor enige schade of verliezen, inclusief gevolgschade, die voortvloeien uit (i) de selectie van of de gedragingen van een voorgestelde of sollicitende kandidaat, zowel tijdens de selectieprocedure als na indiensttreding, (ii) de inhoud van door werkgevers geplaatste vacatures, (iii) de handelwijze van werkgevers ten aanzien van sollicitanten, of (iv) technische onbeschikbaarheid of storingen van het vacatureplatform. De opdrachtgever respectievelijk werkgever is zelf verantwoordelijk voor het verifiëren van referenties, diploma's en de geschiktheid van de kandidaat.",
       },
       {
         label: "7.3.",
-        body: "Voor zover Legal Talents toch aansprakelijk is, is haar aansprakelijkheid beperkt tot het bedrag dat in het betreffende geval door haar aansprakelijkheidsverzekering wordt uitgekeerd, dan wel — indien geen uitkering plaatsvindt — tot het bedrag dat in de twaalf maanden voorafgaand aan de schadeveroorzakende gebeurtenis door de opdrachtgever aan Legal Talents is betaald.",
+        body: "Voor zover Finance Talents toch aansprakelijk is, is haar aansprakelijkheid beperkt tot het bedrag dat in het betreffende geval door haar aansprakelijkheidsverzekering wordt uitgekeerd, dan wel — indien geen uitkering plaatsvindt — tot het bedrag dat in de twaalf maanden voorafgaand aan de schadeveroorzakende gebeurtenis door de opdrachtgever aan Finance Talents is betaald.",
       },
     ],
   },
@@ -194,7 +194,7 @@ const ARTICLES: Article[] = [
       },
       {
         label: "8.2.",
-        body: "Indien een garantieregeling is afgesproken en de geplaatste kandidaat de organisatie op eigen initiatief of wegens disfunctioneren verlaat binnen de overeengekomen garantieperiode, zal Legal Talents zich inspannen om eenmalig en kosteloos een vervangende kandidaat te werven voor dezelfde functie.",
+        body: "Indien een garantieregeling is afgesproken en de geplaatste kandidaat de organisatie op eigen initiatief of wegens disfunctioneren verlaat binnen de overeengekomen garantieperiode, zal Finance Talents zich inspannen om eenmalig en kosteloos een vervangende kandidaat te werven voor dezelfde functie.",
       },
       {
         label: "8.3.",
@@ -208,11 +208,11 @@ const ARTICLES: Article[] = [
     clauses: [
       {
         label: "9.1.",
-        body: "Alle intellectuele eigendomsrechten met betrekking tot het vacatureplatform, waaronder de vormgeving, software, teksten en database, berusten uitsluitend bij Legal Talents of haar licentiegevers. Het is niet toegestaan zonder voorafgaande schriftelijke toestemming (delen van) het platform te kopiëren, te scrapen, geautomatiseerd te raadplegen of commercieel te exploiteren.",
+        body: "Alle intellectuele eigendomsrechten met betrekking tot het vacatureplatform, waaronder de vormgeving, software, teksten en database, berusten uitsluitend bij Finance Talents of haar licentiegevers. Het is niet toegestaan zonder voorafgaande schriftelijke toestemming (delen van) het platform te kopiëren, te scrapen, geautomatiseerd te raadplegen of commercieel te exploiteren.",
       },
       {
         label: "9.2.",
-        body: "Door het plaatsen van een vacature verleent de werkgever aan Legal Talents een niet-exclusieve, royaltyvrije licentie om de vacature te publiceren, te verspreiden en te promoten via het vacatureplatform en daaraan gelieerde kanalen, zolang de vacature actief is.",
+        body: "Door het plaatsen van een vacature verleent de werkgever aan Finance Talents een niet-exclusieve, royaltyvrije licentie om de vacature te publiceren, te verspreiden en te promoten via het vacatureplatform en daaraan gelieerde kanalen, zolang de vacature actief is.",
       },
     ],
   },
@@ -222,7 +222,7 @@ const ARTICLES: Article[] = [
     clauses: [
       {
         label: "10.1.",
-        body: "Legal Talents is gerechtigd deze Algemene Voorwaarden eenzijdig te wijzigen. Wijzigingen worden via het vacatureplatform en/of per e-mail aan gebruikers gecommuniceerd en treden in werking 14 dagen na kennisgeving. Voortgezet gebruik van de diensten na deze termijn geldt als aanvaarding van de gewijzigde voorwaarden.",
+        body: "Finance Talents is gerechtigd deze Algemene Voorwaarden eenzijdig te wijzigen. Wijzigingen worden via het vacatureplatform en/of per e-mail aan gebruikers gecommuniceerd en treden in werking 14 dagen na kennisgeving. Voortgezet gebruik van de diensten na deze termijn geldt als aanvaarding van de gewijzigde voorwaarden.",
       },
     ],
   },
@@ -232,11 +232,11 @@ const ARTICLES: Article[] = [
     clauses: [
       {
         label: "11.1.",
-        body: "Op de rechtsverhoudingen tussen Legal Talents en de opdrachtgever, werkgever of overige gebruikers is Nederlands recht van toepassing.",
+        body: "Op de rechtsverhoudingen tussen Finance Talents en de opdrachtgever, werkgever of overige gebruikers is Nederlands recht van toepassing.",
       },
       {
         label: "11.2.",
-        body: "De bevoegde rechter van de rechtbank Gelderland is bevoegd in het geval een geschil wordt voorgelegd aan de gewone rechter, met dien verstande dat Legal Talents bevoegd blijft geschillen voor te leggen aan de rechter die bevoegd zou zijn indien van deze forumkeuze geen sprake zou zijn.",
+        body: "De bevoegde rechter van de rechtbank Gelderland is bevoegd in het geval een geschil wordt voorgelegd aan de gewone rechter, met dien verstande dat Finance Talents bevoegd blijft geschillen voor te leggen aan de rechter die bevoegd zou zijn indien van deze forumkeuze geen sprake zou zijn.",
       },
     ],
   },
@@ -271,7 +271,7 @@ export default function VoorwaardenPage() {
                 letterSpacing: "-0.02em",
               }}
             >
-              Algemene Voorwaarden
+              Terms &amp; Conditions
             </h1>
             <p className="mt-3 text-sm text-slate-500 italic">
               Versie april 2026
@@ -311,16 +311,16 @@ export default function VoorwaardenPage() {
 
           <footer className="mt-8 text-sm text-slate-500">
             <p>
-              Legal Talents VOF — Sint Annastraat 198c, 6525 GX Nijmegen — KvK
+              Finance Talents VOF — Sint Annastraat 198c, 6525 GX Nijmegen — KvK
               98803093
             </p>
             <p className="mt-2">
               Vragen over deze voorwaarden?{" "}
               <a
-                href="mailto:storm@legal-talents.nl"
+                href="mailto:storm@finance-talents.com"
                 className="text-[#587DFE] hover:text-[#4B3BD6] hover:underline"
               >
-                storm@legal-talents.nl
+                storm@finance-talents.com
               </a>
             </p>
           </footer>

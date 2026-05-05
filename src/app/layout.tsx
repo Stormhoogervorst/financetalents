@@ -14,18 +14,20 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Legal Talents | Hét platform voor Juridische Vacatures en Stages",
-    template: "%s | Legal Talents",
+    default: "Finance Talents | Elite Finance Jobs. One Platform.",
+    template: "%s | Finance Talents",
   },
   description:
-    "Vind juridische stages en vacatures bij topkantoren in Nederland. Hét carrièreplatform voor rechtenstudenten en young professionals.",
+    "Find top finance jobs and internships in Private Equity, Venture Capital, Investment Banking and FinTech. The career platform for ambitious finance professionals.",
   keywords: [
-    "juridische vacatures",
-    "juridische stages",
-    "advocatuur",
-    "Legal Talents",
-    "vacatures advocatuur",
-    "stages advocatuur",
+    "finance jobs",
+    "private equity jobs",
+    "venture capital jobs",
+    "investment banking jobs",
+    "fintech jobs",
+    "Finance Talents",
+    "finance internships",
+    "PE VC IB careers",
   ],
   alternates: {
     canonical: "/",
@@ -36,37 +38,37 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/logo.png", sizes: "48x48", type: "image/png" },
-      { url: "/logo.png", sizes: "96x96", type: "image/png" },
+      { url: "/icon FT.png", sizes: "48x48", type: "image/png" },
+      { url: "/icon FT.png", sizes: "96x96", type: "image/png" },
     ],
   },
   openGraph: {
     type: "website",
-    locale: "nl_NL",
-    siteName: "Legal Talents",
-    url: "https://www.legal-talents.nl",
-    title: "Legal Talents — Juridische Vacatures",
-    description: "De vacaturesite voor de juridische sector",
+    locale: "en_GB",
+    siteName: "Finance Talents",
+    url: SITE_URL,
+    title: "Finance Talents — Elite Finance Jobs",
+    description: "The curated job platform for Private Equity, VC, IB and FinTech.",
     images: [
       {
-        url: "/socialpreview.png",
+        url: "/logo FT.png",
         width: 1200,
         height: 630,
-        alt: "Legal Talents Preview Image",
+        alt: "Finance Talents Preview Image",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Legal Talents — Juridische Vacatures",
-    description: "De vacaturesite voor de juridische sector",
-    images: ["/socialpreview.png"],
+    title: "Finance Talents — Elite Finance Jobs",
+    description: "The curated job platform for Private Equity, VC, IB and FinTech.",
+    images: ["/logo FT.png"],
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="nl">
+    <html lang="en">
       <body className={inter.className}>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-NFNBYPXR5X"

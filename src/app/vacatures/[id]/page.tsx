@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import NavbarPublic from "@/components/NavbarPublic";
 import Footer from "@/components/Footer";
@@ -11,7 +10,16 @@ import { CITIES, cityDisplayName, cityLocationFilter, isValidCity } from "@/lib/
 import { getCityJobCount } from "@/lib/jobs/getCityJobCount";
 import { SITE_URL as BASE_URL } from "@/lib/site";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { RECHTSGEBIEDEN_MET_OVERIG } from "@/lib/constants/rechtsgebieden";
+import {
+  getRechtsgebiedBySlug,
+  getRechtsgebiedSlug,
+  RECHTSGEBIED_SEO,
+  RECHTSGEBIEDEN,
+  RECHTSGEBIEDEN_MET_OVERIG,
+} from "@/lib/constants/rechtsgebieden";
+import VacaturesListingPage, {
+  VacaturesSearchParams,
+} from "../VacaturesListingPage";
 
 export const revalidate = 0;
 
@@ -22,14 +30,13 @@ const TYPE_ALIASES: Record<string, string[]> = {
   stage: ["stage", "internship", "student", "Studentbaan"],
 };
 
-interface SearchParams {
-  type?: string;
-  rechtsgebied?: string;
-  functie?: string;
-}
+type SearchParams = VacaturesSearchParams;
 
 export async function generateStaticParams() {
-  return CITIES.map((city) => ({ id: city }));
+  return [
+    ...CITIES.map((city) => ({ id: city })),
+    ...RECHTSGEBIEDEN.map((area) => ({ id: getRechtsgebiedSlug(area) })),
+  ];
 }
 
 function buildFilterLabel(sp: SearchParams): string | null {
@@ -44,25 +51,51 @@ export async function generateMetadata({
 }: {
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-  const { id: city } = await params;
+  const { id } = await params;
+  const sector = getRechtsgebiedBySlug(id);
+
+  if (sector) {
+    const seo = RECHTSGEBIED_SEO[sector];
+
+    return {
+      title: seo.title,
+      description: seo.description,
+      alternates: {
+        canonical: `/vacatures/${id}`,
+      },
+      keywords: [
+        `${sector} jobs`,
+        `${sector} vacancies`,
+        "finance jobs",
+        "Finance Talents",
+      ],
+      openGraph: {
+        title: seo.title,
+        description: seo.description,
+        url: `/vacatures/${id}`,
+      },
+    };
+  }
+
+  const city = id;
   const name = cityDisplayName(city);
   const count = await getCityJobCount(city);
 
   const baseKeywords = [
-    "juridische vacatures",
-    "vacatures",
+    "finance jobs",
+    "jobs",
     name,
-    `juridische vacatures ${name}`,
-    `vacatures ${name}`,
-    "advocatuur",
-    `advocatuur ${name}`,
-    "Legal Talents",
+    `finance jobs ${name}`,
+    `jobs ${name}`,
+    "private equity",
+    `private equity ${name}`,
+    "Finance Talents",
   ];
 
   if (count === 0) {
     return {
-      title: `Juridische Vacatures ${name} — geen actuele openingen`,
-      description: `Momenteel geen juridische vacatures in ${name}. Bekijk alle landelijke juridische vacatures of schrijf je in voor een job alert om direct geïnformeerd te worden bij nieuwe posities.`,
+      title: `Finance Jobs ${name} — no current openings`,
+      description: `No finance jobs in ${name} at the moment. Check back soon for new finance opportunities in this city.`,
       robots: { index: false, follow: true },
       keywords: baseKeywords,
       alternates: {
@@ -72,8 +105,8 @@ export async function generateMetadata({
   }
 
   return {
-    title: `Juridische Vacatures ${name} — ${count} openstaande posities`,
-    description: `${count} actuele juridische vacatures in ${name}. Ontdek stages en vacatures bij advocatenkantoren en juridische werkgevers. Solliciteer direct.`,
+    title: `Finance Jobs ${name} — ${count} open positions`,
+    description: `${count} current finance jobs in ${name}. Discover internships and roles at PE funds, investment banks and FinTechs. Apply directly.`,
     robots: { index: true, follow: true },
     keywords: baseKeywords,
     alternates: {
@@ -89,11 +122,28 @@ export default async function CityJobsPage({
   params: Promise<{ id: string }>;
   searchParams: Promise<SearchParams>;
 }) {
-  const { id: city } = await params;
+  const { id } = await params;
+  const sp = await searchParams;
+
+  const sector = getRechtsgebiedBySlug(id);
+  if (sector) {
+    const seo = RECHTSGEBIED_SEO[sector];
+
+    return (
+      <VacaturesListingPage
+        params={sp}
+        fixedPracticeArea={sector}
+        basePath={`/vacatures/${id}`}
+        headingText={`${sector} jobs`}
+        subtitleText={seo.description}
+      />
+    );
+  }
+
+  const city = id;
   if (!isValidCity(city)) notFound();
 
   const name = cityDisplayName(city);
-  const sp = await searchParams;
   const supabase = await createClient();
 
   let query = supabase
@@ -126,12 +176,12 @@ export default async function CityJobsPage({
   const filterLabel = buildFilterLabel(sp);
 
   const headingText = filterLabel
-    ? `Juridische vacatures: ${filterLabel} in ${name}`
-    : `Juridische Vacatures ${name}`;
+    ? `Finance jobs: ${filterLabel} in ${name}`
+    : `Finance Jobs ${name}`;
 
   const subtitleText = filterLabel
-    ? `Bekijk alle actuele ${filterLabel.toLowerCase()} vacatures bij juridische werkgevers in ${name}.`
-    : `Ontdek alle actuele juridische mogelijkheden bij juridische werkgevers in ${name}.`;
+    ? `View all current ${filterLabel.toLowerCase()} jobs at finance firms in ${name}.`
+    : `Discover all current finance opportunities at leading firms in ${name}.`;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -219,7 +269,6 @@ export default async function CityJobsPage({
               <Breadcrumbs
                 items={[
                   { label: "Home", href: "/" },
-                  { label: "Vacatures", href: "/vacatures" },
                   { label: name, href: `/vacatures/${city}` },
                 ]}
               />
@@ -270,7 +319,7 @@ export default async function CityJobsPage({
                     className="w-full bg-transparent border-none outline-none focus:outline-none appearance-none py-3 text-[14px] text-white cursor-pointer pr-6"
                   >
                     <option value="" className="text-[#0A0F3D]">
-                      Alle types
+                      All types
                     </option>
                     {JOB_TYPE_OPTIONS.map(({ value, label }) => (
                       <option key={value} value={value} className="text-[#0A0F3D]">
@@ -296,7 +345,7 @@ export default async function CityJobsPage({
                     className="w-full bg-transparent border-none outline-none focus:outline-none appearance-none py-3 text-[14px] text-white cursor-pointer pr-6"
                   >
                     <option value="" className="text-[#0A0F3D]">
-                      Alle rechtsgebieden
+                      All sectors
                     </option>
                     {RECHTSGEBIEDEN_MET_OVERIG.map((area) => (
                       <option key={area} value={area} className="text-[#0A0F3D]">
@@ -327,7 +376,7 @@ export default async function CityJobsPage({
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Toepassen
+                  Apply
                 </button>
               </div>
 
@@ -338,7 +387,7 @@ export default async function CityJobsPage({
                     className="text-[13px] font-medium border-b border-white/30 pb-0.5 hover:border-white transition-colors"
                     style={{ color: "rgba(255, 255, 255, 0.8)" }}
                   >
-                    Filters wissen
+                    Clear filters
                   </a>
                 </div>
               )}
@@ -360,8 +409,8 @@ export default async function CityJobsPage({
           <div className="flex items-baseline justify-between mb-2">
             <p className="text-[13px] font-medium tracking-[0.02em] text-[#999999]">
               {jobList.length === 0
-                ? `Geen vacatures in ${name}`
-                : `${jobList.length} vacature${jobList.length !== 1 ? "s" : ""} in ${name}`}
+                ? `No jobs in ${name}`
+                : `${jobList.length} job${jobList.length !== 1 ? "s" : ""} in ${name}`}
             </p>
           </div>
 
@@ -380,9 +429,9 @@ export default async function CityJobsPage({
                 className="font-bold tracking-[-0.025em] leading-[1.1] text-[#0A0A0A]"
                 style={{ fontSize: "clamp(36px, 4.5vw, 64px)" }}
               >
-                {hasFilters
-                  ? "Geen vacatures gevonden"
-                  : `Binnenkort in ${name}`}
+                  {hasFilters
+                  ? "No jobs found"
+                  : `Coming soon in ${name}`}
               </h2>
               <p
                 className="mt-6 leading-relaxed"
@@ -393,19 +442,16 @@ export default async function CityJobsPage({
                 }}
               >
                 {hasFilters
-                  ? "Probeer andere filters of verwijder de huidige selectie om meer resultaten te zien."
-                  : `Momenteel zijn er geen vacatures in ${name}. Bekijk alle landelijke vacatures of kom binnenkort terug.`}
+                  ? "Try different filters or clear your selection to see more results."
+                  : `No jobs in ${name} right now. Check back soon for new opportunities.`}
               </p>
               <div className="flex flex-wrap items-center gap-6 mt-8">
-                <Link href="/vacatures" className="btn-primary">
-                  Bekijk alle vacatures
-                </Link>
                 {hasFilters && (
                   <a
                     href={`/vacatures/${city}`}
                     className="text-[14px] text-[#999999] hover:text-[#0A0A0A] transition-colors duration-200"
                   >
-                    Filters wissen
+                    Clear filters
                   </a>
                 )}
               </div>

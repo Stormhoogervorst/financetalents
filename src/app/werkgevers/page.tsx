@@ -1,11 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
+import Image from "next/image";
 import NavbarPublic from "@/components/NavbarPublic";
 import Footer from "@/components/Footer";
-import CtaBand from "@/components/CtaBand";
-import GridCard from "@/components/GridCard";
 import RadiusSelect from "@/components/RadiusSelect";
 import { geocodeCity } from "@/lib/geocode";
-import { MapPin, Users, ChevronDown } from "lucide-react";
+import { ArrowUpRight, ChevronDown, MapPin, Users } from "lucide-react";
 import Link from "next/link";
 import { Firm } from "@/types";
 import { RECHTSGEBIEDEN } from "@/lib/constants/rechtsgebieden";
@@ -19,9 +18,9 @@ interface SearchParams {
 }
 
 export const metadata = {
-  title: "Werkgevers",
+  title: "Companies",
   description:
-    "Bekijk alle juridische werkgevers die actief vacatures plaatsen op Legal Talents.",
+    "Browse all finance companies actively hiring on Finance Talents — from boutique investment firms to global corporates.",
   alternates: {
     canonical: "/werkgevers",
   },
@@ -88,283 +87,302 @@ export default async function FirmsPage({
     (params.straal && params.straal !== "0")
   );
 
+  const filterParts: string[] = [];
+  if (params.rechtsgebied) filterParts.push(params.rechtsgebied);
+  if (params.locatie) filterParts.push(params.locatie);
+  const filterLabel = filterParts.length > 0 ? filterParts.join(" - ") : null;
+  const headingText = filterLabel ? `${filterLabel} companies` : "Finance companies";
+  const subtitleText = filterLabel
+    ? `Browse finance companies matching ${filterLabel}.`
+    : "Discover the funds, banks and builders hiring ambitious finance talent.";
+
   return (
-    <div className="relative min-h-screen flex flex-col bg-white">
+    <div className="relative min-h-screen flex flex-col bg-[#EBEBEB] text-[#222222]">
       <NavbarPublic variant="hero" />
 
-      {/* Hero — vivid mesh gradient matching the homepage, fading seamlessly to white */}
       <div className="-mt-[4.25rem]">
-        <section
-          className="relative isolate overflow-hidden"
-          style={{
-            background: `linear-gradient(135deg,
-              #4B3BD6 0%,
-              #5668E8 22%,
-              #7A8BF5 42%,
-              #A8B6FF 62%,
-              #C9D4FF 82%,
-              #FFFFFF 100%)`,
-          }}
-        >
+        <section className="relative isolate overflow-hidden bg-[#EBEBEB]">
           <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background: `
-                radial-gradient(60% 55% at 50% 40%,
-                  rgba(178, 140, 255, 0.65) 0%,
-                  rgba(140, 120, 255, 0.30) 35%,
-                  rgba(120, 150, 255, 0) 70%),
-                radial-gradient(50% 60% at 50% 60%,
-                  rgba(255, 255, 255, 0.45) 0%,
-                  rgba(255, 255, 255, 0) 60%),
-                radial-gradient(55% 70% at 96% 6%,
-                  rgba(42, 20, 230, 0.80) 0%,
-                  rgba(59, 44, 220, 0.35) 22%,
-                  rgba(88, 125, 254, 0) 60%),
-                radial-gradient(32% 38% at 2% 0%,
-                  rgba(215, 168, 255, 0.85) 0%,
-                  rgba(215, 168, 255, 0) 65%),
-                radial-gradient(38% 45% at 10% 55%,
-                  rgba(255, 255, 255, 0.55) 0%,
-                  rgba(255, 255, 255, 0) 65%)
-              `,
-            }}
-          />
-
-          {/* Seamless fade to pure white at the bottom */}
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-[22vw] top-[10vh] h-[58vw] max-h-[760px] min-h-[340px] w-[58vw] min-w-[340px] max-w-[760px] overflow-hidden rounded-full border border-[#222222]/10"
+          >
+            <Image
+              src="/icon FT.png"
+              alt=""
+              fill
+              className="object-contain opacity-[0.16]"
+              sizes="58vw"
+              priority
+            />
+          </div>
           <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-40 md:h-56"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 55%, #FFFFFF 100%)",
-            }}
-          />
+            aria-hidden="true"
+            className="pointer-events-none absolute -left-[16vw] bottom-[-26vw] h-[46vw] max-h-[620px] min-h-[300px] w-[46vw] min-w-[300px] max-w-[620px] overflow-hidden rounded-full bg-white"
+          >
+            <Image
+              src="/icon FT.png"
+              alt=""
+              fill
+              className="object-contain opacity-[0.12]"
+              sizes="46vw"
+            />
+          </div>
 
           <div
-            className="max-w-[1400px] mx-auto relative"
+            className="max-w-[1600px] mx-auto relative"
             style={{
               padding:
-                "calc(4.25rem + clamp(60px, 8vh, 120px)) clamp(24px, 5vw, 80px) clamp(80px, 10vh, 140px)",
+                "calc(4.25rem + clamp(48px, 8vh, 110px)) clamp(24px, 5vw, 80px) clamp(48px, 8vh, 110px)",
             }}
           >
-            <h1
-              className="font-bold tracking-[-0.03em] leading-[1.05]"
-              style={{
-                fontSize: "clamp(48px, 6vw, 80px)",
-                color: "#FFFFFF",
-                textShadow: "0 1px 24px rgba(20, 24, 80, 0.25)",
-              }}
-            >
-              Juridische werkgevers
-            </h1>
-            <p
-              className="mt-6 leading-relaxed max-w-[640px]"
-              style={{
-                fontSize: "clamp(15px, 1.1vw, 17px)",
-                lineHeight: 1.65,
-                color: "#FFFFFF",
-                opacity: 0.95,
-                textShadow: "0 1px 16px rgba(20, 24, 80, 0.22)",
-              }}
-            >
-              Ontdek de kantoren en organisaties die actief zoeken naar juridisch
-              talent. Vind een werkgever die bij je past.
-            </p>
-
-            {/* Deep-navy filter pill — matches the homepage hero search contrast */}
-            <form method="GET" className="mt-10 max-w-[960px]">
-              <div
-                className="flex flex-col md:flex-row items-stretch flex-wrap rounded-[28px] p-2 gap-2"
-                style={{
-                  background: "#0A0F3D",
-                  boxShadow:
-                    "0 20px 40px -18px rgba(10, 15, 61, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.10) inset",
-                }}
-              >
-                {/* Location */}
-                <label
-                  htmlFor="locatie"
-                  className="flex items-center gap-2.5 flex-1 min-w-[220px] px-4 rounded-[22px]"
-                >
-                  <MapPin
-                    className="h-4 w-4 shrink-0"
-                    style={{ color: "rgba(255, 255, 255, 0.65)" }}
-                  />
-                  <input
-                    id="locatie"
-                    name="locatie"
-                    defaultValue={params.locatie ?? ""}
-                    placeholder="Locatie"
-                    className="w-full bg-transparent border-none outline-none focus:outline-none py-3 text-[14px] text-white placeholder:text-white/55"
-                  />
-                </label>
-
-                {/* Radius — only shows when a location is entered */}
-                <div className="flex items-center md:w-[110px] px-4 md:border-l border-white/10">
-                  <RadiusSelect
-                    name="straal"
-                    defaultValue={params.straal ?? "0"}
-                    locationInputId="locatie"
-                    className="w-full bg-transparent border-none outline-none focus:outline-none appearance-none py-3 text-[14px] text-white cursor-pointer"
-                  />
-                </div>
-
-                {/* Practice area */}
-                <label
-                  htmlFor="rechtsgebied"
-                  className="relative flex items-center flex-1 md:max-w-[260px] min-w-0 px-4 rounded-[22px] md:border-l border-white/10"
-                >
-                  <select
-                    id="rechtsgebied"
-                    name="rechtsgebied"
-                    defaultValue={params.rechtsgebied ?? ""}
-                    className="w-full bg-transparent border-none outline-none focus:outline-none appearance-none py-3 text-[14px] text-white cursor-pointer pr-6"
-                  >
-                    <option value="" className="text-[#0A0F3D]">
-                      Alle rechtsgebieden
-                    </option>
-                    {RECHTSGEBIEDEN.map((area) => (
-                      <option
-                        key={area}
-                        value={area}
-                        className="text-[#0A0F3D]"
-                      >
-                        {area}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown
-                    className="h-4 w-4 pointer-events-none absolute right-4"
-                    style={{ color: "rgba(255, 255, 255, 0.55)" }}
-                  />
-                </label>
-
-                {/* Submit — bright blue gradient */}
-                <button
-                  type="submit"
-                  className="shrink-0 inline-flex items-center justify-center rounded-full font-semibold text-white transition-all duration-200 hover:scale-[1.03] focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-[#0A0F3D]"
-                  style={{
-                    padding: "12px 28px",
-                    fontSize: "14px",
-                    background:
-                      "linear-gradient(135deg, #4B3BD6 0%, #587DFE 55%, #7A8BF5 100%)",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  Toepassen
-                </button>
+            <div className="grid min-h-[calc(72vh-4.25rem)] grid-cols-1 content-between gap-12">
+              <div>
+                <p className="ft-display text-[15px] font-normal tracking-[-0.02em] text-[#222222]/70 md:text-[18px]">
+                  Elite finance jobs. One platform.
+                </p>
+                <h1 className="ft-display mt-8 max-w-[12ch] text-[clamp(64px,14vw,220px)] font-extrabold leading-[0.82] tracking-[-0.08em] text-[#222222]">
+                  {headingText}
+                </h1>
               </div>
 
-              {hasFilters && (
-                <div className="mt-4">
-                  <Link
-                    href="/werkgevers"
-                    className="text-[13px] font-medium border-b border-white/30 pb-0.5 hover:border-white transition-colors"
-                    style={{ color: "rgba(255, 255, 255, 0.8)" }}
-                  >
-                    Filters wissen
-                  </Link>
+              <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end">
+                <div className="lg:col-span-5 lg:col-start-8">
+                  <p className="max-w-[560px] text-[clamp(18px,2vw,28px)] leading-[1.15] tracking-[-0.03em] text-[#222222]">
+                    {subtitleText}
+                  </p>
+                  <p className="mt-5 max-w-[460px] text-[15px] leading-[1.65] text-[#222222]/60">
+                    Filter by city, radius and sector. Open a company profile to
+                    explore active roles and apply directly.
+                  </p>
                 </div>
-              )}
-            </form>
+              </div>
+            </div>
           </div>
         </section>
       </div>
 
-      {/* Results */}
+      <section
+        className="bg-white"
+        style={{
+          paddingLeft: "clamp(24px, 5vw, 80px)",
+          paddingRight: "clamp(24px, 5vw, 80px)",
+          paddingTop: "clamp(36px, 5vh, 72px)",
+          paddingBottom: "clamp(56px, 8vh, 110px)",
+        }}
+      >
+        <div className="max-w-[1400px] mx-auto">
+          <form method="GET">
+            <div className="grid grid-cols-1 border border-[#222222] bg-white md:grid-cols-2 xl:grid-cols-[minmax(240px,1.4fr)_minmax(96px,0.45fr)_minmax(190px,0.9fr)_auto]">
+              <label
+                htmlFor="filter-locatie"
+                className="flex min-h-[72px] items-center gap-3 border-b border-[#222222] px-5 md:border-r xl:border-b-0"
+              >
+                <MapPin className="h-4 w-4 shrink-0 text-[#222222]/55" />
+                <input
+                  id="filter-locatie"
+                  name="locatie"
+                  defaultValue={params.locatie ?? ""}
+                  placeholder="Location"
+                  className="w-full border-none bg-transparent text-[15px] text-[#222222] outline-none placeholder:text-[#222222]/45 focus:outline-none"
+                />
+              </label>
+
+              <div className="flex min-h-[72px] items-center border-b border-[#222222] px-5 md:border-r xl:border-b-0">
+                <RadiusSelect
+                  name="straal"
+                  defaultValue={params.straal ?? "0"}
+                  locationInputId="filter-locatie"
+                  className="w-full appearance-none border-none bg-transparent py-3 pr-6 text-[14px] text-[#222222] outline-none focus:outline-none"
+                />
+              </div>
+
+              <label
+                htmlFor="filter-rechtsgebied"
+                className="relative flex min-h-[72px] items-center border-b border-[#222222] px-5 md:border-b-0 md:border-r xl:border-b-0"
+              >
+                <select
+                  id="filter-rechtsgebied"
+                  name="rechtsgebied"
+                  defaultValue={params.rechtsgebied ?? ""}
+                  className="w-full appearance-none border-none bg-transparent py-3 pr-7 text-[14px] text-[#222222] outline-none focus:outline-none"
+                >
+                  <option value="">All sectors</option>
+                  {RECHTSGEBIEDEN.map((area) => (
+                    <option key={area} value={area}>
+                      {area}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-5 h-4 w-4 text-[#222222]/55" />
+              </label>
+
+              <button
+                type="submit"
+                className="inline-flex min-h-[72px] items-center justify-center gap-2 rounded-none bg-[#222222] px-7 text-[14px] font-medium text-white transition-colors duration-200 hover:bg-[#E85A00] focus:outline-none focus:ring-2 focus:ring-[#E85A00]/30"
+              >
+                Apply filters
+                <ArrowUpRight className="h-4 w-4" />
+              </button>
+            </div>
+
+            {hasFilters && (
+              <div className="mt-5">
+                <Link
+                  href="/werkgevers"
+                  className="inline-flex text-[14px] font-medium text-[#222222]/65 underline decoration-[#222222]/25 underline-offset-4 transition-colors duration-200 hover:text-[#E85A00]"
+                >
+                  Clear filters
+                </Link>
+              </div>
+            )}
+          </form>
+        </div>
+      </section>
+
       <section
         style={{
           paddingLeft: "clamp(24px, 5vw, 80px)",
           paddingRight: "clamp(24px, 5vw, 80px)",
-          paddingTop: "clamp(40px, 5vh, 64px)",
-          paddingBottom: "clamp(100px, 12vh, 180px)",
+          paddingTop: "clamp(70px, 9vh, 140px)",
+          paddingBottom: "clamp(80px, 10vh, 150px)",
         }}
       >
         <div className="max-w-[1400px] mx-auto">
-          {/* Result count */}
-          <div className="mb-6">
-            <p
-              className="text-[13px] font-medium tracking-wide"
-              style={{ color: "#999999" }}
-            >
-              {firmList.length === 0
-                ? "Geen werkgevers gevonden"
-                : `${firmList.length} werkgever${firmList.length !== 1 ? "s" : ""}`}
-            </p>
+          <div className="mb-10 grid grid-cols-1 gap-8 md:mb-16 lg:grid-cols-12 lg:items-end">
+            <h2 className="ft-display lg:col-span-8 text-[clamp(54px,9vw,132px)] font-extrabold leading-[0.9] tracking-[-0.075em] text-[#222222]">
+              Company profiles.
+            </h2>
+            <div className="lg:col-span-4">
+              <p className="max-w-[390px] text-[17px] leading-[1.45] tracking-[-0.02em] text-[#222222]/65">
+                {firmList.length === 0
+                  ? "No matching companies right now."
+                  : `Showing ${firmList.length} matching compan${
+                      firmList.length !== 1 ? "ies" : "y"
+                    }.`}
+              </p>
+            </div>
           </div>
 
-          {/* Firm grid */}
           {firmList.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
               {firmList.map((firm) => {
                 const initials = firm.name.slice(0, 2).toUpperCase();
-                const meta: { icon: React.ReactNode; text: string }[] = [];
-
-                if (firm.location) {
-                  meta.push({
-                    icon: <MapPin className="h-3 w-3 shrink-0" />,
-                    text: firm.location,
-                  });
-                }
-                if (firm.team_size) {
-                  meta.push({
-                    icon: <Users className="h-3 w-3 shrink-0" />,
-                    text: `${firm.team_size} medewerkers`,
-                  });
-                }
+                const primaryArea = firm.practice_areas?.[0] ?? "Company";
 
                 return (
-                  <GridCard
+                  <Link
                     key={firm.id}
                     href={`/werkgevers/${firm.slug}`}
-                    logoUrl={firm.logo_url}
-                    logoFallback={
-                      <span className="font-semibold text-sm text-[#587DFE]">
-                        {initials}
+                    className="group relative flex min-h-[320px] flex-col border border-[#222222] bg-white p-5 transition-colors duration-200 hover:bg-[#0A0A0A]"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <span className="max-w-[13rem] text-[12px] font-medium leading-[1.25] text-[#222222]/60 transition-colors duration-200 group-hover:text-white/55">
+                        {primaryArea}
                       </span>
-                    }
-                    title={firm.name}
-                    meta={meta}
-                    pills={firm.practice_areas ?? []}
-                  />
+                      <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden border border-[#222222] bg-white p-2 transition-colors duration-200 group-hover:border-white/20">
+                        {firm.logo_url ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={firm.logo_url}
+                            alt={`${firm.name} logo`}
+                            className="h-full w-full object-contain"
+                          />
+                        ) : (
+                          <span className="text-[14px] font-bold text-[#222222]">
+                            {initials}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="mt-auto">
+                      <h3 className="ft-display text-[clamp(24px,2vw,34px)] font-bold leading-[0.98] tracking-[-0.055em] text-[#222222] transition-colors duration-200 group-hover:text-[#E85A00]">
+                        {firm.name}
+                      </h3>
+
+                      <div className="mt-5 flex flex-wrap gap-x-3 gap-y-1 border-t border-[#222222]/15 pt-4 transition-colors duration-200 group-hover:border-white/15">
+                        {firm.location && (
+                          <span className="flex items-center gap-1 text-[12px] text-[#222222]/55 transition-colors duration-200 group-hover:text-white/55">
+                            <MapPin className="h-3 w-3 shrink-0" />
+                            {firm.location}
+                          </span>
+                        )}
+                        {firm.team_size && (
+                          <span className="flex items-center gap-1 text-[12px] text-[#222222]/55 transition-colors duration-200 group-hover:text-white/55">
+                            <Users className="h-3 w-3 shrink-0" />
+                            {firm.team_size} employees
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <ArrowUpRight className="absolute bottom-5 right-5 h-5 w-5 text-[#222222] transition-colors duration-200 group-hover:text-[#E85A00]" />
+                  </Link>
                 );
               })}
             </div>
           ) : (
-            <div className="pt-16 pb-8" style={{ maxWidth: "640px" }}>
-              <h2
-                className="font-bold tracking-[-0.025em] leading-[1.1] text-[#0A0A0A]"
-                style={{ fontSize: "clamp(36px, 4.5vw, 64px)" }}
-              >
-                {hasFilters
-                  ? "Geen werkgevers gevonden"
-                  : "Binnenkort beschikbaar"}
-              </h2>
-              <p
-                className="mt-6 leading-relaxed"
-                style={{
-                  fontSize: "clamp(15px, 1.1vw, 17px)",
-                  lineHeight: 1.65,
-                  color: "#6B6B6B",
-                }}
-              >
-                {hasFilters
-                  ? "Probeer andere filters of verwijder de huidige selectie."
-                  : "Er zijn momenteel geen gepubliceerde werkgevers. Kom later terug."}
-              </p>
-              {hasFilters && (
-                <Link href="/werkgevers" className="btn-primary mt-8">
-                  Alle werkgevers bekijken
-                </Link>
-              )}
+            <div className="grid grid-cols-1 border border-[#222222] bg-white lg:grid-cols-12">
+              <div className="p-6 md:p-8 lg:col-span-7">
+                <h2 className="ft-display max-w-[720px] text-[clamp(42px,7vw,104px)] font-extrabold leading-[0.9] tracking-[-0.075em] text-[#222222]">
+                  {hasFilters ? "No companies found." : "Coming soon."}
+                </h2>
+              </div>
+              <div className="border-t border-[#222222] p-6 md:p-8 lg:col-span-5 lg:border-l lg:border-t-0">
+                <p className="max-w-[460px] text-[16px] leading-[1.65] text-[#222222]/65">
+                  {hasFilters
+                    ? "Try another sector or city to uncover more company profiles."
+                    : "No published companies at the moment. Check back soon for new profiles."}
+                </p>
+                {hasFilters && (
+                  <Link href="/werkgevers" className="btn-primary mt-8">
+                    View all companies
+                  </Link>
+                )}
+              </div>
             </div>
           )}
         </div>
       </section>
 
-      <CtaBand />
+      <section
+        className="relative isolate overflow-hidden bg-[#0A0A0A]"
+        style={{
+          padding: "clamp(80px, 10vh, 160px) clamp(24px, 5vw, 80px)",
+        }}
+      >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-[18vw] top-1/2 -z-10 h-[58vw] max-h-[720px] min-h-[340px] w-[58vw] min-w-[340px] max-w-[720px] -translate-y-1/2 overflow-hidden rounded-full border border-white/15"
+        >
+          <Image
+            src="/icon FT.png"
+            alt=""
+            fill
+            className="object-contain opacity-[0.34]"
+            sizes="58vw"
+          />
+        </div>
+        <div className="max-w-[1400px] mx-auto grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-end">
+          <h2 className="ft-display lg:col-span-8 text-[clamp(54px,9vw,142px)] font-extrabold leading-[0.88] tracking-[-0.075em] text-white">
+            Find the firm that fits.
+          </h2>
+          <div className="lg:col-span-4">
+            <p className="max-w-[460px] text-[18px] leading-[1.45] tracking-[-0.02em] text-white/70">
+              Compare company profiles, browse live finance roles and apply
+              directly when the match is clear.
+            </p>
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <Link
+                href="/register"
+                className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-[14px] font-medium text-[#222222] transition-colors duration-200 hover:bg-[#E85A00] hover:text-white"
+              >
+                Post a job
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <Footer />
     </div>

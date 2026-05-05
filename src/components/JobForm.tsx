@@ -305,7 +305,7 @@ export default function JobForm({
           />
         </div>
 
-        {/* Type + Rechtsgebied */}
+        {/* Type + Sector */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
             <label className={labelCls}>
@@ -317,7 +317,7 @@ export default function JobForm({
               onChange={(e) => setType(e.target.value)}
               className={inputCls}
             >
-              <option value="">Kies type…</option>
+              <option value="">Choose type…</option>
               {JOB_TYPES.map(({ value, label }) => (
                 <option key={value} value={value}>
                   {label}
@@ -328,7 +328,7 @@ export default function JobForm({
 
           <div>
             <label className={labelCls}>
-              Rechtsgebied <span className="text-red-500">*</span>
+              Sector <span className="text-red-500">*</span>
             </label>
             <select
               required
@@ -336,7 +336,7 @@ export default function JobForm({
               onChange={(e) => setPracticeArea(e.target.value)}
               className={inputCls}
             >
-              <option value="">Kies rechtsgebied…</option>
+              <option value="">Choose sector…</option>
               {RECHTSGEBIEDEN_MET_OVERIG.map((area) => (
                 <option key={area} value={area}>
                   {area}

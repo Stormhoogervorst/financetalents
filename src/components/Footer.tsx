@@ -1,59 +1,48 @@
 import Link from "next/link";
+import Image from "next/image";
 import { CITIES, cityDisplayName } from "@/lib/cities";
 
 export default function Footer() {
   return (
-    <footer
-      className="mt-auto bg-[#1A1D2B]"
-      style={{
-        paddingLeft: "clamp(24px, 5vw, 80px)",
-        paddingRight: "clamp(24px, 5vw, 80px)",
-      }}
-    >
+    <footer className="mt-auto bg-[#0A0A0A] px-6 sm:px-10 lg:px-20">
       <div className="max-w-[1400px] mx-auto pt-20 pb-8">
-        <div className="border-t border-[#2E3247] pt-14">
+        <div className="border-t border-white/15 pt-14">
           {/* Top: Email + columns */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
             <div>
-              <p style={{ fontSize: "13px", fontWeight: 500, letterSpacing: "0.02em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: "12px" }}>
+              <p className="mb-3 text-[13px] font-medium uppercase tracking-[0.02em] text-white/45">
                 E-mail
               </p>
               <a
-                href="mailto:storm@legal-talents.nl"
-                className="group inline-flex items-center gap-2 transition-colors duration-200 hover:text-[#587DFE]"
-                style={{ fontSize: "clamp(18px, 2vw, 24px)", fontWeight: 600, color: "#FFFFFF" }}
+                href="mailto:storm@finance-talents.com"
+                className="group inline-flex items-center gap-2 text-[clamp(18px,2vw,24px)] font-semibold text-white transition-colors duration-200 hover:text-[#E85A00]"
               >
-                storm@legal-talents.nl
+                storm@finance-talents.com
               </a>
-              <p className="mt-6" style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)" }}>
-                © {new Date().getFullYear()} Legal Talents VOF
+              <p className="mt-6 text-[13px] text-white/45">
+                © {new Date().getFullYear()} Finance Talents
               </p>
               <Link
                 href="/privacy"
-                className="mt-1 inline-block transition-colors duration-200 hover:text-white"
-                style={{ fontSize: "13px", fontWeight: 500, color: "rgba(255,255,255,0.6)" }}
+                className="mt-1 inline-block text-[13px] font-medium text-white/60 transition-colors duration-200 hover:text-white"
               >
                 Privacybeleid
               </Link>
             </div>
 
             <div>
-              <p style={{ fontSize: "13px", fontWeight: 500, letterSpacing: "0.02em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: "12px" }}>
+              <p className="mb-3 text-[13px] font-medium uppercase tracking-[0.02em] text-white/45">
                 Platform
               </p>
               <ul className="space-y-2.5">
                 {[
-                  { label: "Vacatures", href: "/vacatures" },
-                  { label: "Stages", href: "/stages" },
                   { label: "Werkgevers", href: "/werkgevers" },
                   { label: "Kennisbank", href: "/kennisbank" },
-                  { label: "Recruitment", href: "/recruitment" },
                 ].map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="transition-colors duration-200 hover:text-white"
-                      style={{ fontSize: "14px", color: "rgba(255,255,255,0.7)" }}
+                      className="text-sm text-white/70 transition-colors duration-200 hover:text-white"
                     >
                       {link.label}
                     </Link>
@@ -63,7 +52,7 @@ export default function Footer() {
             </div>
 
             <div>
-              <p style={{ fontSize: "13px", fontWeight: 500, letterSpacing: "0.02em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: "12px" }}>
+              <p className="mb-3 text-[13px] font-medium uppercase tracking-[0.02em] text-white/45">
                 Voor werkgevers
               </p>
               <ul className="space-y-2.5">
@@ -75,8 +64,7 @@ export default function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="transition-colors duration-200 hover:text-white"
-                      style={{ fontSize: "14px", color: "rgba(255,255,255,0.7)" }}
+                      className="text-sm text-white/70 transition-colors duration-200 hover:text-white"
                     >
                       {link.label}
                     </Link>
@@ -86,8 +74,8 @@ export default function Footer() {
             </div>
 
             <div>
-              <p style={{ fontSize: "13px", fontWeight: 500, letterSpacing: "0.02em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: "12px" }}>
-                Juridisch
+              <p className="mb-3 text-[13px] font-medium uppercase tracking-[0.02em] text-white/45">
+                Legal
               </p>
               <ul className="space-y-2.5">
                 {[
@@ -97,8 +85,7 @@ export default function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="transition-colors duration-200 hover:text-white"
-                      style={{ fontSize: "14px", color: "rgba(255,255,255,0.7)" }}
+                      className="text-sm text-white/70 transition-colors duration-200 hover:text-white"
                     >
                       {link.label}
                     </Link>
@@ -109,17 +96,17 @@ export default function Footer() {
           </div>
 
           {/* Vacatures per stad */}
-          <div className="mt-14 pt-10 border-t border-[#2E3247]">
-            <p className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: "rgba(255,255,255,0.55)" }}>
-              Juridische Vacatures
+          <div className="mt-14 pt-10 border-t border-white/15">
+            <p className="mb-4 text-xs font-medium tracking-[-0.01em] text-white/55">
+              Finance Jobs
             </p>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 items-start">
               {CITIES.map((slug) => (
                 <Link
                   key={slug}
                   href={`/vacatures/${slug}`}
-                  title={`Juridische Vacatures ${cityDisplayName(slug)}`}
-                  className="text-sm text-slate-400 hover:text-[#668dff] transition-colors duration-200"
+                  title={`Finance Jobs ${cityDisplayName(slug)}`}
+                  className="text-sm text-white/45 transition-colors duration-200 hover:text-[#E85A00]"
                 >
                   {cityDisplayName(slug)}
                 </Link>
@@ -128,17 +115,17 @@ export default function Footer() {
           </div>
 
           {/* Stages per stad */}
-          <div className="mt-10 pt-10 border-t border-[#2E3247]">
-            <p className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: "rgba(255,255,255,0.55)" }}>
-              Juridische Stages
+          <div className="mt-10 pt-10 border-t border-white/15">
+            <p className="mb-4 text-xs font-medium tracking-[-0.01em] text-white/55">
+              Finance Internships
             </p>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 items-start">
               {CITIES.map((slug) => (
                 <Link
                   key={slug}
                   href={`/stages/${slug}`}
-                  title={`Juridische Stages ${cityDisplayName(slug)}`}
-                  className="text-sm text-slate-400 hover:text-[#668dff] transition-colors duration-200"
+                  title={`Finance Internships ${cityDisplayName(slug)}`}
+                  className="text-sm text-white/45 transition-colors duration-200 hover:text-[#E85A00]"
                 >
                   {cityDisplayName(slug)}
                 </Link>
@@ -146,32 +133,25 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Index link */}
-          <div className="mt-10 pt-8 border-t border-[#2E3247] flex items-center justify-center">
-            <Link
-              href="/juridische-vacatures-index"
-              title="Compleet overzicht van alle juridische vacatures per functie, rechtsgebied en stad"
-              className="text-sm text-slate-400 hover:text-[#668dff] transition-colors duration-200"
-            >
-              Vacature Index
-            </Link>
-          </div>
-
           {/* Large brand text */}
-          <div className="mt-14 pt-10 border-t border-[#2E3247]">
+          <div className="mt-14 pt-10 border-t border-white/15">
             <div className="flex items-center gap-6">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#587DFE] shrink-0" />
-              <p
-                className="leading-tight"
-                style={{
-                  fontSize: "clamp(48px, 8vw, 120px)",
-                  fontWeight: 700,
-                  letterSpacing: "-0.04em",
-                  color: "#FFFFFF",
-                }}
-              >
-                Legal Talents
-              </p>
+              <div className="relative h-16 w-16 shrink-0 sm:h-20 sm:w-20">
+                <Image
+                  src="/icon FT.png"
+                  alt=""
+                  fill
+                  className="object-contain"
+                  sizes="80px"
+                />
+              </div>
+              <Image
+                src="/logo FT.png"
+                alt="Finance Talents"
+                width={455}
+                height={95}
+                className="h-auto w-[min(78vw,720px)] invert"
+              />
             </div>
           </div>
         </div>

@@ -2,6 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import {
+  BLOG_IMAGES_BUCKET,
+  getBlogImageStoragePathFromPublicUrl,
+} from "@/lib/blog-images";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -9,21 +13,6 @@ export type BlogActionState = {
   error?: string;
   success?: string;
 };
-
-function getStoragePathFromPublicUrl(imageUrl: string): string | null {
-  try {
-    const url = new URL(imageUrl);
-    const marker = "/storage/v1/object/public/blog-images/";
-    const markerIndex = url.pathname.indexOf(marker);
-    if (markerIndex === -1) return null;
-
-    const encodedPath = url.pathname.slice(markerIndex + marker.length);
-    if (!encodedPath) return null;
-    return decodeURIComponent(encodedPath);
-  } catch {
-    return null;
-  }
-}
 
 export async function updateBlogAction(
   blogId: string,
@@ -69,12 +58,12 @@ export async function updateBlogAction(
   const content = String(formData.get("content") ?? "").trim();
   const imageUrlRaw = String(formData.get("image_url") ?? "").trim();
 
-  if (!title) return { error: "Vul een titel in." };
+  if (!title) return { error: "Please add a title." };
   if (!content || content === "<p></p>") {
-    return { error: "Schrijf eerst de inhoud van je blog." };
+    return { error: "Please add content to your article." };
   }
 
-  const allowedCategories = ["carriere", "juridisch", "kantoorleven"];
+  const allowedCategories = ["carriere", "finance", "kantoorleven"];
   if (!allowedCategories.includes(category)) {
     return { error: "Ongeldige categorie." };
   }
@@ -132,9 +121,9 @@ export async function deleteBlogAction(blogId: string): Promise<never> {
   }
 
   if (blog.image_url) {
-    const filePath = getStoragePathFromPublicUrl(blog.image_url);
+    const filePath = getBlogImageStoragePathFromPublicUrl(blog.image_url);
     if (filePath) {
-      await admin.storage.from("blog-images").remove([filePath]);
+      await admin.storage.from(BLOG_IMAGES_BUCKET).remove([filePath]);
     }
   }
 
