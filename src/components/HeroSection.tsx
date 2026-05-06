@@ -29,14 +29,8 @@ export default function HeroSection() {
         className="pointer-events-none absolute -left-[18vw] bottom-[-28vw] h-[44vw] max-h-[560px] min-h-[280px] w-[44vw] min-w-[280px] max-w-[560px] rounded-full border border-[#222222]/10"
       />
 
-      <div
-        className="max-w-[1600px] mx-auto relative"
-        style={{
-          padding:
-            "calc(4.25rem + clamp(44px, 8vh, 110px)) clamp(24px, 5vw, 80px) clamp(72px, 12vh, 150px)",
-        }}
-      >
-        <div className="grid min-h-[calc(100vh-4.25rem)] grid-cols-1 content-start gap-20">
+      <div className="relative mx-auto max-w-[1600px] px-6 pb-16 pt-[calc(4.25rem+1.5rem)] md:px-[clamp(24px,5vw,80px)] md:pb-[clamp(72px,12vh,150px)] md:pt-[calc(4.25rem+clamp(44px,8vh,110px))]">
+        <div className="grid grid-cols-1 content-start gap-12 md:min-h-[calc(100vh-4.25rem)] md:gap-20">
           <div>
             <p
               className="ft-display text-[15px] font-normal tracking-[-0.02em] text-[#222222]/70 md:text-[18px]"
@@ -50,7 +44,7 @@ export default function HeroSection() {
             </h1>
           </div>
 
-          <div className="mt-36 grid grid-cols-1 gap-8 md:mt-0 lg:grid-cols-12 lg:items-end">
+          <div className="mt-16 grid grid-cols-1 gap-8 md:mt-0 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-5 lg:col-start-8">
               <p className="max-w-[560px] text-[clamp(18px,2vw,28px)] leading-[1.15] tracking-[-0.03em] text-[#222222]">
                 A curated platform for Private Equity, Venture Capital,
