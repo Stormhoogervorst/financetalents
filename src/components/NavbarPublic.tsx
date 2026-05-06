@@ -21,6 +21,11 @@ function useNavActive(pathname: string | null) {
       p.startsWith("/vacatures/") ||
       p === "/vacature" ||
       p.startsWith("/vacature/"),
+    internships:
+      p === "/internships" ||
+      p.startsWith("/internships/") ||
+      p === "/stages" ||
+      p.startsWith("/stages/"),
     werkgevers:
       p === "/werkgevers" ||
       p.startsWith("/werkgevers/") ||
@@ -125,6 +130,9 @@ export default function NavbarPublic({
                 <Link href="/vacatures" className={linkClass("vacatures")}>
                   Jobs
                 </Link>
+                <Link href="/internships" className={linkClass("internships")}>
+                  Internships
+                </Link>
                 <Link href="/werkgevers" className={linkClass("werkgevers")}>
                   Companies
                 </Link>
@@ -174,6 +182,11 @@ export default function NavbarPublic({
           <div className="max-w-[1400px] mx-auto flex flex-col items-stretch">
             {[
               { href: "/vacatures", key: "vacatures" as const, label: "Jobs" },
+              {
+                href: "/internships",
+                key: "internships" as const,
+                label: "Internships",
+              },
               { href: "/werkgevers", key: "werkgevers" as const, label: "Companies" },
               { href: "/kennisbank", key: "kennisbank" as const, label: "Insights" },
             ].map((item) => (

@@ -15,7 +15,7 @@ import { RECHTSGEBIEDEN_MET_OVERIG } from "@/lib/constants/rechtsgebieden";
 
 export const revalidate = 0;
 
-const STAGE_TYPE_VALUES = ["stage", "internship", "student", "Studentbaan"];
+const STAGE_TYPE_VALUES = ["internship", "student"];
 
 interface SearchParams {
   rechtsgebied?: string;

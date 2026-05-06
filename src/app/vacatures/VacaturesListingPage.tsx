@@ -25,6 +25,23 @@ interface VacaturesListingPageProps {
   basePath?: string;
   headingText?: string;
   subtitleText?: string;
+  typeValues?: string[];
+  typeOptions?: { value: string; label: string }[];
+  eyebrowText?: string;
+  filterHelperText?: string;
+  resultsHeadingText?: string;
+  resultLabel?: {
+    singular: string;
+    plural: string;
+  };
+  emptyState?: {
+    filteredTitle: string;
+    defaultTitle: string;
+    filteredText: string;
+    defaultText: string;
+    viewAllText: string;
+  };
+  cardStageMode?: boolean;
 }
 
 const TYPE_ALIASES: Record<string, string[]> = {
@@ -34,6 +51,8 @@ const TYPE_ALIASES: Record<string, string[]> = {
   stage: ["stage", "internship", "student", "Studentbaan"],
 };
 
+const DEFAULT_JOB_TYPE_VALUES = ["full-time", "part-time"];
+
 function fuzzy(term: string) {
   return term.trim().replace(/[\s-]+/g, "%");
 }
@@ -42,12 +61,14 @@ function buildJobQuery(
   supabase: Awaited<ReturnType<typeof createClient>>,
   params: VacaturesSearchParams,
   ids?: string[],
-  fixedPracticeArea?: string
+  fixedPracticeArea?: string,
+  typeValues: string[] = DEFAULT_JOB_TYPE_VALUES
 ) {
   let query = supabase
     .from("jobs")
     .select("*, firms ( name, logo_url, slug )")
-    .eq("status", "active");
+    .eq("status", "active")
+    .in("type", typeValues);
 
   if (ids) {
     query = query.in("id", ids);
@@ -88,6 +109,20 @@ export default async function VacaturesListingPage({
   basePath = "/vacatures",
   headingText: headingTextOverride,
   subtitleText: subtitleTextOverride,
+  typeValues = DEFAULT_JOB_TYPE_VALUES,
+  typeOptions = JOB_TYPE_OPTIONS,
+  eyebrowText = "Elite finance jobs. One platform.",
+  filterHelperText = "Filter by role, city, radius, type and sector. Apply directly to the firm when you find a fit.",
+  resultsHeadingText = "Open roles.",
+  resultLabel = { singular: "active job", plural: "active jobs" },
+  emptyState = {
+    filteredTitle: "No jobs found.",
+    defaultTitle: "Coming soon.",
+    filteredText: "Try another role, city or type to uncover more openings.",
+    defaultText: "No active jobs at the moment. Check back soon for new opportunities.",
+    viewAllText: "View all jobs",
+  },
+  cardStageMode = false,
 }: VacaturesListingPageProps) {
   const supabase = await createClient();
 
@@ -112,7 +147,8 @@ export default async function VacaturesListingPage({
         supabase,
         params,
         nearbyIds,
-        fixedPracticeArea
+        fixedPracticeArea,
+        typeValues
       );
       const dataMap = new Map((data ?? []).map((job) => [job.id, job]));
       jobs = nearbyIds
@@ -126,7 +162,8 @@ export default async function VacaturesListingPage({
       supabase,
       params,
       undefined,
-      fixedPracticeArea
+      fixedPracticeArea,
+      typeValues
     );
     jobs = data as Job[] | null;
   }
@@ -188,18 +225,6 @@ export default async function VacaturesListingPage({
               priority
             />
           </div>
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -left-[16vw] bottom-[-26vw] h-[46vw] max-h-[620px] min-h-[300px] w-[46vw] min-w-[300px] max-w-[620px] overflow-hidden rounded-full bg-white"
-          >
-            <Image
-              src="/icon FT.png"
-              alt=""
-              fill
-              className="object-contain opacity-[0.12]"
-              sizes="46vw"
-            />
-          </div>
 
           <div
             className="max-w-[1600px] mx-auto relative"
@@ -211,7 +236,7 @@ export default async function VacaturesListingPage({
             <div className="grid min-h-[calc(72vh-4.25rem)] grid-cols-1 content-between gap-12">
               <div>
                 <p className="ft-display text-[15px] font-normal tracking-[-0.02em] text-[#222222]/70 md:text-[18px]">
-                  Elite finance jobs. One platform.
+                  {eyebrowText}
                 </p>
                 <h1 className="ft-display mt-8 max-w-[12ch] text-[clamp(64px,14vw,220px)] font-extrabold leading-[0.82] tracking-[-0.08em] text-[#222222]">
                   {headingText}
@@ -224,8 +249,7 @@ export default async function VacaturesListingPage({
                     {subtitleText}
                   </p>
                   <p className="mt-5 max-w-[460px] text-[15px] leading-[1.65] text-[#222222]/60">
-                    Filter by role, city, radius, type and sector. Apply
-                    directly to the firm when you find a fit.
+                    {filterHelperText}
                   </p>
                 </div>
               </div>
@@ -235,7 +259,6 @@ export default async function VacaturesListingPage({
       </div>
 
       <section
-        className="bg-white"
         style={{
           paddingLeft: "clamp(24px, 5vw, 80px)",
           paddingRight: "clamp(24px, 5vw, 80px)",
@@ -294,7 +317,7 @@ export default async function VacaturesListingPage({
                   className="w-full appearance-none border-none bg-transparent py-3 pr-7 text-[14px] text-[#222222] outline-none focus:outline-none"
                 >
                   <option value="">All types</option>
-                  {JOB_TYPE_OPTIONS.map(({ value, label }) => (
+                  {typeOptions.map(({ value, label }) => (
                     <option key={value} value={value}>
                       {label}
                     </option>
@@ -365,14 +388,16 @@ export default async function VacaturesListingPage({
         <div className="max-w-[1400px] mx-auto">
           <div className="mb-10 grid grid-cols-1 gap-8 md:mb-16 lg:grid-cols-12 lg:items-end">
             <h2 className="ft-display lg:col-span-8 text-[clamp(54px,9vw,132px)] font-extrabold leading-[0.9] tracking-[-0.075em] text-[#222222]">
-              Open roles.
+              {resultsHeadingText}
             </h2>
             <div className="lg:col-span-4">
               <p className="max-w-[390px] text-[17px] leading-[1.45] tracking-[-0.02em] text-[#222222]/65">
                 {jobList.length === 0
-                  ? "No matching jobs right now."
-                  : `Showing ${jobList.length} active job${
-                      jobList.length !== 1 ? "s" : ""
+                  ? `No matching ${resultLabel.plural} right now.`
+                  : `Showing ${jobList.length} ${
+                      jobList.length === 1
+                        ? resultLabel.singular
+                        : resultLabel.plural
                     }.`}
               </p>
             </div>
@@ -381,27 +406,29 @@ export default async function VacaturesListingPage({
           {jobList.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
               {jobList.map((job) => (
-                <VacatureCard key={job.id} job={job} />
+                <VacatureCard key={job.id} job={job} stageMode={cardStageMode} />
               ))}
             </div>
           ) : (
             <div className="grid grid-cols-1 border border-[#222222] bg-white lg:grid-cols-12">
               <div className="p-6 md:p-8 lg:col-span-7">
                 <h2 className="ft-display max-w-[720px] text-[clamp(42px,7vw,104px)] font-extrabold leading-[0.9] tracking-[-0.075em] text-[#222222]">
-                  {hasFilters ? "No jobs found." : "Coming soon."}
+                  {hasFilters
+                    ? emptyState.filteredTitle
+                    : emptyState.defaultTitle}
                 </h2>
               </div>
               <div className="border-t border-[#222222] p-6 md:p-8 lg:col-span-5 lg:border-l lg:border-t-0">
                 <p className="max-w-[460px] text-[16px] leading-[1.65] text-[#222222]/65">
                   {hasFilters
-                    ? "Try another role, city or type to uncover more openings."
+                    ? emptyState.filteredText
                     : fixedPracticeArea
                       ? `No active ${fixedPracticeArea} jobs at the moment. Check back soon for new opportunities.`
-                      : "No active jobs at the moment. Check back soon for new opportunities."}
+                      : emptyState.defaultText}
                 </p>
                 {hasFilters && (
                   <Link href={basePath} className="btn-primary mt-8">
-                    View all jobs
+                    {emptyState.viewAllText}
                   </Link>
                 )}
               </div>

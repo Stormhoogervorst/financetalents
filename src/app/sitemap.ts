@@ -29,6 +29,8 @@ const STATIC_ROUTES: Array<{
   changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"];
 }> = [
   { path: "/", priority: 1.0, changeFrequency: "daily" },
+  { path: "/vacatures", priority: 0.9, changeFrequency: "daily" },
+  { path: "/internships", priority: 0.9, changeFrequency: "daily" },
   { path: "/werkgevers", priority: 0.8, changeFrequency: "weekly" },
   { path: "/kennisbank", priority: 0.7, changeFrequency: "weekly" },
   { path: "/voor-werkgevers", priority: 0.5, changeFrequency: "monthly" },

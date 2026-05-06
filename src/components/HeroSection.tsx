@@ -36,7 +36,7 @@ export default function HeroSection() {
             "calc(4.25rem + clamp(44px, 8vh, 110px)) clamp(24px, 5vw, 80px) clamp(72px, 12vh, 150px)",
         }}
       >
-        <div className="grid min-h-[calc(100vh-4.25rem)] grid-cols-1 content-between gap-12">
+        <div className="grid min-h-[calc(100vh-4.25rem)] grid-cols-1 content-start gap-20">
           <div>
             <p
               className="ft-display text-[15px] font-normal tracking-[-0.02em] text-[#222222]/70 md:text-[18px]"
@@ -44,13 +44,13 @@ export default function HeroSection() {
               Elite finance jobs. One platform.
             </p>
             <h1
-              className="ft-display mt-8 max-w-[14ch] text-[clamp(64px,14vw,220px)] font-extrabold leading-[0.82] tracking-[-0.08em] text-[#222222]"
+              className="ft-display mt-8 max-w-[14ch] text-[clamp(56px,10vw,150px)] font-extrabold leading-[0.84] tracking-[-0.08em] text-[#222222]"
             >
               Finance without the noise.
             </h1>
           </div>
 
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end">
+          <div className="mt-36 grid grid-cols-1 gap-8 md:mt-0 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-5 lg:col-start-8">
               <p className="max-w-[560px] text-[clamp(18px,2vw,28px)] leading-[1.15] tracking-[-0.03em] text-[#222222]">
                 A curated platform for Private Equity, Venture Capital,
@@ -66,23 +66,6 @@ export default function HeroSection() {
                 </Link>
               </div>
             </div>
-          </div>
-
-          <div
-            className="grid grid-cols-2 border-y border-[#222222] text-[13px] text-[#222222]/70 md:grid-cols-4"
-            style={{
-              marginBottom: "calc(clamp(72px, 12vh, 150px) * -0.2)",
-            }}
-          >
-            {["Private Equity", "Venture Capital", "Investment Banking", "FinTech"].map((item) => (
-              <div
-                key={item}
-                className="flex items-center justify-between border-[#222222] px-4 py-4 md:border-r md:last:border-r-0"
-              >
-                {item}
-                <ArrowUpRight className="h-3.5 w-3.5" />
-              </div>
-            ))}
           </div>
         </div>
       </div>
