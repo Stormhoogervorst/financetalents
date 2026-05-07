@@ -115,18 +115,6 @@ export default async function FirmsPage({
               priority
             />
           </div>
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -left-[16vw] bottom-[-26vw] h-[46vw] max-h-[620px] min-h-[300px] w-[46vw] min-w-[300px] max-w-[620px] overflow-hidden rounded-full bg-white"
-          >
-            <Image
-              src="/icon FT.png"
-              alt=""
-              fill
-              className="object-contain opacity-[0.12]"
-              sizes="46vw"
-            />
-          </div>
 
           <div
             className="max-w-[1600px] mx-auto relative"
@@ -162,7 +150,7 @@ export default async function FirmsPage({
       </div>
 
       <section
-        className="bg-white"
+        className="bg-[#EBEBEB]"
         style={{
           paddingLeft: "clamp(24px, 5vw, 80px)",
           paddingRight: "clamp(24px, 5vw, 80px)",
@@ -172,10 +160,10 @@ export default async function FirmsPage({
       >
         <div className="max-w-[1400px] mx-auto">
           <form method="GET">
-            <div className="grid grid-cols-1 border border-[#222222] bg-white md:grid-cols-2 xl:grid-cols-[minmax(240px,1.4fr)_minmax(96px,0.45fr)_minmax(190px,0.9fr)_auto]">
+            <div className="grid grid-cols-1 border border-[#222222] bg-[#EBEBEB] md:grid-cols-2 xl:grid-cols-[minmax(240px,1.4fr)_minmax(96px,0.45fr)_minmax(190px,0.9fr)_auto]">
               <label
                 htmlFor="filter-locatie"
-                className="flex min-h-[72px] items-center gap-3 border-b border-[#222222] px-5 md:border-r xl:border-b-0"
+                className="flex min-h-[72px] items-center gap-3 border-b border-[#222222] bg-white px-5 md:border-r xl:border-b-0"
               >
                 <MapPin className="h-4 w-4 shrink-0 text-[#222222]/55" />
                 <input
@@ -187,7 +175,7 @@ export default async function FirmsPage({
                 />
               </label>
 
-              <div className="flex min-h-[72px] items-center border-b border-[#222222] px-5 md:border-r xl:border-b-0">
+              <div className="flex min-h-[72px] items-center border-b border-[#222222] bg-white px-5 md:border-r xl:border-b-0">
                 <RadiusSelect
                   name="straal"
                   defaultValue={params.straal ?? "0"}
@@ -198,7 +186,7 @@ export default async function FirmsPage({
 
               <label
                 htmlFor="filter-rechtsgebied"
-                className="relative flex min-h-[72px] items-center border-b border-[#222222] px-5 md:border-b-0 md:border-r xl:border-b-0"
+                className="relative flex min-h-[72px] items-center border-b border-[#222222] bg-white px-5 md:border-b-0 md:border-r xl:border-b-0"
               >
                 <select
                   id="filter-rechtsgebied"

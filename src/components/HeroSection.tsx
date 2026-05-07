@@ -29,8 +29,8 @@ export default function HeroSection() {
         className="pointer-events-none absolute -left-[18vw] bottom-[-28vw] h-[44vw] max-h-[560px] min-h-[280px] w-[44vw] min-w-[280px] max-w-[560px] rounded-full border border-[#222222]/10"
       />
 
-      <div className="relative mx-auto max-w-[1600px] px-6 pb-16 pt-[calc(4.25rem+1.5rem)] md:px-[clamp(24px,5vw,80px)] md:pb-[clamp(72px,12vh,150px)] md:pt-[calc(4.25rem+clamp(44px,8vh,110px))]">
-        <div className="grid grid-cols-1 content-start gap-12 md:min-h-[calc(100vh-4.25rem)] md:gap-20">
+      <div className="relative mx-auto max-w-[1600px] px-6 pb-16 pt-[calc(4.25rem+1.5rem)] md:px-[clamp(24px,5vw,80px)] md:pb-[clamp(72px,12vh,150px)] md:pt-[calc(4.25rem+clamp(44px,8vh,110px))] lg:pb-[clamp(56px,8vh,96px)]">
+        <div className="grid grid-cols-1 content-start gap-12 md:min-h-[calc(100vh-4.25rem)] md:gap-20 lg:min-h-[calc(84vh-4.25rem-clamp(44px,8vh,110px)-clamp(56px,8vh,96px))]">
           <div>
             <p
               className="ft-display text-[15px] font-normal tracking-[-0.02em] text-[#222222]/70 md:text-[18px]"

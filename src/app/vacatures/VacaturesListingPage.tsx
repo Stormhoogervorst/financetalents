@@ -4,6 +4,8 @@ import { ArrowUpRight, ChevronDown, MapPin, Search } from "lucide-react";
 import NavbarPublic from "@/components/NavbarPublic";
 import Footer from "@/components/Footer";
 import VacatureCard from "@/components/VacatureCard";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import type { BreadcrumbItem } from "@/components/BreadcrumbSchema";
 import RadiusSelect from "@/components/RadiusSelect";
 import { createClient } from "@/lib/supabase/server";
 import { geocodeCity } from "@/lib/geocode";
@@ -30,6 +32,8 @@ interface VacaturesListingPageProps {
   eyebrowText?: string;
   filterHelperText?: string;
   resultsHeadingText?: string;
+  heroHeadingClassName?: string;
+  fixedLocation?: string;
   resultLabel?: {
     singular: string;
     plural: string;
@@ -42,6 +46,7 @@ interface VacaturesListingPageProps {
     viewAllText: string;
   };
   cardStageMode?: boolean;
+  breadcrumbItems?: BreadcrumbItem[];
 }
 
 const TYPE_ALIASES: Record<string, string[]> = {
@@ -62,7 +67,8 @@ function buildJobQuery(
   params: VacaturesSearchParams,
   ids?: string[],
   fixedPracticeArea?: string,
-  typeValues: string[] = DEFAULT_JOB_TYPE_VALUES
+  typeValues: string[] = DEFAULT_JOB_TYPE_VALUES,
+  fixedLocation?: string
 ) {
   let query = supabase
     .from("jobs")
@@ -87,8 +93,9 @@ function buildJobQuery(
     );
   }
 
-  if (params.locatie && !ids) {
-    query = query.ilike("location", `%${fuzzy(params.locatie)}%`);
+  const locationFilter = fixedLocation ?? params.locatie;
+  if (locationFilter && !ids) {
+    query = query.ilike("location", `%${fuzzy(locationFilter)}%`);
   }
 
   if (params.type) {
@@ -114,6 +121,8 @@ export default async function VacaturesListingPage({
   eyebrowText = "Elite finance jobs. One platform.",
   filterHelperText = "Filter by role, city, radius, type and sector. Apply directly to the firm when you find a fit.",
   resultsHeadingText = "Open roles.",
+  heroHeadingClassName = "max-w-[12ch] text-[clamp(64px,14vw,220px)] leading-[0.82] tracking-[-0.08em]",
+  fixedLocation,
   resultLabel = { singular: "active job", plural: "active jobs" },
   emptyState = {
     filteredTitle: "No jobs found.",
@@ -123,6 +132,7 @@ export default async function VacaturesListingPage({
     viewAllText: "View all jobs",
   },
   cardStageMode = false,
+  breadcrumbItems,
 }: VacaturesListingPageProps) {
   const supabase = await createClient();
 
@@ -148,7 +158,8 @@ export default async function VacaturesListingPage({
         params,
         nearbyIds,
         fixedPracticeArea,
-        typeValues
+        typeValues,
+        fixedLocation
       );
       const dataMap = new Map((data ?? []).map((job) => [job.id, job]));
       jobs = nearbyIds
@@ -163,7 +174,8 @@ export default async function VacaturesListingPage({
       params,
       undefined,
       fixedPracticeArea,
-      typeValues
+      typeValues,
+      fixedLocation
     );
     jobs = data as Job[] | null;
   }
@@ -176,7 +188,7 @@ export default async function VacaturesListingPage({
 
   const hasFilters = !!(
     params.q ||
-    params.locatie ||
+    (!fixedLocation && params.locatie) ||
     params.type ||
     (!fixedPracticeArea && params.rechtsgebied) ||
     params.functie ||
@@ -189,7 +201,8 @@ export default async function VacaturesListingPage({
   if (!fixedPracticeArea && params.rechtsgebied) {
     filterParts.push(params.rechtsgebied);
   }
-  if (params.locatie) filterParts.push(params.locatie);
+  if (fixedLocation) filterParts.push(fixedLocation);
+  else if (params.locatie) filterParts.push(params.locatie);
 
   const filterLabel = filterParts.length > 0 ? filterParts.join(" - ") : null;
   const defaultHeadingText = fixedPracticeArea
@@ -235,10 +248,15 @@ export default async function VacaturesListingPage({
           >
             <div className="grid min-h-[calc(72vh-4.25rem)] grid-cols-1 content-between gap-12">
               <div>
+                {breadcrumbItems && breadcrumbItems.length > 0 && (
+                  <div className="mb-10 text-[#222222]/70">
+                    <Breadcrumbs items={breadcrumbItems} />
+                  </div>
+                )}
                 <p className="ft-display text-[15px] font-normal tracking-[-0.02em] text-[#222222]/70 md:text-[18px]">
                   {eyebrowText}
                 </p>
-                <h1 className="ft-display mt-8 max-w-[12ch] text-[clamp(64px,14vw,220px)] font-extrabold leading-[0.82] tracking-[-0.08em] text-[#222222]">
+                <h1 className={`ft-display mt-8 font-extrabold text-[#222222] ${heroHeadingClassName}`}>
                   {headingText}
                 </h1>
               </div>
@@ -268,10 +286,10 @@ export default async function VacaturesListingPage({
       >
         <div className="max-w-[1400px] mx-auto">
           <form method="GET">
-            <div className="grid grid-cols-1 border border-[#222222] bg-white md:grid-cols-2 xl:grid-cols-[minmax(240px,1.3fr)_minmax(180px,0.85fr)_minmax(96px,0.45fr)_minmax(160px,0.7fr)_minmax(190px,0.9fr)_auto]">
+            <div className="grid grid-cols-1 border border-[#222222] bg-[#EBEBEB] md:grid-cols-2 xl:grid-cols-[minmax(240px,1.3fr)_minmax(180px,0.85fr)_minmax(96px,0.45fr)_minmax(160px,0.7fr)_minmax(190px,0.9fr)_auto]">
               <label
                 htmlFor="filter-q"
-                className="flex min-h-[72px] items-center gap-3 border-b border-[#222222] px-5 md:border-r xl:border-b-0"
+                className="flex min-h-[72px] items-center gap-3 border-b border-[#222222] bg-white px-5 md:border-r xl:border-b-0"
               >
                 <Search className="h-4 w-4 shrink-0 text-[#222222]/55" />
                 <input
@@ -283,32 +301,47 @@ export default async function VacaturesListingPage({
                 />
               </label>
 
-              <label
-                htmlFor="filter-locatie"
-                className="flex min-h-[72px] items-center gap-3 border-b border-[#222222] px-5 xl:border-r xl:border-b-0"
-              >
-                <MapPin className="h-4 w-4 shrink-0 text-[#222222]/55" />
-                <input
-                  id="filter-locatie"
-                  name="locatie"
-                  defaultValue={params.locatie ?? ""}
-                  placeholder="Location"
-                  className="w-full border-none bg-transparent text-[15px] text-[#222222] outline-none placeholder:text-[#222222]/45 focus:outline-none"
-                />
-              </label>
+              {fixedLocation ? (
+                <div className="flex min-h-[72px] items-center gap-3 border-b border-[#222222] bg-white px-5 xl:border-r xl:border-b-0">
+                  <MapPin className="h-4 w-4 shrink-0 text-[#222222]/55" />
+                  <span className="text-[15px] text-[#222222]">
+                    {fixedLocation}
+                  </span>
+                </div>
+              ) : (
+                <label
+                  htmlFor="filter-locatie"
+                  className="flex min-h-[72px] items-center gap-3 border-b border-[#222222] bg-white px-5 xl:border-r xl:border-b-0"
+                >
+                  <MapPin className="h-4 w-4 shrink-0 text-[#222222]/55" />
+                  <input
+                    id="filter-locatie"
+                    name="locatie"
+                    defaultValue={params.locatie ?? ""}
+                    placeholder="Location"
+                    className="w-full border-none bg-transparent text-[15px] text-[#222222] outline-none placeholder:text-[#222222]/45 focus:outline-none"
+                  />
+                </label>
+              )}
 
-              <div className="flex min-h-[72px] items-center border-b border-[#222222] px-5 md:border-r xl:border-b-0">
-                <RadiusSelect
-                  name="straal"
-                  defaultValue={params.straal ?? "0"}
-                  locationInputId="filter-locatie"
-                  className="w-full appearance-none border-none bg-transparent py-3 pr-6 text-[14px] text-[#222222] outline-none focus:outline-none"
-                />
+              <div className="flex min-h-[72px] items-center border-b border-[#222222] bg-white px-5 md:border-r xl:border-b-0">
+                {fixedLocation ? (
+                  <span className="text-[14px] text-[#222222]/55">
+                    City page
+                  </span>
+                ) : (
+                  <RadiusSelect
+                    name="straal"
+                    defaultValue={params.straal ?? "0"}
+                    locationInputId="filter-locatie"
+                    className="w-full appearance-none border-none bg-transparent py-3 pr-6 text-[14px] text-[#222222] outline-none focus:outline-none"
+                  />
+                )}
               </div>
 
               <label
                 htmlFor="filter-type"
-                className="relative flex min-h-[72px] items-center border-b border-[#222222] px-5 xl:border-r xl:border-b-0"
+                className="relative flex min-h-[72px] items-center border-b border-[#222222] bg-white px-5 xl:border-r xl:border-b-0"
               >
                 <select
                   id="filter-type"
@@ -327,7 +360,7 @@ export default async function VacaturesListingPage({
               </label>
 
               {fixedPracticeArea ? (
-                <div className="flex min-h-[72px] items-center border-b border-[#222222] px-5 md:border-b-0 md:border-r">
+                <div className="flex min-h-[72px] items-center border-b border-[#222222] bg-white px-5 md:border-b-0 md:border-r">
                   <span className="text-[14px] text-[#222222]">
                     {fixedPracticeArea}
                   </span>
@@ -335,7 +368,7 @@ export default async function VacaturesListingPage({
               ) : (
                 <label
                   htmlFor="filter-rechtsgebied"
-                  className="relative flex min-h-[72px] items-center border-b border-[#222222] px-5 md:border-b-0 md:border-r"
+                  className="relative flex min-h-[72px] items-center border-b border-[#222222] bg-white px-5 md:border-b-0 md:border-r"
                 >
                   <select
                     id="filter-rechtsgebied"
@@ -387,7 +420,7 @@ export default async function VacaturesListingPage({
       >
         <div className="max-w-[1400px] mx-auto">
           <div className="mb-10 grid grid-cols-1 gap-8 md:mb-16 lg:grid-cols-12 lg:items-end">
-            <h2 className="ft-display lg:col-span-8 text-[clamp(54px,9vw,132px)] font-extrabold leading-[0.9] tracking-[-0.075em] text-[#222222]">
+            <h2 className="ft-display lg:col-span-8 text-[clamp(34px,5vw,72px)] font-extrabold leading-[0.95] tracking-[-0.06em] text-[#222222]">
               {resultsHeadingText}
             </h2>
             <div className="lg:col-span-4">

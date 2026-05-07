@@ -9,10 +9,12 @@ import Footer from "@/components/Footer";
 import ApplicationForm from "@/components/ApplicationForm";
 import ApplicationStatusToast from "@/components/ApplicationStatusToast";
 import LinkedInQuickApply from "@/components/LinkedInQuickApply";
-import { Job, Firm, jobTypeLabels } from "@/types";
+import VacatureCard from "@/components/VacatureCard";
+import { Job, Firm, JobFirmPreview, jobTypeLabels } from "@/types";
 import { Metadata } from "next";
 import { CITIES, cityDisplayName } from "@/lib/cities";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { getRechtsgebiedSlug } from "@/lib/constants/rechtsgebieden";
 import {
   buildJobPostingSchema,
   computeValidThrough,
@@ -51,7 +53,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const { data } = await supabase
     .from("jobs")
-    .select("title, description, firms(name)")
+    .select("title, description, location, firms(name)")
     .eq("slug", slug)
     .eq("status", "active")
     .maybeSingle();
@@ -65,14 +67,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const plainDescription = data.description
     .replace(/<[^>]*>/g, " ")
     .replace(/\s+/g, " ")
-    .trim()
-    .substring(0, 160);
+    .trim();
+  const metaTitle = `${data.title}${firmName ? ` bij ${firmName}` : ""}${
+    data.location ? ` in ${data.location}` : ""
+  }`;
+  const roleContext = `${firmName ? `${data.title} bij ${firmName}` : data.title}${
+    data.location ? ` in ${data.location}` : ""
+  }`;
+  const metaDescription = `${roleContext}. ${plainDescription}`.substring(0, 160);
 
   return {
-    title: `${data.title}${firmName ? ` bij ${firmName}` : ""}`,
-    description: plainDescription,
+    title: metaTitle,
+    description: metaDescription,
     alternates: {
       canonical: `/vacature/${slug}`,
+    },
+    openGraph: {
+      title: metaTitle,
+      description: metaDescription,
+      url: `/vacature/${slug}`,
     },
   };
 }
@@ -155,17 +168,26 @@ export default async function JobDetailPage({ params, searchParams }: Props) {
   );
 
   const citySlug = locationToCitySlug(typedJob.location ?? "");
+  const cityName = citySlug ? cityDisplayName(citySlug) : null;
+  const sectorSlug = typedJob.practice_area
+    ? getRechtsgebiedSlug(typedJob.practice_area)
+    : null;
+  const pageTitle = `${typedJob.title}${firm?.name ? ` bij ${firm.name}` : ""}${
+    typedJob.location ? ` in ${typedJob.location}` : ""
+  }`;
+  const typeLabel = jobTypeLabels[typedJob.type] ?? typedJob.type;
   const breadcrumbItems = [
     { label: "Home", href: "/" },
+    { label: "Vacatures", href: "/vacatures" },
     ...(citySlug
-      ? [{ label: cityDisplayName(citySlug), href: `/vacatures/${citySlug}` }]
+      ? [{ label: cityName ?? typedJob.location, href: `/vacatures/${citySlug}` }]
       : []),
-    { label: typedJob.title, href: `/vacature/${typedJob.slug}` },
+    { label: pageTitle, href: `/vacature/${typedJob.slug}` },
   ];
 
   const metaItems: { label: string; value: string }[] = [];
   if (typedJob.location) metaItems.push({ label: "Location", value: typedJob.location });
-  metaItems.push({ label: "Type", value: jobTypeLabels[typedJob.type] ?? typedJob.type });
+  metaItems.push({ label: "Type", value: typeLabel });
   if (typedJob.practice_area) metaItems.push({ label: "Sector", value: typedJob.practice_area });
   if (typedJob.start_date) {
     metaItems.push({
@@ -180,6 +202,32 @@ export default async function JobDetailPage({ params, searchParams }: Props) {
   if (typedJob.required_education) metaItems.push({ label: "Education", value: typedJob.required_education });
   if (typedJob.salary_indication) metaItems.push({ label: "Salary", value: typedJob.salary_indication });
   if (typedJob.hours_per_week) metaItems.push({ label: "Hours per week", value: `${typedJob.hours_per_week}` });
+
+  let relatedQuery = supabase
+    .from("jobs")
+    .select("*, firms ( name, logo_url, slug )")
+    .eq("status", "active")
+    .neq("id", typedJob.id)
+    .order("created_at", { ascending: false })
+    .limit(5);
+
+  if (typedJob.practice_area) {
+    relatedQuery = relatedQuery.ilike(
+      "practice_area",
+      `%${typedJob.practice_area}%`,
+    );
+  } else if (typedJob.location) {
+    relatedQuery = relatedQuery.ilike("location", `%${typedJob.location}%`);
+  }
+
+  const { data: relatedJobs } = await relatedQuery;
+  type JobWithFirm = Omit<Job, "firms"> & { firms: JobFirmPreview | null };
+  const similarJobs = (relatedJobs ?? []).map((relatedJob) => ({
+    ...relatedJob,
+    firms: Array.isArray(relatedJob.firms)
+      ? (relatedJob.firms[0] ?? null)
+      : (relatedJob.firms ?? null),
+  })) as JobWithFirm[];
 
   return (
     <div className="relative min-h-screen flex flex-col bg-[#EBEBEB] text-[#222222]">
@@ -211,18 +259,6 @@ export default async function JobDetailPage({ params, searchParams }: Props) {
               priority
             />
           </div>
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -left-[16vw] bottom-[-28vw] h-[48vw] max-h-[640px] min-h-[300px] w-[48vw] min-w-[300px] max-w-[640px] overflow-hidden rounded-full bg-white"
-          >
-            <Image
-              src="/icon FT.png"
-              alt=""
-              fill
-              className="object-contain opacity-[0.12]"
-              sizes="48vw"
-            />
-          </div>
 
           <div
             className="max-w-[1600px] mx-auto relative"
@@ -240,9 +276,29 @@ export default async function JobDetailPage({ params, searchParams }: Props) {
                 <p className="ft-display mt-10 text-[15px] font-normal tracking-[-0.02em] text-[#222222]/70 md:text-[18px]">
                   Elite finance jobs. One platform.
                 </p>
-                <h1 className="ft-display mt-8 max-w-[13ch] text-[clamp(58px,12vw,190px)] font-extrabold leading-[0.82] tracking-[-0.08em] text-[#222222]">
+                <h1 className="ft-display mt-8 max-w-[16ch] text-[clamp(42px,8vw,128px)] font-extrabold leading-[0.88] tracking-[-0.07em] text-[#222222]">
                   {typedJob.title}
                 </h1>
+                <div className="mt-7 flex flex-col gap-2 text-[clamp(16px,1.6vw,22px)] leading-[1.35] tracking-[-0.025em] text-[#222222]/65 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4">
+                  {firm?.name && firm.slug && (
+                    <Link
+                      href={`/werkgevers/${firm.slug}`}
+                      className="font-medium text-[#222222] underline decoration-[#222222]/20 underline-offset-4 transition-colors duration-200 hover:text-[#E85A00]"
+                    >
+                      {firm.name}
+                    </Link>
+                  )}
+                  {firm?.name && !firm.slug && (
+                    <span className="font-medium text-[#222222]">
+                      {firm.name}
+                    </span>
+                  )}
+                  {(typedJob.location || typeLabel) && (
+                    <span>
+                      {[typedJob.location, typeLabel].filter(Boolean).join(" · ")}
+                    </span>
+                  )}
+                </div>
               </div>
 
               <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end">
@@ -301,7 +357,7 @@ export default async function JobDetailPage({ params, searchParams }: Props) {
       </div>
 
       <section
-        className="bg-white"
+        className="bg-[#EBEBEB]"
         style={{
           paddingLeft: "clamp(24px, 5vw, 80px)",
           paddingRight: "clamp(24px, 5vw, 80px)",
@@ -310,11 +366,11 @@ export default async function JobDetailPage({ params, searchParams }: Props) {
         }}
       >
         <div className="mx-auto max-w-[1400px]">
-          <div className="grid grid-cols-1 border border-[#222222] md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4">
             {metaItems.map((item) => (
               <div
                 key={item.label}
-                className="min-h-[132px] border-b border-[#222222] bg-white p-5 last:border-b-0 md:[&:nth-child(2n)]:border-l lg:border-b-0 lg:border-l lg:first:border-l-0 md:[&:nth-last-child(-n+2)]:border-b-0"
+                className="min-h-[132px] border border-[#222222] bg-white p-5"
               >
                 <p className="text-[14px] text-[#222222]/55">{item.label}</p>
                 <p className="ft-display mt-8 text-[clamp(22px,2vw,32px)] font-extrabold leading-[0.95] tracking-[-0.055em] text-[#222222]">
@@ -522,11 +578,69 @@ export default async function JobDetailPage({ params, searchParams }: Props) {
                     ))}
                   </div>
                 </div>
+
+                {(citySlug || sectorSlug) && (
+                  <div className="border border-[#222222] bg-white p-5">
+                    <p className="ft-display text-[15px] tracking-[-0.02em] text-[#222222]/60">
+                      Explore more
+                    </p>
+                    <div className="mt-5 flex flex-col gap-3">
+                      {citySlug && cityName && (
+                        <Link
+                          href={`/vacatures/${citySlug}`}
+                          className="inline-flex items-center justify-between border-t border-[#222222]/15 pt-4 text-[14px] font-medium text-[#222222] transition-colors duration-200 hover:text-[#E85A00]"
+                        >
+                          Vacatures in {cityName}
+                          <span aria-hidden>↗</span>
+                        </Link>
+                      )}
+                      {sectorSlug && typedJob.practice_area && (
+                        <Link
+                          href={`/vacatures/${sectorSlug}`}
+                          className="inline-flex items-center justify-between border-t border-[#222222]/15 pt-4 text-[14px] font-medium text-[#222222] transition-colors duration-200 hover:text-[#E85A00]"
+                        >
+                          {typedJob.practice_area} jobs
+                          <span aria-hidden>↗</span>
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </aside>
           </div>
         </div>
       </section>
+
+      {similarJobs.length > 0 && (
+        <section
+          style={{
+            paddingLeft: "clamp(24px, 5vw, 80px)",
+            paddingRight: "clamp(24px, 5vw, 80px)",
+            paddingTop: "clamp(70px, 9vh, 140px)",
+            paddingBottom: "clamp(80px, 10vh, 150px)",
+          }}
+        >
+          <div className="max-w-[1400px] mx-auto">
+            <div className="mb-10 grid grid-cols-1 gap-8 md:mb-16 lg:grid-cols-12 lg:items-end">
+              <h2 className="ft-display lg:col-span-8 text-[clamp(54px,9vw,132px)] font-extrabold leading-[0.9] tracking-[-0.075em] text-[#222222]">
+                Similar roles.
+              </h2>
+              <div className="lg:col-span-4">
+                <p className="max-w-[390px] text-[17px] leading-[1.45] tracking-[-0.02em] text-[#222222]/65">
+                  Keep exploring roles that match this opportunity.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+              {similarJobs.map((relatedJob) => (
+                <VacatureCard key={relatedJob.id} job={relatedJob} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <Footer />
     </div>
