@@ -34,6 +34,8 @@ export async function POST(request: NextRequest) {
   const phone = (formData.get("phone") as string | null)?.trim();
   const cvFile = formData.get("cv") as File | null;
 
+  console.log("[linkedin-apply/confirm] job_id received:", jobId ?? null);
+
   if (!jobId || !linkedinUrl || !phone) {
     return NextResponse.json({ error: "Vul alle velden in." }, { status: 400 });
   }
@@ -130,8 +132,15 @@ export async function POST(request: NextRequest) {
   }
 
   // 5. Insert application with verified linkedin_url + cv path
+  console.log("[linkedin-apply/confirm] inserting application:", {
+    job_id: jobId,
+    applicant_id: user.id,
+    firm_id: job.firm_id,
+  });
+
   const { error: insertError } = await admin.from("applications").insert({
     job_id: jobId,
+    applicant_id: user.id,
     firm_id: job.firm_id,
     applicant_name: fullName,
     applicant_email: email,

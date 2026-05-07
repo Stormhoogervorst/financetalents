@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createResend } from "@/lib/resend";
 import {
@@ -7,6 +8,9 @@ import {
 } from "@/lib/linkedin-profile-url";
 import { checkRateLimit, getRequestIp } from "@/lib/security/rate-limit";
 import { SITE_URL } from "@/lib/site";
+
+const UUID_RE =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 export async function POST(request: NextRequest) {
   console.log("[linkedin-apply/auto] POST received");
@@ -23,6 +27,8 @@ export async function POST(request: NextRequest) {
   }
 
   let body: {
+    vacancy_id?: string;
+    vacancyId?: string;
     jobId?: string;
     firstName?: string;
     lastName?: string;
@@ -34,16 +40,30 @@ export async function POST(request: NextRequest) {
   } catch {
     return NextResponse.json({ error: "Ongeldige request." }, { status: 400 });
   }
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return NextResponse.json({ error: "Ongeldige request." }, { status: 400 });
+  }
 
-  const jobId = body.jobId?.trim();
+  console.log("[linkedin-apply/auto] body keys:", Object.keys(body));
+
+  const jobId =
+    body.vacancy_id?.trim() ?? body.vacancyId?.trim() ?? body.jobId?.trim();
   const firstName = body.firstName?.trim() ?? "";
   const lastName = body.lastName?.trim() ?? "";
   const rawLinkedinUrl = body.linkedinUrl?.trim() ?? "";
   const phone = body.phone?.trim() ?? "";
 
+  console.log("[linkedin-apply/auto] job_id received:", jobId ?? null);
+
   if (!jobId) {
     return NextResponse.json(
-      { error: "jobId is verplicht." },
+      { error: "Missing job_id." },
+      { status: 400 },
+    );
+  }
+  if (!UUID_RE.test(jobId)) {
+    return NextResponse.json(
+      { error: "Invalid job_id." },
       { status: 400 },
     );
   }
@@ -73,7 +93,65 @@ export async function POST(request: NextRequest) {
   const placeholderEmail = `linkedin+${linkedinSlug}@finance-talents.com`;
   const fullName = `${firstName} ${lastName}`.trim();
 
+  const supabase = await createClient();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  console.log("[linkedin-apply/auto] applicant_id resolved:", user?.id ?? null);
+
+  if (userError || !user) {
+    return NextResponse.json(
+      {
+        error:
+          "Je moet ingelogd zijn om direct met LinkedIn te solliciteren.",
+      },
+      { status: 401 },
+    );
+  }
+
   const admin = createAdminClient();
+
+  const applicantEmail = user.email ?? placeholderEmail;
+  const { data: profile, error: profileFetchError } = await admin
+    .from("profiles")
+    .select("id")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (profileFetchError) {
+    console.error(
+      "[linkedin-apply/auto] Profile fetch error:",
+      profileFetchError.message,
+      profileFetchError.code,
+    );
+    return NextResponse.json(
+      { error: "Profiel ophalen mislukt. Probeer het opnieuw." },
+      { status: 500 },
+    );
+  }
+
+  if (!profile) {
+    const { error: profileInsertError } = await admin.from("profiles").insert({
+      id: user.id,
+      email: applicantEmail,
+      full_name: fullName,
+      role: "job_seeker",
+    });
+
+    if (profileInsertError) {
+      console.error(
+        "[linkedin-apply/auto] Profile insert error:",
+        profileInsertError.message,
+        profileInsertError.code,
+      );
+      return NextResponse.json(
+        { error: "Profiel opslaan mislukt. Probeer het opnieuw." },
+        { status: 500 },
+      );
+    }
+  }
 
   // Fetch job + firm
   const { data: job, error: jobError } = await admin
@@ -96,9 +174,7 @@ export async function POST(request: NextRequest) {
     .from("applications")
     .select("id")
     .eq("job_id", jobId)
-    .or(
-      `linkedin_url.eq.${cleanLinkedinUrl},applicant_email.eq.${placeholderEmail}`,
-    )
+    .eq("applicant_id", user.id)
     .maybeSingle();
 
   if (existing) {
@@ -109,11 +185,24 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  console.log("[linkedin-apply/auto] Attempting insert with:", {
+    job_id: jobId,
+    job_id_type: typeof jobId,
+    applicant_id: user.id,
+  });
+
+  console.log("[linkedin-apply/auto] inserting application:", {
+    job_id: jobId,
+    applicant_id: user.id,
+    firm_id: job.firm_id,
+  });
+
   const { error: insertError } = await admin.from("applications").insert({
     job_id: jobId,
+    applicant_id: user.id,
     firm_id: job.firm_id,
     applicant_name: fullName,
-    applicant_email: placeholderEmail,
+    applicant_email: applicantEmail,
     applicant_phone: phone,
     linkedin_url: cleanLinkedinUrl,
   });

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createResend } from "@/lib/resend";
 import {
@@ -201,9 +202,62 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  console.log("[/api/apply] Validated fields. jobId:", jobId, "email:", email);
+  console.log("[/api/apply] Validated fields. job_id:", jobId, "email:", email);
+
+  const sessionClient = await createClient();
+  const {
+    data: { user },
+  } = await sessionClient.auth.getUser();
+
+  console.log("[/api/apply] applicant_id resolved:", user?.id ?? null);
+
+  if (!user) {
+    return NextResponse.json(
+      { error: "Je moet ingelogd zijn om te solliciteren." },
+      { status: 401 }
+    );
+  }
 
   const supabase = createAdminClient();
+
+  const { data: profile, error: profileFetchError } = await supabase
+    .from("profiles")
+    .select("id")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (profileFetchError) {
+    console.error(
+      "[/api/apply] Profile fetch error:",
+      profileFetchError.message,
+      profileFetchError.code
+    );
+    return NextResponse.json(
+      { error: "Profiel ophalen mislukt. Probeer het opnieuw." },
+      { status: 500 }
+    );
+  }
+
+  if (!profile) {
+    const { error: profileInsertError } = await supabase.from("profiles").insert({
+      id: user.id,
+      email,
+      full_name: `${firstName} ${lastName}`,
+      role: "job_seeker",
+    });
+
+    if (profileInsertError) {
+      console.error(
+        "[/api/apply] Profile insert error:",
+        profileInsertError.message,
+        profileInsertError.code
+      );
+      return NextResponse.json(
+        { error: "Profiel opslaan mislukt. Probeer het opnieuw." },
+        { status: 500 }
+      );
+    }
+  }
 
   // 3. Fetch job + firm details
   const { data: job, error: jobError } = await supabase
@@ -280,8 +334,15 @@ export async function POST(request: NextRequest) {
   }
 
   // 6. Save application to database
+  console.log("[/api/apply] Inserting application:", {
+    job_id: jobId,
+    applicant_id: user.id,
+    firm_id: job.firm_id,
+  });
+
   const { error: insertError } = await supabase.from("applications").insert({
     job_id: jobId,
+    applicant_id: user.id,
     firm_id: job.firm_id,
     applicant_name: `${firstName} ${lastName}`,
     applicant_email: email,
