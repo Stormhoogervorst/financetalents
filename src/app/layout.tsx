@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Script from "next/script";
 import { Toaster } from "sonner";
 import ImpersonationBar from "@/components/ImpersonationBar";
 import { SITE_URL } from "@/lib/site";
@@ -70,18 +69,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-NFNBYPXR5X"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-NFNBYPXR5X');
-          `}
-        </Script>
         <ImpersonationBar />
         {children}
         <Toaster richColors position="top-right" />
