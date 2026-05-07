@@ -12,8 +12,20 @@ import BreadcrumbSchema, { type BreadcrumbItem } from "./BreadcrumbSchema";
  * niet klikbaar — conventie + signaal voor screen readers dat dit de huidige
  * pagina is. In de JSON-LD schema heeft elk item wél een URL.
  */
-export default function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
+export default function Breadcrumbs({
+  items,
+  mobileMaxItems,
+  truncateLastAfter,
+}: {
+  items: BreadcrumbItem[];
+  mobileMaxItems?: number;
+  truncateLastAfter?: number;
+}) {
   if (items.length === 0) return null;
+
+  const mobileVisibleCount = mobileMaxItems
+    ? Math.min(items.length, mobileMaxItems)
+    : items.length;
 
   return (
     <>
@@ -25,11 +37,23 @@ export default function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
         <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
           {items.map((item, i) => {
             const isLast = i === items.length - 1;
+            const isHiddenOnMobile = i >= mobileVisibleCount;
+            const shouldShowSeparatorOnMobile = i < mobileVisibleCount - 1;
+            const label =
+              isLast && truncateLastAfter && item.label.length > truncateLastAfter
+                ? `${item.label.slice(0, truncateLastAfter - 3)}...`
+                : item.label;
+
             return (
-              <li key={`${item.href}-${i}`} className="inline-flex items-center gap-x-1.5">
+              <li
+                key={`${item.href}-${i}`}
+                className={`items-center gap-x-1.5 ${
+                  isHiddenOnMobile ? "hidden md:inline-flex" : "inline-flex"
+                }`}
+              >
                 {isLast ? (
                   <span aria-current="page" className="opacity-90">
-                    {item.label}
+                    {label}
                   </span>
                 ) : (
                   <Link
@@ -40,7 +64,12 @@ export default function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
                   </Link>
                 )}
                 {!isLast && (
-                  <span aria-hidden className="opacity-50 select-none">
+                  <span
+                    aria-hidden
+                    className={`select-none opacity-50 ${
+                      shouldShowSeparatorOnMobile ? "" : "hidden md:inline"
+                    }`}
+                  >
                     /
                   </span>
                 )}

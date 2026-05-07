@@ -222,6 +222,39 @@ export default async function JobDetailPage({ params, searchParams }: Props) {
       : (relatedJob.firms ?? null),
   })) as JobWithFirm[];
 
+  const quickApplyCard = (
+    <div className="relative isolate overflow-hidden bg-[#0A0A0A] p-6 text-white md:p-8">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-28 -top-20 -z-10 h-64 w-64 overflow-hidden rounded-full border border-white/15 opacity-45"
+      >
+        <Image
+          src="/icon FT.png"
+          alt=""
+          fill
+          className="object-contain"
+          sizes="256px"
+        />
+      </div>
+      <p className="ft-display text-[15px] tracking-[-0.02em] text-white/55">
+        Quick apply
+      </p>
+      <h2 className="ft-display mt-4 text-[clamp(36px,4vw,64px)] font-extrabold leading-[0.9] tracking-[-0.07em] text-white">
+        Start in one minute.
+      </h2>
+      <p className="mt-5 text-[15px] leading-[1.65] text-white/65">
+        Apply with your LinkedIn profile. No CV needed for the quick route.
+      </p>
+      <div className="mt-8">
+        <LinkedInQuickApply
+          jobId={typedJob.id}
+          jobSlug={typedJob.slug}
+          alreadyApplied={alreadyApplied}
+        />
+      </div>
+    </div>
+  );
+
   return (
     <div className="relative min-h-screen flex flex-col bg-[#EBEBEB] text-[#222222]">
       {jobPostingJsonLd && (
@@ -241,14 +274,14 @@ export default async function JobDetailPage({ params, searchParams }: Props) {
         <section className="relative isolate overflow-hidden bg-[#EBEBEB]">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -right-[22vw] top-[8vh] h-[58vw] max-h-[780px] min-h-[340px] w-[58vw] min-w-[340px] max-w-[780px] overflow-hidden rounded-full border border-[#222222]/10"
+            className="pointer-events-none absolute -right-20 top-0 h-36 w-36 overflow-hidden rounded-full border border-[#222222]/10 md:-right-[22vw] md:top-[8vh] md:h-[58vw] md:max-h-[780px] md:min-h-[340px] md:w-[58vw] md:min-w-[340px] md:max-w-[780px]"
           >
             <Image
               src="/icon FT.png"
               alt=""
               fill
-              className="object-contain opacity-[0.16]"
-              sizes="58vw"
+              className="object-contain opacity-[0.08] md:opacity-[0.16]"
+              sizes="(min-width: 768px) 58vw, 144px"
               priority
             />
           </div>
@@ -260,41 +293,42 @@ export default async function JobDetailPage({ params, searchParams }: Props) {
                 "calc(4.25rem + clamp(48px, 8vh, 110px)) clamp(24px, 5vw, 80px) clamp(48px, 8vh, 110px)",
             }}
           >
-            <div className="grid min-h-[calc(76vh-4.25rem)] grid-cols-1 content-between gap-14">
+            <div className="grid grid-cols-1 gap-8 md:min-h-[calc(76vh-4.25rem)] md:content-between md:gap-14">
               <div>
                 <div className="text-[#222222]/70">
-                  <Breadcrumbs items={breadcrumbItems} />
+                  <Breadcrumbs
+                    items={breadcrumbItems}
+                    mobileMaxItems={3}
+                    truncateLastAfter={60}
+                  />
                 </div>
 
-                <p className="ft-display mt-10 text-[15px] font-normal tracking-[-0.02em] text-[#222222]/70 md:text-[18px]">
-                  Elite finance jobs. One platform.
-                </p>
-                <h1 className="ft-display mt-8 max-w-[16ch] text-[clamp(42px,8vw,128px)] font-extrabold leading-[0.88] tracking-[-0.07em] text-[#222222]">
+                <h1 className="ft-display mt-6 max-w-[16ch] text-[clamp(42px,8vw,128px)] font-extrabold leading-[0.88] tracking-[-0.07em] text-[#222222] md:mt-8">
                   {typedJob.title}
                 </h1>
-                <div className="mt-7 flex flex-col gap-2 text-[clamp(16px,1.6vw,22px)] leading-[1.35] tracking-[-0.025em] text-[#222222]/65 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4">
+                <div className="mt-3 text-[clamp(15px,1.3vw,18px)] leading-[1.4] tracking-[-0.02em] text-[#222222]/60">
                   {firm?.name && firm.slug && (
                     <Link
                       href={`/companies/${firm.slug}`}
-                      className="font-medium text-[#222222] underline decoration-[#222222]/20 underline-offset-4 transition-colors duration-200 hover:text-[#E85A00]"
+                      className="font-medium text-[#222222]/70 transition-colors duration-200 hover:text-[#E85A00]"
                     >
                       {firm.name}
                     </Link>
                   )}
                   {firm?.name && !firm.slug && (
-                    <span className="font-medium text-[#222222]">
+                    <span className="font-medium text-[#222222]/70">
                       {firm.name}
                     </span>
                   )}
                   {(typedJob.location || typeLabel) && (
-                    <span>
+                    <p className="mt-1 text-[#222222]/45">
                       {[typedJob.location, typeLabel].filter(Boolean).join(" · ")}
-                    </span>
+                    </p>
                   )}
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end">
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-end">
                 <div className="flex items-center gap-4 lg:col-span-5">
                   {firm && (
                     <Link
@@ -316,25 +350,14 @@ export default async function JobDetailPage({ params, searchParams }: Props) {
                     </Link>
                   )}
                   <div>
-                    {firm?.name && (
-                      <Link
-                        href={firm.slug ? `/companies/${firm.slug}` : "#"}
-                        className="text-[17px] font-medium tracking-[-0.02em] text-[#222222] underline decoration-[#222222]/20 underline-offset-4 transition-colors duration-200 hover:text-[#E85A00]"
-                      >
-                        {firm.name}
-                      </Link>
-                    )}
-                    <p className="mt-1 text-[14px] text-[#222222]/55">
+                    <p className="text-[14px] text-[#222222]/55">
                       Posted {postedDate}
                     </p>
                   </div>
                 </div>
 
                 <div className="lg:col-span-5 lg:col-start-8">
-                  <p className="max-w-[560px] text-[clamp(18px,2vw,28px)] leading-[1.15] tracking-[-0.03em] text-[#222222]">
-                    Explore the role, get to know the company and apply directly.
-                  </p>
-                  <div className="mt-8 flex flex-wrap gap-3">
+                  <div className="flex flex-wrap gap-3">
                     <a href="#apply" className="btn-primary">
                       Apply now
                     </a>
@@ -350,12 +373,11 @@ export default async function JobDetailPage({ params, searchParams }: Props) {
       </div>
 
       <section
-        className="bg-[#EBEBEB]"
+        className="bg-[#EBEBEB] pb-0 md:pb-[clamp(32px,5vh,64px)]"
         style={{
           paddingLeft: "clamp(24px, 5vw, 80px)",
           paddingRight: "clamp(24px, 5vw, 80px)",
           paddingTop: "clamp(32px, 5vh, 64px)",
-          paddingBottom: "clamp(32px, 5vh, 64px)",
         }}
       >
         <div className="mx-auto max-w-[1400px]">
@@ -376,16 +398,16 @@ export default async function JobDetailPage({ params, searchParams }: Props) {
       </section>
 
       <section
+        className="pt-12 md:pt-[clamp(70px,9vh,140px)]"
         style={{
           paddingLeft: "clamp(24px, 5vw, 80px)",
           paddingRight: "clamp(24px, 5vw, 80px)",
-          paddingTop: "clamp(70px, 9vh, 140px)",
           paddingBottom: "clamp(80px, 10vh, 150px)",
         }}
       >
         <div className="max-w-[1400px] mx-auto">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
-            <div className="lg:col-span-8">
+            <div className="order-2 lg:order-1 lg:col-span-8">
               {typedJob.description && (
                 <div>
                   <p className="ft-display text-[15px] tracking-[-0.02em] text-[#222222]/60">
@@ -426,179 +448,151 @@ export default async function JobDetailPage({ params, searchParams }: Props) {
               </section>
             </div>
 
-            <aside className="lg:col-span-4">
-              <div className="space-y-6 lg:sticky lg:top-24">
-                <div className="relative isolate overflow-hidden bg-[#0A0A0A] p-6 text-white md:p-8">
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute -right-28 -top-20 -z-10 h-64 w-64 overflow-hidden rounded-full border border-white/15 opacity-45"
-                  >
-                    <Image
-                      src="/icon FT.png"
-                      alt=""
-                      fill
-                      className="object-contain"
-                      sizes="256px"
-                    />
-                  </div>
-                  <p className="ft-display text-[15px] tracking-[-0.02em] text-white/55">
-                    Quick apply
-                  </p>
-                  <h2 className="ft-display mt-4 text-[clamp(36px,4vw,64px)] font-extrabold leading-[0.9] tracking-[-0.07em] text-white">
-                    Start in one minute.
-                  </h2>
-                  <p className="mt-5 text-[15px] leading-[1.65] text-white/65">
-                    Apply with your LinkedIn profile. No CV needed for the quick
-                    route.
-                  </p>
-                  <div className="mt-8">
-                    <LinkedInQuickApply
-                      jobId={typedJob.id}
-                      jobSlug={typedJob.slug}
-                      alreadyApplied={alreadyApplied}
-                    />
-                  </div>
-                </div>
+            <aside className="contents lg:order-2 lg:col-span-4 lg:block">
+              <div className="contents lg:sticky lg:top-24 lg:block lg:space-y-6">
+                <div className="order-1 lg:order-none">{quickApplyCard}</div>
 
-                {firm && (
-                  <div className="border border-[#222222] bg-white">
-                    <div className="flex items-center gap-4 border-b border-[#222222] p-5">
-                      <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden border border-[#222222] bg-white">
-                        {firm.logo_url ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
-                            src={firm.logo_url}
-                            alt={`${firm.name} logo`}
-                            className="h-10 w-10 object-contain"
-                          />
-                        ) : (
-                          <span className="text-[13px] font-semibold text-[#222222]/55">
-                            {firm.name?.slice(0, 2).toUpperCase()}
-                          </span>
-                        )}
+                <div className="order-3 space-y-6 lg:order-none">
+                  {firm && (
+                    <div className="border border-[#222222] bg-white">
+                      <div className="flex items-center gap-4 border-b border-[#222222] p-5">
+                        <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden border border-[#222222] bg-white">
+                          {firm.logo_url ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              src={firm.logo_url}
+                              alt={`${firm.name} logo`}
+                              className="h-10 w-10 object-contain"
+                            />
+                          ) : (
+                            <span className="text-[13px] font-semibold text-[#222222]/55">
+                              {firm.name?.slice(0, 2).toUpperCase()}
+                            </span>
+                          )}
+                        </div>
+                        <div>
+                          <p className="text-[17px] font-medium tracking-[-0.02em] text-[#222222]">
+                            {firm.name}
+                          </p>
+                          {firm.location && (
+                            <p className="mt-1 text-[14px] text-[#222222]/55">
+                              {firm.location}
+                            </p>
+                          )}
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-[17px] font-medium tracking-[-0.02em] text-[#222222]">
-                          {firm.name}
-                        </p>
-                        {firm.location && (
-                          <p className="mt-1 text-[14px] text-[#222222]/55">
-                            {firm.location}
+
+                      <div className="p-5">
+                        {firm.description && (
+                          <p
+                            className="text-[#222222]/65"
+                            style={{
+                              fontSize: "clamp(14px, 1vw, 15px)",
+                              lineHeight: 1.65,
+                            }}
+                          >
+                            {firm.description.length > 220
+                              ? `${firm.description.substring(0, 220)}...`
+                              : firm.description}
                           </p>
                         )}
+
+                        {firm.practice_areas && firm.practice_areas.length > 0 && (
+                          <div className="mt-6 border-t border-[#222222]/15 pt-5">
+                            <p className="text-[14px] text-[#222222]/55">
+                              Sectors
+                            </p>
+                            <p className="mt-2 text-[15px] leading-relaxed text-[#222222]">
+                              {firm.practice_areas.join(" / ")}
+                            </p>
+                          </div>
+                        )}
+
+                        {firm.team_size && (
+                          <div className="mt-6 border-t border-[#222222]/15 pt-5">
+                            <p className="text-[14px] text-[#222222]/55">
+                              Team size
+                            </p>
+                            <p className="mt-2 text-[15px] text-[#222222]">
+                              {firm.team_size}
+                            </p>
+                          </div>
+                        )}
+
+                        <div className="mt-6 flex flex-col gap-3 border-t border-[#222222]/15 pt-5">
+                          {firm.slug && (
+                            <Link
+                              href={`/companies/${firm.slug}`}
+                              className="btn-primary w-full"
+                            >
+                              View company profile
+                            </Link>
+                          )}
+                          {firm.website_url && (
+                            <a
+                              href={firm.website_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="btn-secondary w-full"
+                            >
+                              Website
+                              <ExternalLink className="ml-2 h-4 w-4" />
+                            </a>
+                          )}
+                        </div>
                       </div>
                     </div>
+                  )}
 
-                    <div className="p-5">
-                      {firm.description && (
-                        <p
-                          className="text-[#222222]/65"
-                          style={{
-                            fontSize: "clamp(14px, 1vw, 15px)",
-                            lineHeight: 1.65,
-                          }}
+                  <div className="border border-[#222222] bg-[#EBEBEB] p-5">
+                    <p className="ft-display text-[15px] tracking-[-0.02em] text-[#222222]/60">
+                      Job details
+                    </p>
+                    <div className="mt-5 space-y-4">
+                      {metaItems.map((item) => (
+                        <div
+                          key={item.label}
+                          className="flex items-start justify-between gap-5 border-t border-[#222222]/15 pt-4"
                         >
-                          {firm.description.length > 220
-                            ? `${firm.description.substring(0, 220)}...`
-                            : firm.description}
-                        </p>
-                      )}
-
-                      {firm.practice_areas && firm.practice_areas.length > 0 && (
-                        <div className="mt-6 border-t border-[#222222]/15 pt-5">
                           <p className="text-[14px] text-[#222222]/55">
-                            Sectors
+                            {item.label}
                           </p>
-                          <p className="mt-2 text-[15px] leading-relaxed text-[#222222]">
-                            {firm.practice_areas.join(" / ")}
+                          <p className="max-w-[55%] text-right text-[14px] font-medium text-[#222222]">
+                            {item.value}
                           </p>
                         </div>
-                      )}
+                      ))}
+                    </div>
+                  </div>
 
-                      {firm.team_size && (
-                        <div className="mt-6 border-t border-[#222222]/15 pt-5">
-                          <p className="text-[14px] text-[#222222]/55">
-                            Team size
-                          </p>
-                          <p className="mt-2 text-[15px] text-[#222222]">
-                            {firm.team_size}
-                          </p>
-                        </div>
-                      )}
-
-                      <div className="mt-6 flex flex-col gap-3 border-t border-[#222222]/15 pt-5">
-                        {firm.slug && (
+                  {(citySlug || sectorSlug) && (
+                    <div className="border border-[#222222] bg-white p-5">
+                      <p className="ft-display text-[15px] tracking-[-0.02em] text-[#222222]/60">
+                        Explore more
+                      </p>
+                      <div className="mt-5 flex flex-col gap-3">
+                        {citySlug && cityName && (
                           <Link
-                            href={`/companies/${firm.slug}`}
-                            className="btn-primary w-full"
+                            href={`/jobs/${citySlug}`}
+                            className="inline-flex items-center justify-between border-t border-[#222222]/15 pt-4 text-[14px] font-medium text-[#222222] transition-colors duration-200 hover:text-[#E85A00]"
                           >
-                            View company profile
+                            Jobs in {cityName}
+                            <span aria-hidden>↗</span>
                           </Link>
                         )}
-                        {firm.website_url && (
-                          <a
-                            href={firm.website_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn-secondary w-full"
+                        {sectorSlug && typedJob.practice_area && (
+                          <Link
+                            href={`/jobs/${sectorSlug}`}
+                            className="inline-flex items-center justify-between border-t border-[#222222]/15 pt-4 text-[14px] font-medium text-[#222222] transition-colors duration-200 hover:text-[#E85A00]"
                           >
-                            Website
-                            <ExternalLink className="ml-2 h-4 w-4" />
-                          </a>
+                            {typedJob.practice_area} jobs
+                            <span aria-hidden>↗</span>
+                          </Link>
                         )}
                       </div>
                     </div>
-                  </div>
-                )}
-
-                <div className="border border-[#222222] bg-[#EBEBEB] p-5">
-                  <p className="ft-display text-[15px] tracking-[-0.02em] text-[#222222]/60">
-                    Job details
-                  </p>
-                  <div className="mt-5 space-y-4">
-                    {metaItems.map((item) => (
-                      <div
-                        key={item.label}
-                        className="flex items-start justify-between gap-5 border-t border-[#222222]/15 pt-4"
-                      >
-                        <p className="text-[14px] text-[#222222]/55">
-                          {item.label}
-                        </p>
-                        <p className="max-w-[55%] text-right text-[14px] font-medium text-[#222222]">
-                          {item.value}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
+                  )}
                 </div>
-
-                {(citySlug || sectorSlug) && (
-                  <div className="border border-[#222222] bg-white p-5">
-                    <p className="ft-display text-[15px] tracking-[-0.02em] text-[#222222]/60">
-                      Explore more
-                    </p>
-                    <div className="mt-5 flex flex-col gap-3">
-                      {citySlug && cityName && (
-                        <Link
-                          href={`/jobs/${citySlug}`}
-                          className="inline-flex items-center justify-between border-t border-[#222222]/15 pt-4 text-[14px] font-medium text-[#222222] transition-colors duration-200 hover:text-[#E85A00]"
-                        >
-                          Jobs in {cityName}
-                          <span aria-hidden>↗</span>
-                        </Link>
-                      )}
-                      {sectorSlug && typedJob.practice_area && (
-                        <Link
-                          href={`/jobs/${sectorSlug}`}
-                          className="inline-flex items-center justify-between border-t border-[#222222]/15 pt-4 text-[14px] font-medium text-[#222222] transition-colors duration-200 hover:text-[#E85A00]"
-                        >
-                          {typedJob.practice_area} jobs
-                          <span aria-hidden>↗</span>
-                        </Link>
-                      )}
-                    </div>
-                  </div>
-                )}
               </div>
             </aside>
           </div>

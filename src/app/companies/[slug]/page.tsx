@@ -110,18 +110,6 @@ export default async function FirmPage({ params }: Props) {
               priority
             />
           </div>
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -left-[16vw] bottom-[-26vw] h-[46vw] max-h-[620px] min-h-[300px] w-[46vw] min-w-[300px] max-w-[620px] overflow-hidden rounded-full bg-white"
-          >
-            <Image
-              src="/icon FT.png"
-              alt=""
-              fill
-              className="object-contain opacity-[0.12]"
-              sizes="46vw"
-            />
-          </div>
 
           <div
             className="max-w-[1600px] mx-auto relative"

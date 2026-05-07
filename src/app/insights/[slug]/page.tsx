@@ -234,18 +234,6 @@ export default async function BlogArticlePage({ params }: Props) {
               priority
             />
           </div>
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute bottom-[-24vw] left-[clamp(24px,5vw,80px)] h-[46vw] max-h-[600px] min-h-[280px] w-[46vw] min-w-[280px] max-w-[600px] overflow-hidden rounded-full bg-white"
-          >
-            <Image
-              src="/icon FT.png"
-              alt=""
-              fill
-              className="object-contain opacity-[0.1]"
-              sizes="46vw"
-            />
-          </div>
 
           <div
             className="relative mx-auto max-w-[1600px]"

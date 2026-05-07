@@ -145,18 +145,6 @@ export default async function InsightsPage() {
                 priority
               />
             </div>
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute bottom-[-18vw] left-[clamp(24px,5vw,80px)] h-[42vw] max-h-[560px] min-h-[260px] w-[42vw] min-w-[260px] max-w-[560px] overflow-hidden rounded-full bg-white"
-            >
-              <Image
-                src="/icon FT.png"
-                alt=""
-                fill
-                className="object-contain opacity-[0.12]"
-                sizes="46vw"
-              />
-            </div>
 
             <div
               className="max-w-[1600px] mx-auto relative"
