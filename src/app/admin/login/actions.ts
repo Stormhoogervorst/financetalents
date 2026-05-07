@@ -34,10 +34,10 @@ export async function adminLoginAction(
   const password = String(formData.get("password") ?? "");
 
   if (!email || !password) {
-    return { error: "Vul zowel e-mailadres als wachtwoord in." };
+    return { error: "Fill in both email address and password." };
   }
   if (password.length < 8) {
-    return { error: "Het wachtwoord moet minstens 8 tekens lang zijn." };
+    return { error: "The password must be at least 8 characters." };
   }
 
   const admin = createAdminClient();
@@ -109,8 +109,8 @@ export async function adminLoginAction(
       signInErr?.status === 400;
     return {
       error: isInvalid
-        ? "E-mailadres of wachtwoord is onjuist."
-        : signInErr?.message ?? "Inloggen mislukt.",
+        ? "Email address or password is incorrect."
+        : signInErr?.message ?? "Login failed.",
     };
   }
 
@@ -125,7 +125,7 @@ export async function adminLoginAction(
     await supabase.auth.signOut();
     return {
       error:
-        "Dit account heeft geen admin-toegang. Gebruik je werkgevers-portaal via /login.",
+        "This account does not have admin access. Use the employer portal via /login.",
     };
   }
 

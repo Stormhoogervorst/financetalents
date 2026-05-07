@@ -147,14 +147,14 @@ export async function PATCH(request: NextRequest) {
 
     if (isMissingTableError(impersonatedFirmError)) {
       return NextResponse.json(
-        { error: "Werkgeversprofielen gebruiken in deze database geen firms-tabel." },
+        { error: "Employer profiles in this database do not use the firms table." },
         { status: 409 }
       );
     }
 
     if (!impersonatedFirm) {
       return NextResponse.json(
-        { error: "Geïmpersoneerde werkgever niet gevonden." },
+        { error: "Impersonated employer not found." },
         { status: 404 }
       );
     }
@@ -261,7 +261,7 @@ export async function PATCH(request: NextRequest) {
   }
 
   if (Object.keys(validatedData).length === 0) {
-    return NextResponse.json({ error: "Geen velden om bij te werken." }, { status: 400 });
+    return NextResponse.json({ error: "No fields to update." }, { status: 400 });
   }
 
   if (useLegacyProfileCompanyFields) {
@@ -334,7 +334,7 @@ export async function PATCH(request: NextRequest) {
 
   if (!("name" in validatedData) || !validatedData.name) {
     return NextResponse.json(
-      { error: "Naam is verplicht voor een nieuw werkgeversprofiel." },
+      { error: "Name is required for a new employer profile." },
       { status: 400 }
     );
   }

@@ -36,8 +36,7 @@ export default async function ProfilePage() {
 
       {isImpersonating && (
         <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          Je bewerkt nu dit werkgeversprofiel als admin. Wijzigingen worden
-          direct opgeslagen op deze bestaande werkgever — er wordt geen nieuw
+          You are editing this company profile as an admin. Changes are saved directly to this existing company. No new
           profiel aangemaakt.
         </div>
       )}

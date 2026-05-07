@@ -99,7 +99,7 @@ export default async function AdminBlogsPage() {
         {blogs.length === 0 ? (
           <div className="px-6 py-16 text-center text-sm text-gray-400">
             <FileText className="mx-auto h-6 w-6 text-gray-300" />
-            <p className="mt-2">Geen blogs gevonden.</p>
+            <p className="mt-2">No blogs found.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -133,7 +133,7 @@ export default async function AdminBlogsPage() {
                       <td className="px-6 py-4">
                         {blog.slug ? (
                           <Link
-                            href={`/kennisbank/${blog.slug}`}
+                            href={`/insights/${blog.slug}`}
                             target="_blank"
                             className="font-semibold text-gray-900 hover:text-brand-600"
                           >
@@ -146,7 +146,7 @@ export default async function AdminBlogsPage() {
                         )}
                       </td>
                       <td className="px-4 py-4 text-gray-500">
-                        {new Date(blog.created_at).toLocaleDateString("nl-NL", {
+                        {new Date(blog.created_at).toLocaleDateString("en-US", {
                           day: "numeric",
                           month: "short",
                           year: "numeric",
@@ -155,7 +155,7 @@ export default async function AdminBlogsPage() {
                       <td className="px-4 py-4">
                         {firmId ? (
                           <Link
-                            href={`/admin/werkgevers/${firmId}`}
+                            href={`/admin/companies/${firmId}`}
                             className="font-medium text-gray-900 hover:text-brand-600"
                           >
                             {firmName}

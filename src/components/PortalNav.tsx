@@ -16,11 +16,11 @@ import {
 
 const navItems = [
   { href: "/portal", label: "Dashboard", icon: LayoutDashboard, exact: true },
-  { href: "/portal/profile", label: "Mijn profiel", icon: User },
-  { href: "/portal/jobs", label: "Vacatures", icon: Briefcase },
+  { href: "/portal/profile", label: "Profile", icon: User },
+  { href: "/portal/jobs", label: "Jobs", icon: Briefcase },
   { href: "/portal/blogs", label: "Blogs", icon: FileText },
-  { href: "/portal/applications", label: "Sollicitanten", icon: Users },
-  { href: "/portal/settings", label: "Instellingen", icon: Settings },
+  { href: "/portal/applications", label: "Applicants", icon: Users },
+  { href: "/portal/settings", label: "Settings", icon: Settings },
 ];
 
 export default function PortalNav() {
@@ -80,7 +80,7 @@ export default function PortalNav() {
             className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors"
           >
             <LogOut className="h-4 w-4 shrink-0" />
-            Uitloggen
+            Sign out
           </button>
         </div>
       </aside>
@@ -101,7 +101,7 @@ export default function PortalNav() {
           <button
             onClick={handleSignOut}
             className="p-2 text-gray-500 hover:text-red-600 transition-colors rounded-lg"
-            aria-label="Uitloggen"
+            aria-label="Sign out"
           >
             <LogOut className="h-4 w-4" />
           </button>

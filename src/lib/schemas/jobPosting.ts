@@ -204,7 +204,7 @@ export function buildJobPostingSchema(
     employmentType: EMPLOYMENT_TYPE_MAP[job.type] ?? "OTHER",
     directApply: true,
     industry: "Financial Services",
-    url: `${baseUrl}/vacature/${job.slug}`,
+    url: `${baseUrl}/jobs/${job.slug}`,
   };
 
   if (job.practice_area) {
@@ -216,7 +216,7 @@ export function buildJobPostingSchema(
   }
 
   if (job.hours_per_week) {
-    jsonLd.workHours = `${job.hours_per_week} uur per week`;
+    jsonLd.workHours = `${job.hours_per_week} hours per week`;
   }
 
   if (firm) {

@@ -104,12 +104,12 @@ export default function JobActions({ job }: Props) {
     });
 
   const deleteJob = () => {
-    if (!window.confirm(`Vacature "${job.title}" permanent verwijderen?`)) return;
+    if (!window.confirm(`Job "${job.title}" permanent verwijderen?`)) return;
     run(async () => {
       const res = await fetch(`/api/jobs/${job.id}`, { method: "DELETE" });
       if (!res.ok) {
         const { error } = await res.json();
-        if (res.status === 403) throw new Error("Geen toegang: dit is niet jouw vacature.");
+        if (res.status === 403) throw new Error("No access: this is not your job.");
         throw new Error(error ?? "Verwijderen mislukt.");
       }
     });

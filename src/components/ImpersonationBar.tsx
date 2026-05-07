@@ -19,7 +19,7 @@ export default async function ImpersonationBar() {
     .eq("id", firmId)
     .maybeSingle();
 
-  const firmName = firm?.name ?? "onbekende werkgever";
+  const firmName = firm?.name ?? "unknown employer";
 
   return (
     <div className="sticky top-0 z-[60] bg-amber-500 text-amber-950 shadow-sm">
@@ -27,8 +27,7 @@ export default async function ImpersonationBar() {
         <div className="flex min-w-0 items-center gap-2">
           <Shield className="h-4 w-4 shrink-0" />
           <span className="truncate">
-            <strong className="font-semibold">Impersonatie actief</strong> · Je
-            beheert nu <strong>{firmName}</strong>
+            <strong className="font-semibold">Impersonation active</strong> · You are now managing <strong>{firmName}</strong>
           </span>
         </div>
         <form action={stopImpersonationAction} className="shrink-0">
@@ -37,7 +36,7 @@ export default async function ImpersonationBar() {
             className="inline-flex items-center gap-1.5 rounded-full bg-amber-950 px-3 py-1 text-xs font-semibold text-amber-50 transition hover:bg-black"
           >
             <LogOut className="h-3.5 w-3.5" />
-            Terug naar Admin
+            Back to Admin
           </button>
         </form>
       </div>

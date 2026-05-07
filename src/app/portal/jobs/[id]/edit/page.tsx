@@ -58,10 +58,10 @@ export default async function EditJobPage({ params }: Props) {
         className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors mb-6"
       >
         <ChevronLeft className="h-4 w-4" />
-        Terug naar vacatures
+        Back to jobs
       </Link>
 
-      <h1 className="text-2xl font-bold text-black mb-2">Vacature bewerken</h1>
+      <h1 className="text-2xl font-bold text-black mb-2">Job bewerken</h1>
       <p className="text-sm text-gray-500 mb-8">{job.title}</p>
 
       <JobForm

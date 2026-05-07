@@ -10,7 +10,7 @@ export default function FirmCard({ firm }: Props) {
 
   return (
     <Link
-      href={`/werkgevers/${firm.slug}`}
+      href={`/companies/${firm.slug}`}
       className="group flex items-start gap-5 py-6 border-b border-[#E5E5E5] transition-colors duration-300 last:border-b-0"
     >
       {/* Logo */}

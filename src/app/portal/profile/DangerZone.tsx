@@ -72,7 +72,7 @@ export default function DangerZone() {
       router.refresh();
     } catch (err) {
       console.error("[DangerZone] delete error:", err);
-      setError("Er ging iets mis. Controleer je verbinding en probeer opnieuw.");
+      setError("Something went wrong. Check your connection and try again.");
       setDeleting(false);
     }
   };
@@ -89,7 +89,7 @@ export default function DangerZone() {
             <h2 className="text-lg font-semibold text-red-700">Gevarenzone</h2>
             <p className="mt-1 text-sm text-red-700/80">
               Zodra je je account verwijdert, is er geen weg meer terug. Wees
-              alsjeblieft zeker van je zaak. Al je vacatures en bedrijfsgegevens
+              please be sure. All your jobs and company data
               worden permanent gewist.
             </p>
             <button
@@ -141,9 +141,7 @@ export default function DangerZone() {
                   Account permanent verwijderen?
                 </h3>
                 <p className="mt-2 text-sm text-gray-600">
-                  Deze actie kan niet worden teruggedraaid. Je werkgeversprofiel,
-                  alle vacatures, sollicitaties en bijbehorende data worden
-                  onmiddellijk en permanent verwijderd.
+                  This action cannot be undone. Your company profile, all jobs, applications and related data will be permanently deleted immediately.
                 </p>
               </div>
             </div>

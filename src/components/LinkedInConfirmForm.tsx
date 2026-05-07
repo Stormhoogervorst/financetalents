@@ -61,12 +61,12 @@ export default function LinkedInConfirmForm({
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       ];
       if (!allowed.includes(file.type) && !/\.(pdf|doc|docx)$/i.test(file.name)) {
-        setFileError("Alleen PDF of Word-bestanden zijn toegestaan.");
+        setFileError("Only PDF or Word files are allowed.");
         e.target.value = "";
         return;
       }
       if (file.size > MAX_FILE_BYTES) {
-        setFileError("Bestand is te groot. Maximum is 5 MB.");
+        setFileError("File is too large. The maximum is 5 MB.");
         e.target.value = "";
         return;
       }
@@ -85,18 +85,18 @@ export default function LinkedInConfirmForm({
 
     const cleaned = sanitizeLinkedInProfileUrl(linkedinUrl);
     if (!linkedinUrl.trim()) {
-      newErrors.linkedinUrl = "Vul je LinkedIn profiel-URL in.";
+      newErrors.linkedinUrl = "Enter your LinkedIn profile URL.";
     } else if (!isValidLinkedInInUrl(cleaned)) {
       newErrors.linkedinUrl =
-        "URL moet een openbaar profiel zijn: https://www.linkedin.com/in/…";
+        "The URL must be a public profile: https://www.linkedin.com/in/...";
     }
 
     if (!phone.trim()) {
-      newErrors.phone = "Vul je telefoonnummer in.";
+      newErrors.phone = "Enter your phone number.";
     }
 
     if (!cvFile) {
-      newErrors.cv = "Upload je CV om verder te gaan.";
+      newErrors.cv = "Upload your CV to continue.";
     }
 
     setErrors(newErrors);
@@ -128,7 +128,7 @@ export default function LinkedInConfirmForm({
 
       setSuccess(true);
     } catch {
-      setServerError("Geen verbinding. Probeer het opnieuw.");
+      setServerError("No connection. Try again.");
     } finally {
       setLoading(false);
     }
@@ -152,7 +152,7 @@ export default function LinkedInConfirmForm({
           className="font-bold tracking-[-0.025em] leading-[1.1] text-[#0A0A0A] mb-4"
           style={{ fontSize: "clamp(36px, 4.5vw, 64px)" }}
         >
-          Je sollicitatie is verstuurd
+          Your application has been sent
         </h2>
         <p
           style={{
@@ -161,14 +161,14 @@ export default function LinkedInConfirmForm({
             color: "#6B6B6B",
           }}
         >
-          Je sollicitatie voor{" "}
+          Your application for{" "}
           <strong className="text-[#0A0A0A] font-semibold">{jobTitle}</strong>{" "}
-          bij{" "}
+          at{" "}
           <strong className="text-[#0A0A0A] font-semibold">{firmName}</strong>{" "}
-          is in goede orde ontvangen. De werkgever neemt contact met je op.
+          has been received. The employer will contact you.
         </p>
-        <a href={`/vacature/${jobSlug}`} className="btn-primary mt-8">
-          Terug naar vacature
+        <a href={`/jobs/${jobSlug}`} className="btn-primary mt-8">
+          Back to job
         </a>
       </div>
     );
@@ -180,7 +180,7 @@ export default function LinkedInConfirmForm({
         className="font-bold tracking-[-0.025em] leading-[1.1] text-[#0A0A0A] mb-4"
         style={{ fontSize: "clamp(36px, 4.5vw, 64px)" }}
       >
-        Bevestig je gegevens
+        Confirm your details
       </h1>
       <p
         className="mb-10"
@@ -190,8 +190,8 @@ export default function LinkedInConfirmForm({
           color: "#6B6B6B",
         }}
       >
-        Sollicitatie voor{" "}
-        <strong className="text-[#0A0A0A] font-semibold">{jobTitle}</strong> bij{" "}
+        Application for{" "}
+        <strong className="text-[#0A0A0A] font-semibold">{jobTitle}</strong> at{" "}
         {firmName}
       </p>
 
@@ -199,7 +199,7 @@ export default function LinkedInConfirmForm({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
           <div>
             <p className="text-[13px] font-medium tracking-[0.02em] text-[#999999] uppercase mb-1.5">
-              Naam
+              Name
             </p>
             <p className="text-[15px] font-medium text-[#0A0A0A]">{fullName}</p>
           </div>
@@ -215,7 +215,7 @@ export default function LinkedInConfirmForm({
       <form onSubmit={handleSubmit} className="space-y-8">
         <div>
           <label htmlFor="linkedin-url" className="sr-only">
-            LinkedIn profiel-URL
+            LinkedIn profile URL
           </label>
           <input
             id="linkedin-url"
@@ -226,7 +226,7 @@ export default function LinkedInConfirmForm({
               if (errors.linkedinUrl)
                 setErrors((prev) => ({ ...prev, linkedinUrl: null }));
             }}
-            placeholder="LinkedIn profiel-URL *"
+            placeholder="LinkedIn profile URL *"
             className={`w-full bg-transparent border-0 border-b ${
               errors.linkedinUrl ? "border-red-600" : "border-[#CCCCCC]"
             } py-3 text-[15px] text-[#0A0A0A] placeholder-[#999999] focus:outline-none focus:border-[#0A0A0A] transition-colors duration-200`}
@@ -240,7 +240,7 @@ export default function LinkedInConfirmForm({
           )}
 
           <p className="mt-3 text-[13px] text-[#999999] leading-relaxed">
-            Ga naar{" "}
+            Go to{" "}
             <a
               href="https://www.linkedin.com/in/me"
               target="_blank"
@@ -249,13 +249,13 @@ export default function LinkedInConfirmForm({
             >
               linkedin.com/in/me
             </a>{" "}
-            en kopieer de URL uit je adresbalk.
+            and copy the URL from your address bar.
           </p>
         </div>
 
         <div>
           <label htmlFor="phone" className="sr-only">
-            Telefoonnummer
+            Phone number
           </label>
           <input
             id="phone"
@@ -266,7 +266,7 @@ export default function LinkedInConfirmForm({
               if (errors.phone)
                 setErrors((prev) => ({ ...prev, phone: null }));
             }}
-            placeholder="Telefoonnummer *"
+            placeholder="Phone number *"
             className={`w-full bg-transparent border-0 border-b ${
               errors.phone ? "border-red-600" : "border-[#CCCCCC]"
             } py-3 text-[15px] text-[#0A0A0A] placeholder-[#999999] focus:outline-none focus:border-[#0A0A0A] transition-colors duration-200`}
@@ -302,7 +302,7 @@ export default function LinkedInConfirmForm({
                   if (fileInputRef.current) fileInputRef.current.value = "";
                 }}
                 className="p-1 text-[#999999] hover:text-[#0A0A0A] transition-colors duration-200"
-                aria-label="CV verwijderen"
+                aria-label="Remove CV"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -327,7 +327,7 @@ export default function LinkedInConfirmForm({
                     : "text-[#999999] group-hover:text-[#0A0A0A]"
                 }`}
               >
-                Klik om je CV te uploaden
+                Click to upload your CV
               </span>
               <input
                 ref={fileInputRef}
@@ -340,7 +340,7 @@ export default function LinkedInConfirmForm({
           )}
 
           <p className="mt-2 text-[13px] text-[#999999]">
-            Upload je CV in PDF of Word formaat (max 5MB)
+            Upload your CV in PDF or Word format (max 5 MB)
           </p>
 
           {errors.cv && (
@@ -371,7 +371,7 @@ export default function LinkedInConfirmForm({
           } disabled:opacity-50 disabled:cursor-not-allowed`}
         >
           {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-          {loading ? "Versturen…" : "Sollicitatie verzenden"}
+          {loading ? "Sending..." : "Send application"}
         </button>
       </form>
     </div>

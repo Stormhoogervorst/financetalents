@@ -92,7 +92,7 @@ async function resolveActingFirm(
         firm: null,
         isImpersonating: true,
         response: NextResponse.json(
-          { error: "Geïmpersoneerde werkgever bestaat niet meer." },
+          { error: "Impersonated employer no longer exists." },
           { status: 404 }
         ),
       };
@@ -113,7 +113,7 @@ async function resolveActingFirm(
       firm: null,
       isImpersonating: false,
       response: NextResponse.json(
-        { error: "Geen werkgever gevonden voor dit account." },
+        { error: "No employer found for this account." },
         { status: 403 }
       ),
     };
@@ -177,7 +177,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 
   if (!updated || updated.length === 0) {
     return NextResponse.json(
-      { error: "Vacature niet gevonden of geen toegang." },
+      { error: "Job not found or no access." },
       { status: 403 }
     );
   }
@@ -214,7 +214,7 @@ export async function DELETE(_request: NextRequest, { params }: Params) {
 
   if (!deleted || deleted.length === 0) {
     return NextResponse.json(
-      { error: "Vacature niet gevonden of geen toegang." },
+      { error: "Job not found or no access." },
       { status: 403 }
     );
   }

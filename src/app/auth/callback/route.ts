@@ -13,12 +13,12 @@ import { createClient } from "@/lib/supabase/server";
  * `?code=…` in de URL — precies het probleem dat we hier oplossen.
  *
  * Recovery-detectie:
- *   - We geven `next=/update-wachtwoord` mee in de `redirectTo` van
+ *   - We geven `next=/update-password` mee in de `redirectTo` van
  *     `resetPasswordForEmail` (zie src/app/login/page.tsx). Supabase laat
  *     eigen query-params in `redirectTo` intact, dus die marker komt hier
  *     weer binnen.
  *   - Na succesvolle code-exchange sturen we de gebruiker naar de losse,
- *     afgeschermde wachtwoord-resetpagina (`/update-wachtwoord`). Die pagina
+ *     afgeschermde wachtwoord-resetpagina (`/update-password`). Die pagina
  *     leeft buiten de portal-layout en sluit de tijdelijke recovery-sessie
  *     na het opslaan zelf weer af.
  */
@@ -56,12 +56,12 @@ export async function GET(request: NextRequest) {
   }
 
   // Recovery flow: de gebruiker heeft nu een geldige sessie, maar moet meteen
-  // een nieuw wachtwoord kiezen. We sturen hem naar /update-wachtwoord —
+  // een nieuw wachtwoord kiezen. We sturen hem naar /update-password —
   // een losstaande, afgeschermde pagina buiten de portal-layout. Wanneer de
   // aanroeper expliciet een `next` meegeeft respecteren we die, met een
-  // veilige fallback naar /update-wachtwoord.
+  // veilige fallback naar /update-password.
   if (type === "recovery") {
-    const destination = nextParam || "/update-wachtwoord";
+    const destination = nextParam || "/update-password";
     return NextResponse.redirect(`${base}${destination}`);
   }
 

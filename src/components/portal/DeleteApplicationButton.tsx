@@ -23,7 +23,7 @@ export default function DeleteApplicationButton({
 
     if (
       !window.confirm(
-        `Weet je zeker dat je de sollicitatie van ${applicantName} wilt verwijderen? Dit kan niet ongedaan worden gemaakt.`
+        `Are you sure you want to delete the application from ${applicantName} ? This cannot be undone.`
       )
     ) {
       return;
@@ -37,7 +37,7 @@ export default function DeleteApplicationButton({
 
     if (!res.ok) {
       const data = (await res.json().catch(() => ({}))) as { error?: string };
-      window.alert(data.error ?? "Verwijderen mislukt. Probeer het opnieuw.");
+      window.alert(data.error ?? "Delete failed. Try again.");
       return;
     }
 
@@ -54,8 +54,8 @@ export default function DeleteApplicationButton({
       onClick={handleDelete}
       disabled={loading}
       className="p-1.5 rounded-md text-gray-300 hover:text-red-600 hover:bg-red-50 transition-colors disabled:opacity-50"
-      aria-label={`Verwijder sollicitatie van ${applicantName}`}
-      title="Verwijderen"
+      aria-label={`Delete application from ${applicantName}`}
+      title="Delete"
     >
       <Trash2 className="h-4 w-4" />
     </button>

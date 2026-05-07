@@ -5,9 +5,9 @@ import NavbarPublic from "@/components/NavbarPublic";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Pagina niet gevonden",
+  title: "Page not found",
   description:
-    "De pagina die je zoekt bestaat niet of is verplaatst. Ga terug naar de homepage of bezoek de kennisbank.",
+    "The page you are looking for does not exist or has moved. Go back to the homepage or visit insights.",
   robots: {
     index: false,
     follow: false,
@@ -24,7 +24,7 @@ const QUICK_LINKS: Array<{ label: string; href: string; description: string }> =
   },
   {
     label: "Insights",
-    href: "/kennisbank",
+    href: "/insights",
     description: "Read articles and guides on finance careers.",
   },
 ];
@@ -48,7 +48,7 @@ export default function NotFound() {
               textTransform: "uppercase",
             }}
           >
-            Foutcode 404
+            Error code 404
           </p>
 
           <h1
@@ -61,7 +61,7 @@ export default function NotFound() {
               color: "#0A0A0A",
             }}
           >
-            Deze pagina konden we niet vinden
+            We could not find this page
             <span style={{ color: "#587DFE" }}>.</span>
           </h1>
 
@@ -73,8 +73,7 @@ export default function NotFound() {
               color: "#5A6094",
             }}
           >
-            De pagina is mogelijk verplaatst, verwijderd of de link is niet
-            meer actueel. Ga rechtstreeks naar een van de hoofdsecties.
+            The page may have moved, been removed or the link may no longer be current. Go directly to one of the main sections.
           </p>
 
           {/* Quick links */}
@@ -87,7 +86,7 @@ export default function NotFound() {
                 color: "#2C337A",
               }}
             >
-              Of ga direct naar
+              Or go directly to
             </h2>
 
             <ul className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">

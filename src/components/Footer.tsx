@@ -26,7 +26,7 @@ export default function Footer() {
                 href="/privacy"
                 className="mt-1 inline-block text-[13px] font-medium text-white/60 transition-colors duration-200 hover:text-white"
               >
-                Privacybeleid
+                Privacy Policy
               </Link>
             </div>
 
@@ -36,10 +36,10 @@ export default function Footer() {
               </p>
               <ul className="space-y-2.5">
                 {[
-                  { label: "Jobs", href: "/vacatures" },
+                  { label: "Jobs", href: "/jobs" },
                   { label: "Internships", href: "/internships" },
-                  { label: "Werkgevers", href: "/werkgevers" },
-                  { label: "Kennisbank", href: "/kennisbank" },
+                  { label: "Companies", href: "/companies" },
+                  { label: "Insights", href: "/insights" },
                 ].map((link) => (
                   <li key={link.href}>
                     <Link
@@ -55,13 +55,13 @@ export default function Footer() {
 
             <div>
               <p className="mb-3 text-[13px] font-medium uppercase tracking-[0.02em] text-white/45">
-                Voor werkgevers
+                For employers
               </p>
               <ul className="space-y-2.5">
                 {[
-                  { label: "Werkgever aanmelden", href: "/register" },
-                  { label: "Voor werkgevers", href: "/voor-werkgevers" },
-                  { label: "Inloggen", href: "/login" },
+                  { label: "Employer signup", href: "/register" },
+                  { label: "For employers", href: "/for-employers" },
+                  { label: "Log in", href: "/login" },
                 ].map((link) => (
                   <li key={link.href}>
                     <Link
@@ -81,8 +81,8 @@ export default function Footer() {
               </p>
               <ul className="space-y-2.5">
                 {[
-                  { label: "Privacybeleid", href: "/privacy" },
-                  { label: "Algemene voorwaarden", href: "/voorwaarden" },
+                  { label: "Privacy Policy", href: "/privacy" },
+                  { label: "Terms & Conditions", href: "/terms" },
                 ].map((link) => (
                   <li key={link.href}>
                     <Link
@@ -106,7 +106,7 @@ export default function Footer() {
               {CITIES.map((slug) => (
                 <Link
                   key={slug}
-                  href={`/vacatures/${slug}`}
+                  href={`/jobs/${slug}`}
                   title={`Finance Jobs ${cityDisplayName(slug)}`}
                   className="text-sm text-white/45 transition-colors duration-200 hover:text-[#E85A00]"
                 >
@@ -125,7 +125,7 @@ export default function Footer() {
               {CITIES.map((slug) => (
                 <Link
                   key={slug}
-                  href={`/stages/${slug}`}
+                  href={`/internships/${slug}`}
                   title={`Finance Internships ${cityDisplayName(slug)}`}
                   className="text-sm text-white/45 transition-colors duration-200 hover:text-[#E85A00]"
                 >

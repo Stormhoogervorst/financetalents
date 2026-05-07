@@ -157,7 +157,7 @@ export default function ProfileForm({
     notificationEmail.trim() !== "";
 
   const missingFields = [
-    !name.trim() && "Naam werkgever",
+    !name.trim() && "Company name",
     !location.trim() && "Vestigingsplaats",
     practiceAreas.length === 0 && "Sectors",
     !description.trim() && "Omschrijving",
@@ -230,7 +230,7 @@ export default function ProfileForm({
 
     throw new Error(
       lastBucketError ??
-        `Geen logo bucket gevonden. Geprobeerd: ${LOGO_BUCKETS.join(", ")}.`
+        `No logo bucket found. Tried: ${LOGO_BUCKETS.join(", ")}.`
     );
   };
 
@@ -326,7 +326,7 @@ export default function ProfileForm({
         setSaveError(
           typeof json?.error === "string" && json.error
             ? json.error
-            : "Geen toegang: je kunt alleen je eigen werkgeversprofiel bewerken."
+            : "No access: you can only edit your own company profile."
         );
       } else {
         setSaveError(json?.error ?? "Opslaan mislukt.");
@@ -340,7 +340,7 @@ export default function ProfileForm({
 
     // Tijdens impersonatie blijft de admin op het profielscherm zodat de
     // update direct zichtbaar geverifieerd kan worden. In de normale
-    // gebruikersflow gaat de werkgever terug naar het portaal.
+    // gebruikersflow gaat de company terug naar het portaal.
     if (isImpersonating) {
       router.refresh();
     } else {
@@ -388,10 +388,10 @@ export default function ProfileForm({
           Verplichte informatie
         </h2>
 
-        {/* Naam werkgever */}
+        {/* Company name */}
         <div>
           <label className={labelCls}>
-            Naam werkgever <span className="text-red-500">*</span>
+            Company name <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -469,7 +469,7 @@ export default function ProfileForm({
           <textarea
             required
             rows={5}
-            placeholder="Beschrijf de werkgever in max. 300 woorden. Denk aan specialisaties, cultuur en type zaken."
+            placeholder="Describe the company in up to 300 words. Include focus areas, culture and type of work."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className={`${inputCls} resize-none`}
@@ -505,13 +505,13 @@ export default function ProfileForm({
           <input
             type="email"
             required
-            placeholder="sollicitaties@werkgever.nl"
+            placeholder="applications@company.com"
             value={notificationEmail}
             onChange={(e) => setNotificationEmail(e.target.value)}
             className={inputCls}
           />
           <p className="mt-1 text-xs text-gray-400">
-            Sollicitaties worden naar dit adres verstuurd
+            Applications are sent to this address
           </p>
         </div>
       </section>
@@ -520,7 +520,7 @@ export default function ProfileForm({
       <section className="bg-white border border-gray-200 rounded-2xl p-6 space-y-5">
         <h2 className="text-lg font-semibold text-black">
           Extra informatie{" "}
-          <span className="text-sm font-normal text-gray-400">(optioneel)</span>
+          <span className="text-sm font-normal text-gray-400">(optional)</span>
         </h2>
 
         {/* Logo upload */}
@@ -579,10 +579,10 @@ export default function ProfileForm({
 
         {/* Waarom bij ons werken */}
         <div>
-          <label className={labelCls}>Waarom bij ons werken?</label>
+          <label className={labelCls}>Why work with us?</label>
           <textarea
             rows={4}
-            placeholder="Vertel wat jullie onderscheidt als werkgever. Denk aan cultuur, doorgroei, type werk…"
+            placeholder="Describe what sets your company apart. Think culture, growth and type of work..."
             value={whyWorkWithUs}
             onChange={(e) => setWhyWorkWithUs(e.target.value)}
             className={`${inputCls} resize-none`}
@@ -606,7 +606,7 @@ export default function ProfileForm({
           </select>
           <p className="mt-1 text-xs text-gray-400">
             Geef het aantal medewerkers op zodat kandidaten weten wat voor
-            werkgever jullie zijn.
+            company you are.
           </p>
         </div>
 
@@ -617,7 +617,7 @@ export default function ProfileForm({
             <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
             <input
               type="url"
-              placeholder="https://www.werkgever.nl"
+              placeholder="https://www.company.nl"
               value={websiteUrl}
               onChange={(e) => setWebsiteUrl(e.target.value)}
               className={`${inputCls} pl-9`}
@@ -632,7 +632,7 @@ export default function ProfileForm({
             <Linkedin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
             <input
               type="url"
-              placeholder="https://linkedin.com/company/werkgever"
+              placeholder="https://linkedin.com/company/company"
               value={linkedinUrl}
               onChange={(e) => setLinkedinUrl(e.target.value)}
               className={`${inputCls} pl-9`}
@@ -653,13 +653,13 @@ export default function ProfileForm({
       {saveSuccess && (
         <div className="flex items-center gap-3 rounded-xl bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-700">
           <CheckCircle className="h-4 w-4 shrink-0" />
-          Profiel opgeslagen{requiredFilled ? " en live gezet!" : "."}
+          Profile saved{requiredFilled ? " and published." : "."}
         </div>
       )}
 
       <div className="flex items-center justify-between pb-4">
         <p className="text-xs text-gray-400">
-          <span className="text-red-500">*</span> Verplicht veld
+          <span className="text-red-500">*</span> Required field
         </p>
         <button
           type="submit"
@@ -667,7 +667,7 @@ export default function ProfileForm({
           className="btn-primary"
         >
           {saving && <Loader2 className="h-4 w-4 animate-spin" />}
-          {saving ? "Opslaan…" : "Profiel opslaan"}
+          {saving ? "Saving..." : "Profiel opslaan"}
         </button>
       </div>
     </form>

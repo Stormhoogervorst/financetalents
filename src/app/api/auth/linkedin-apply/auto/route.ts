@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
   }
   if (!firstName || !lastName || !phone || !rawLinkedinUrl) {
     return NextResponse.json(
-      { error: "Vul alle velden in." },
+      { error: "Fill in all fields." },
       { status: 400 },
     );
   }
@@ -164,7 +164,7 @@ export async function POST(request: NextRequest) {
   if (jobError || !job) {
     console.log("[linkedin-apply/auto] Job not found:", jobId, jobError);
     return NextResponse.json(
-      { error: "Vacature niet gevonden of niet meer actief." },
+      { error: "Job not found or no longer active." },
       { status: 404 },
     );
   }
@@ -180,7 +180,7 @@ export async function POST(request: NextRequest) {
   if (existing) {
     console.log("[linkedin-apply/auto] Duplicate — already applied");
     return NextResponse.json(
-      { error: "Je hebt al gesolliciteerd op deze vacature." },
+      { error: "You have already applied for this job." },
       { status: 409 },
     );
   }
@@ -241,7 +241,7 @@ export async function POST(request: NextRequest) {
         from: "Finance Talents <noreply@finance-talents.com>",
         to: notificationEmail,
         ...(ccEmails.length > 0 ? { cc: ccEmails } : {}),
-        subject: `Nieuwe sollicitatie (LinkedIn): ${fullName} voor ${job.title}`,
+        subject: `New application (LinkedIn): ${fullName} for ${job.title}`,
         html: firmEmailHtml({
           fullName,
           phone,
@@ -266,14 +266,14 @@ function firmEmailHtml(data: {
   jobTitle: string;
 }) {
   return `<!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head><meta charset="UTF-8" /></head>
 <body style="font-family: Arial, sans-serif; color: #0F0F0F; max-width: 600px; margin: 0 auto; padding: 24px;">
   <div style="background: #587DFE; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
     <p style="color: white; font-size: 20px; font-weight: 800; font-style: italic; margin: 0;">Finance Talents.</p>
   </div>
-  <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 4px;">Nieuwe sollicitatie via LinkedIn</h2>
-  <p style="color: #4B5563; margin-bottom: 24px;">Voor de functie <strong>${data.jobTitle}</strong></p>
+  <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 4px;">New application via LinkedIn</h2>
+  <p style="color: #4B5563; margin-bottom: 24px;">For the role <strong>${data.jobTitle}</strong></p>
   <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
     <tr>
       <td style="padding: 10px 0; border-bottom: 1px solid #F3F4F6; color: #4B5563; font-size: 14px; width: 40%;">Naam</td>

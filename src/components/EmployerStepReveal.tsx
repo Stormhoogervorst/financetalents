@@ -6,18 +6,18 @@ import { UserPlus, FilePlus, LayoutDashboard, type LucideIcon } from "lucide-rea
 const stepItems: { icon: LucideIcon; title: string; text: string }[] = [
   {
     icon: UserPlus,
-    title: "1. Account aanmaken",
-    text: "Binnen 2 minuten gepiept. Geen creditcard of KvK vereist.",
+    title: "1. Create an account",
+    text: "Done in under 2 minutes. No credit card or Chamber of Commerce number required.",
   },
   {
     icon: FilePlus,
-    title: "2. Vacature plaatsen",
-    text: "Vul het eenvoudige formulier in. Uw vacature is direct zichtbaar voor talent.",
+    title: "2. Post a job",
+    text: "Fill in the simple form. Your job is visible to talent immediately.",
   },
   {
     icon: LayoutDashboard,
     title: "3. Dashboard live",
-    text: "Beheer vacatures en sollicitaties centraal vanuit uw dashboard.",
+    text: "Manage jobs and applications centrally from your dashboard.",
   },
 ];
 

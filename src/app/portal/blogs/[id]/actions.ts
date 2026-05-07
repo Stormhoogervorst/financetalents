@@ -36,7 +36,7 @@ export async function updateBlogAction(
     .maybeSingle();
 
   if (!firm) {
-    return { error: "Geen werkgeverprofiel gevonden." };
+    return { error: "No company profile found." };
   }
 
   const { data: existingBlog } = await admin

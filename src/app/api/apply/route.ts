@@ -27,7 +27,7 @@ function firmEmailHtml(data: {
 }) {
   return `
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head><meta charset="UTF-8" /></head>
 <body style="font-family: Arial, sans-serif; color: #0F0F0F; max-width: 600px; margin: 0 auto; padding: 24px;">
   <div style="background: #587DFE; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
@@ -87,7 +87,7 @@ function studentEmailHtml(data: {
 }) {
   return `
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head><meta charset="UTF-8" /></head>
 <body style="font-family: Arial, sans-serif; color: #0F0F0F; max-width: 600px; margin: 0 auto; padding: 24px;">
   <div style="background: #587DFE; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
@@ -95,23 +95,23 @@ function studentEmailHtml(data: {
   </div>
 
   <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">
-    Je sollicitatie is ontvangen! ✓
+    Your application has been received!
   </h2>
 
   <p style="color: #4B5563; font-size: 15px; line-height: 1.6; margin-bottom: 20px;">
-    Beste ${data.firstName},<br /><br />
-    Je sollicitatie voor de functie <strong>${data.jobTitle}</strong> bij <strong>${data.firmName}</strong>
-    is in goede orde ontvangen.
+    Hi ${data.firstName},<br /><br />
+    Your application for the role <strong>${data.jobTitle}</strong> at <strong>${data.firmName}</strong>
+    has been received.
   </p>
 
   <div style="background: #EEF1FF; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
     <p style="margin: 0; font-size: 14px; color: #4B5563; line-height: 1.6;">
-      De werkgever neemt contact met je op als je profiel aansluit bij hun wensen.
-      Houd je inbox (en spammap) in de gaten.
+      The employer will contact you if your profile matches what they are looking for.
+      Keep an eye on your inbox and spam folder.
     </p>
   </div>
 
-  <p style="font-size: 14px; color: #4B5563;">Succes! 🎓</p>
+  <p style="font-size: 14px; color: #4B5563;">Good luck!</p>
   <p style="font-size: 14px; font-weight: 700; color: #587DFE;">The Finance Talents team</p>
 
   <p style="font-size: 13px; color: #9CA3AF; border-top: 1px solid #F3F4F6; padding-top: 16px; margin-top: 24px;">
@@ -177,7 +177,7 @@ export async function POST(request: NextRequest) {
   // 2. Validate required fields
   if (!jobId || !firstName || !lastName || !email || !motivation) {
     return NextResponse.json(
-      { error: "Vul alle verplichte velden in." },
+      { error: "Fill in all required fields." },
       { status: 400 }
     );
   }
@@ -273,7 +273,7 @@ export async function POST(request: NextRequest) {
   if (jobError || !job) {
     console.error("[/api/apply] Job not found. jobId:", jobId, "error:", jobError);
     return NextResponse.json(
-      { error: "Vacature niet gevonden of niet meer actief." },
+      { error: "Job not found or no longer active." },
       { status: 404 }
     );
   }
@@ -296,7 +296,7 @@ export async function POST(request: NextRequest) {
   if (!notificationEmail) {
     console.error("[/api/apply] No notification email for firm:", firmName);
     return NextResponse.json(
-      { error: "Werkgever heeft geen notificatie-e-mail ingesteld." },
+      { error: "The employer has not configured a notification email." },
       { status: 500 }
     );
   }

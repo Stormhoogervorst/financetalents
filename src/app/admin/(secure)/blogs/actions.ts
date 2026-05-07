@@ -11,7 +11,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 /**
  * Admin-actie: een blog hard verwijderen.
  *
- * Net als bij vacatures kiezen we voor een hard delete; er is geen
+ * Net als bij jobs kiezen we voor een hard delete; er is geen
  * soft-delete infrastructuur in dit project. Als de blog een
  * upgeloade afbeelding heeft in de blog image bucket, ruimen we
  * die in dezelfde actie op om weesbestanden te voorkomen.
@@ -38,7 +38,7 @@ export async function deleteBlogAsAdmin(formData: FormData): Promise<void> {
     .eq("id", user.id)
     .maybeSingle();
 
-  if (profile?.role !== "admin") throw new Error("Geen toegang.");
+  if (profile?.role !== "admin") throw new Error("No access.");
 
   const admin = createAdminClient();
 

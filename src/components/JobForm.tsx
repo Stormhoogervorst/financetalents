@@ -22,7 +22,7 @@ const JOB_TYPES = [
   { value: "fulltime",        label: "Fulltime" },
   { value: "parttime",        label: "Parttime" },
   { value: "business-course", label: "Business Course" },
-  { value: "stage",           label: "Stage" },
+  { value: "stage",           label: "Internship" },
 ] as const;
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -57,7 +57,7 @@ type Props = {
   /**
    * Route waar de gebruiker naartoe moet na opslaan. Default is
    * /portal/jobs; bij de admin-flow gaat de admin terug naar
-   * /admin/werkgevers/[id].
+   * /admin/companies/[id].
    */
   returnTo?: string;
 };
@@ -146,18 +146,18 @@ export default function JobForm({
   const handleSubmit = useCallback(
     async (targetStatus: "draft" | "active") => {
       if (!firmId) {
-        setSaveError("Geen werkgever gekoppeld aan dit account. Maak eerst een bedrijfsprofiel aan.");
+        setSaveError("No company is linked to this account. Create a company profile first.");
         return;
       }
 
       if (!title.trim() || !location.trim() || !type || !practiceArea) {
-        setSaveError("Vul alle verplichte velden in.");
+        setSaveError("Fill in all required fields.");
         return;
       }
 
       const description = editor?.getHTML() ?? "";
       if (description === "<p></p>" || description.trim() === "") {
-        setSaveError("Voeg een beschrijving toe.");
+        setSaveError("Add a description.");
         return;
       }
 
@@ -214,7 +214,7 @@ export default function JobForm({
 
       if (!res.ok) {
         const json = await res.json().catch(() => ({}));
-        setSaveError(json?.error ?? "Opslaan mislukt.");
+        setSaveError(json?.error ?? "Save failed.");
         setSaving(false);
         return;
       }
@@ -255,10 +255,10 @@ export default function JobForm({
           <Shield className="mt-0.5 h-4 w-4 shrink-0" />
           <div>
             <p className="font-semibold">
-              Je plaatst namens {firmName ?? "deze werkgever"}
+              You are posting on behalf of {firmName ?? "this company"}
             </p>
             <p className="text-red-700">
-              De vacature wordt gekoppeld aan het bedrijf en gemarkeerd als
+              The job will be linked to the company and marked as
               door admin geplaatst ({" "}
               <code className="rounded bg-red-100 px-1 py-0.5 text-[11px] font-mono">
                 posted_by_admin
@@ -272,33 +272,33 @@ export default function JobForm({
       {/* ── Verplichte velden ─────────────────────────────────────── */}
       <section className="bg-white border border-gray-200 rounded-2xl p-6 space-y-5">
         <h2 className="text-lg font-semibold text-black">
-          Vacaturegegevens <span className="text-red-500 text-sm font-normal">* verplicht</span>
+          Job details <span className="text-red-500 text-sm font-normal">* required</span>
         </h2>
 
-        {/* Vacaturetitel */}
+        {/* Job title */}
         <div>
           <label className={labelCls}>
-            Vacaturetitel <span className="text-red-500">*</span>
+            Job title <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
             required
-            placeholder="Bijv. Juridisch stagiair arbeidsrecht"
+            placeholder="e.g. Investment Analyst Intern"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className={inputCls}
           />
         </div>
 
-        {/* Vestigingsplaats */}
+        {/* Location */}
         <div>
           <label className={labelCls}>
-            Vestigingsplaats <span className="text-red-500">*</span>
+            Location <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
             required
-            placeholder="Bijv. Amsterdam"
+            placeholder="e.g. Amsterdam"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             className={inputCls}
@@ -346,23 +346,23 @@ export default function JobForm({
           </div>
         </div>
 
-        {/* Beschrijving (Tiptap) */}
+        {/* Description (Tiptap) */}
         <div>
           <label className={labelCls}>
-            Beschrijving <span className="text-red-500">*</span>
+            Description <span className="text-red-500">*</span>
           </label>
 
           {/* Toolbar */}
           <div className="flex items-center gap-1 px-3 py-2 border border-gray-200 border-b-0 rounded-t-lg bg-gray-50">
             <ToolbarButton
-              title="Vet"
+              title="Bold"
               onClick={() => editor?.chain().focus().toggleBold().run()}
               active={editor?.isActive("bold")}
             >
               <Bold className="h-4 w-4" />
             </ToolbarButton>
             <ToolbarButton
-              title="Cursief"
+              title="Italic"
               onClick={() => editor?.chain().focus().toggleItalic().run()}
               active={editor?.isActive("italic")}
             >
@@ -370,7 +370,7 @@ export default function JobForm({
             </ToolbarButton>
             <div className="w-px h-4 bg-gray-200 mx-1" />
             <ToolbarButton
-              title="Opsomming"
+              title="Bullet list"
               onClick={() => editor?.chain().focus().toggleBulletList().run()}
               active={editor?.isActive("bulletList")}
             >
@@ -383,7 +383,7 @@ export default function JobForm({
             <EditorContent editor={editor} />
           </div>
           <p className="mt-1 text-xs text-gray-400">
-            Beschrijf de functie, taken en wat jullie zoeken in een kandidaat.
+            Describe the role, responsibilities and what you are looking for in a candidate.
           </p>
         </div>
       </section>
@@ -391,40 +391,40 @@ export default function JobForm({
       {/* ── Optionele velden ──────────────────────────────────────── */}
       <section className="bg-white border border-gray-200 rounded-2xl p-6 space-y-5">
         <h2 className="text-lg font-semibold text-black">
-          Extra informatie{" "}
-          <span className="text-sm font-normal text-gray-400">(optioneel)</span>
+          Additional information{" "}
+          <span className="text-sm font-normal text-gray-400">(optional)</span>
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {/* Salarisindicatie */}
+          {/* Salary indication */}
           <div>
-            <label className={labelCls}>Salarisindicatie</label>
+            <label className={labelCls}>Salary indication</label>
             <input
               type="text"
-              placeholder="Bijv. €500–€700 per maand"
+              placeholder="e.g. EUR 500-EUR 700 per month"
               value={salaryIndication}
               onChange={(e) => setSalaryIndication(e.target.value)}
               className={inputCls}
             />
           </div>
 
-          {/* Uren per week */}
+          {/* Hours per week */}
           <div>
-            <label className={labelCls}>Uren per week</label>
+            <label className={labelCls}>Hours per week</label>
             <input
               type="number"
               min={1}
               max={60}
-              placeholder="Bijv. 32"
+              placeholder="e.g. 32"
               value={hoursPerWeek}
               onChange={(e) => setHoursPerWeek(e.target.value)}
               className={inputCls}
             />
           </div>
 
-          {/* Startdatum */}
+          {/* Start date */}
           <div>
-            <label className={labelCls}>Startdatum</label>
+            <label className={labelCls}>Start date</label>
             <input
               type="date"
               value={startDate}
@@ -435,19 +435,19 @@ export default function JobForm({
 
           {/* Vereiste opleiding */}
           <div>
-            <label className={labelCls}>Vereiste opleiding / studierichting</label>
+            <label className={labelCls}>Required education / field of study</label>
             <input
               type="text"
-              placeholder="Bijv. HBO Rechtsgeleerdheid"
+              placeholder="e.g. MSc Finance"
               value={requiredEducation}
               onChange={(e) => setRequiredEducation(e.target.value)}
               className={inputCls}
             />
           </div>
 
-          {/* Vervaldatum */}
+          {/* Expiry date */}
           <div>
-            <label className={labelCls}>Vervaldatum</label>
+            <label className={labelCls}>Expiry date</label>
             <input
               type="date"
               value={expiresAt}
@@ -455,7 +455,7 @@ export default function JobForm({
               className={inputCls}
             />
             <p className="mt-1 text-xs text-gray-400">
-              Als leeg, verloopt de vacature automatisch 60 dagen na plaatsing.
+              If left empty, the job automatically expires 60 days after posting.
             </p>
           </div>
         </div>
@@ -473,8 +473,8 @@ export default function JobForm({
         <div className="flex items-center gap-3 rounded-xl bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-700">
           <CheckCircle className="h-4 w-4 shrink-0" />
           {savedStatus === "active"
-            ? "Vacature gepubliceerd! Je wordt doorgestuurd…"
-            : "Vacature opgeslagen als concept. Je wordt doorgestuurd…"}
+            ? "Job published. Redirecting..."
+            : "Job saved as draft. Redirecting..."}
         </div>
       )}
 
@@ -487,7 +487,7 @@ export default function JobForm({
           className="btn-secondary"
         >
           {saving && <Loader2 className="h-4 w-4 animate-spin" />}
-          Opslaan als concept
+          Save as draft
         </button>
         <button
           type="button"
@@ -496,7 +496,7 @@ export default function JobForm({
           className="btn-primary"
         >
           {saving && <Loader2 className="h-4 w-4 animate-spin" />}
-          Publiceren
+          Publish
         </button>
       </div>
     </div>

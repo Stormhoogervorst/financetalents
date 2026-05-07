@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
 
     if (profile?.role !== "admin") {
       return NextResponse.json(
-        { error: "Alleen admins mogen namens een werkgever plaatsen." },
+        { error: "Only admins can post on behalf of an employer." },
         { status: 403 }
       );
     }
@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
 
     if (!firm) {
       return NextResponse.json(
-        { error: "Werkgever niet gevonden." },
+        { error: "Employer not found." },
         { status: 404 }
       );
     }
@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
 
     if (!firm) {
       return NextResponse.json(
-        { error: "Geen werkgever gevonden voor dit account." },
+        { error: "No employer found for this account." },
         { status: 403 }
       );
     }

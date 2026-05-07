@@ -83,7 +83,7 @@ export default async function ApplicationDetailPage({ params }: Props) {
         className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-primary mb-6 transition-colors"
       >
         <ChevronLeft className="h-4 w-4" />
-        Terug naar sollicitanten
+        Back to applicants
       </Link>
 
       {/* Header card */}
@@ -94,14 +94,14 @@ export default async function ApplicationDetailPage({ params }: Props) {
             {job && (
               <p className="text-sm text-gray-500 mt-1 flex items-center gap-1.5">
                 <Building2 className="h-4 w-4 shrink-0" />
-                Sollicitatie voor{" "}
+                Application for{" "}
                 <span className="font-medium text-gray-700">{job.title}</span>
               </p>
             )}
           </div>
           <span className="text-xs text-gray-400 flex items-center gap-1.5 shrink-0 mt-1">
             <Calendar className="h-3.5 w-3.5" />
-            {new Date(app.created_at).toLocaleDateString("nl-NL", {
+            {new Date(app.created_at).toLocaleDateString("en-US", {
               day: "numeric",
               month: "long",
               year: "numeric",
@@ -130,7 +130,7 @@ export default async function ApplicationDetailPage({ params }: Props) {
                 </a>
               ) : (
                 <span className="text-sm italic text-gray-400">
-                  Geen e-mailadres gedeeld (LinkedIn)
+                  No email address shared (LinkedIn)
                 </span>
               )}
             </li>
@@ -213,7 +213,7 @@ export default async function ApplicationDetailPage({ params }: Props) {
         ) : (
           <div className="flex items-center gap-2 text-sm text-gray-400">
             <FileText className="h-4 w-4" />
-            Geen CV beschikbaar
+            No CV available
           </div>
         )}
       </div>
@@ -229,7 +229,7 @@ export default async function ApplicationDetailPage({ params }: Props) {
             {app.motivation}
           </p>
         ) : (
-          <p className="text-sm text-gray-400">Geen motivatie opgegeven</p>
+          <p className="text-sm text-gray-400">No motivation provided</p>
         )}
       </div>
     </div>

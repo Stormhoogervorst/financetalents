@@ -91,11 +91,11 @@ export default async function JobsPage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-black">Vacatures</h1>
+          <h1 className="text-2xl font-bold text-black">Jobs</h1>
           <p className="text-sm text-gray-500 mt-1">
             {jobList.length === 0
-              ? "Nog geen vacatures aangemaakt"
-              : `${jobList.length} vacature${jobList.length !== 1 ? "s" : ""}`}
+              ? "No jobs created yet"
+              : `${jobList.length} job${jobList.length !== 1 ? "s" : ""}`}
           </p>
         </div>
         <Link
@@ -103,7 +103,7 @@ export default async function JobsPage() {
           className="btn-primary"
         >
           <Plus className="h-4 w-4" />
-          Nieuwe vacature
+          New job
         </Link>
       </div>
 
@@ -114,7 +114,7 @@ export default async function JobsPage() {
             <Briefcase className="h-7 w-7 text-primary" />
           </div>
           <h2 className="text-lg font-semibold text-black mb-2">
-            Nog geen vacatures
+            No jobs yet
           </h2>
           <p className="text-sm text-gray-500 mb-6 max-w-sm">
             Post your first job and reach candidates directly via Finance Talents.
@@ -124,7 +124,7 @@ export default async function JobsPage() {
             className="btn-primary"
           >
             <Plus className="h-4 w-4" />
-            Nieuwe vacature
+            New job
           </Link>
         </div>
       ) : (
@@ -136,16 +136,16 @@ export default async function JobsPage() {
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50">
                   <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wide px-6 py-3.5">
-                    Titel
+                    Title
                   </th>
                   <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wide px-4 py-3.5">
                     Status
                   </th>
                   <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wide px-4 py-3.5">
-                    Aangemaakt op
+                    Created on
                   </th>
                   <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wide px-4 py-3.5">
-                    Sollicitaties
+                    Applications
                   </th>
                   <th className="px-4 py-3.5" />
                 </tr>
@@ -175,13 +175,13 @@ export default async function JobsPage() {
                         {job.status === "draft" && (
                           <span className="inline-flex items-center gap-1 rounded-full bg-orange-100 px-2 py-0.5 text-[11px] font-semibold text-orange-700">
                             <span className="h-1.5 w-1.5 rounded-full bg-orange-500" />
-                            Concept
+                            Draft
                           </span>
                         )}
                       </div>
                     </td>
                     <td className="px-4 py-4 text-sm text-gray-500">
-                      {new Date(job.created_at).toLocaleDateString("nl-NL", {
+                      {new Date(job.created_at).toLocaleDateString("en-US", {
                         day: "numeric",
                         month: "short",
                         year: "numeric",
@@ -223,11 +223,11 @@ export default async function JobsPage() {
                     {job.status === "draft" && (
                       <span className="inline-flex items-center gap-1 rounded-full bg-orange-100 px-2 py-0.5 text-[11px] font-semibold text-orange-700">
                         <span className="h-1.5 w-1.5 rounded-full bg-orange-500" />
-                        Concept
+                        Draft
                       </span>
                     )}
                     <span className="text-xs text-gray-400">
-                      {job.applicationCount} sollicitatie{job.applicationCount !== 1 ? "s" : ""}
+                      {job.applicationCount} application{job.applicationCount !== 1 ? "s" : ""}
                     </span>
                   </div>
                 </div>

@@ -102,7 +102,7 @@ export function GrowthChart({ data }: { data: GrowthPoint[] }) {
           <Area
             type="monotone"
             dataKey="firms"
-            name="Nieuwe werkgevers"
+            name="New companies"
             stroke="#587DFE"
             strokeWidth={2}
             fill="url(#firmsGradient)"
@@ -111,7 +111,7 @@ export function GrowthChart({ data }: { data: GrowthPoint[] }) {
           <Area
             type="monotone"
             dataKey="jobs"
-            name="Nieuwe vacatures"
+            name="New jobs"
             stroke="#22C6E0"
             strokeWidth={2}
             fill="url(#jobsGradient)"

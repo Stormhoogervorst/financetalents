@@ -64,7 +64,7 @@ export default async function EditBlogPage({ params }: Props) {
         className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors mb-6"
       >
         <ChevronLeft className="h-4 w-4" />
-        Terug naar blogs
+        Back to blogs
       </Link>
 
       <h1 className="text-2xl font-bold text-black mb-2">Blog bewerken</h1>

@@ -44,8 +44,8 @@ export default function ApplicationStatusToast({
   if (!visible) return null;
 
   const message = success
-    ? "Sollicitatie verstuurd — we nemen snel contact met je op."
-    : "Je hebt al gesolliciteerd op deze vacature.";
+    ? "Application sent — we nemen snel contact met je op."
+    : "You have already applied for this job.";
 
   return (
     <div
@@ -98,7 +98,7 @@ export default function ApplicationStatusToast({
             window.setTimeout(() => setVisible(false), 250);
           }}
           className="ml-1 rounded-full p-1 text-white/70 transition-colors hover:bg-white/10 hover:text-white"
-          aria-label="Sluiten"
+          aria-label="Close"
         >
           <svg
             className="h-4 w-4"

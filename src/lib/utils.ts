@@ -9,14 +9,14 @@ export function cn(...inputs: ClassValue[]) {
 export function formatSalary(min: number | null, max: number | null, currency = "EUR") {
   if (!min && !max) return "Salary not specified";
   const fmt = (n: number) =>
-    new Intl.NumberFormat("nl-NL", { style: "currency", currency, maximumFractionDigits: 0 }).format(n);
+    new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }).format(n);
   if (min && max) return `${fmt(min)} – ${fmt(max)}`;
   if (min) return `From ${fmt(min)}`;
   return `Up to ${fmt(max!)}`;
 }
 
 export function formatDate(dateStr: string) {
-  return new Intl.DateTimeFormat("nl-NL", { day: "numeric", month: "short", year: "numeric" }).format(new Date(dateStr));
+  return new Intl.DateTimeFormat("en-US", { day: "numeric", month: "short", year: "numeric" }).format(new Date(dateStr));
 }
 
 export const employmentTypeLabels: Record<EmploymentType, string> = {

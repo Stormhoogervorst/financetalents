@@ -5,8 +5,8 @@ import NavbarPublic from "@/components/NavbarPublic";
 import Footer from "@/components/Footer";
 import CtaBand from "@/components/CtaBand";
 import HeroSection from "@/components/HeroSection";
-import VacatureCarousel from "@/components/VacatureCarousel";
-import VacatureListMobile from "@/components/VacatureListMobile";
+import JobCarousel from "@/components/JobCarousel";
+import JobListMobile from "@/components/JobListMobile";
 import OrganizationJsonLd from "@/components/OrganizationJsonLd";
 import { createClient } from "@/lib/supabase/server";
 import { Firm, Job } from "@/types";
@@ -145,7 +145,7 @@ export default async function HomePage() {
                 Fresh openings at ambitious finance firms, selected for people
                 who want signal over volume.
               </p>
-              <Link href="/vacatures" className="btn-primary mt-6 shrink-0 hidden md:inline-flex">
+              <Link href="/jobs" className="btn-primary mt-6 shrink-0 hidden md:inline-flex">
                 View all jobs
               </Link>
             </div>
@@ -155,12 +155,12 @@ export default async function HomePage() {
             <>
               {/* Mobile: compact vertical list (max 5) */}
               <div className="md:hidden">
-                <VacatureListMobile jobs={allJobs} limit={5} />
+                <JobListMobile jobs={allJobs} limit={5} />
               </div>
 
               {/* Desktop / tablet: existing carousel */}
               <div className="hidden md:block">
-                <VacatureCarousel jobs={allJobs} />
+                <JobCarousel jobs={allJobs} />
               </div>
             </>
           ) : (
@@ -200,7 +200,7 @@ export default async function HomePage() {
               <p className="max-w-[390px] text-[17px] leading-[1.45] tracking-[-0.02em] text-[#222222]/65">
                 Discover the funds, banks and builders shaping modern finance.
               </p>
-              <Link href="/werkgevers" className="btn-primary mt-6 shrink-0 hidden md:inline-flex">
+              <Link href="/companies" className="btn-primary mt-6 shrink-0 hidden md:inline-flex">
                 All companies
               </Link>
             </div>
@@ -212,7 +212,7 @@ export default async function HomePage() {
               {featuredFirms.map((firm) => (
                 <li key={firm.id}>
                   <Link
-                    href={`/werkgevers/${firm.slug}`}
+                    href={`/companies/${firm.slug}`}
                     className="group flex items-center gap-4 border border-[#222222] bg-white px-4 py-5 transition-colors duration-200 active:bg-[#0A0A0A]"
                   >
                     {/* Logo */}
@@ -277,7 +277,7 @@ export default async function HomePage() {
             </ul>
 
             <Link
-              href="/werkgevers"
+              href="/companies"
               className="btn-primary mt-6 w-full justify-center inline-flex"
             >
               View all companies
@@ -289,7 +289,7 @@ export default async function HomePage() {
             {featuredFirms.map((firm) => (
               <Link
                 key={firm.id}
-                href={`/werkgevers/${firm.slug}`}
+                href={`/companies/${firm.slug}`}
                 className="group flex min-h-[320px] flex-col border border-[#222222] bg-white p-6 transition-colors duration-200 hover:bg-[#0A0A0A]"
               >
                 <div className="w-14 h-14 bg-white border border-[#222222] flex items-center justify-center mb-5 overflow-hidden p-2">
@@ -401,7 +401,7 @@ export default async function HomePage() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                <Link href="/voor-werkgevers" className="inline-flex items-center justify-center rounded-full border border-white px-5 py-2.5 text-[14px] font-medium text-white transition-colors duration-200 hover:bg-white hover:text-[#222222] sm:w-auto w-full">
+                <Link href="/for-employers" className="inline-flex items-center justify-center rounded-full border border-white px-5 py-2.5 text-[14px] font-medium text-white transition-colors duration-200 hover:bg-white hover:text-[#222222] sm:w-auto w-full">
                   Learn more
                 </Link>
                 <Link href="/register" className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-[14px] font-medium text-[#222222] transition-colors duration-200 hover:bg-[#E85A00] hover:text-white sm:w-auto w-full">
@@ -603,7 +603,7 @@ export default async function HomePage() {
             {RECHTSGEBIEDEN.map((area) => (
               <Link
                 key={area}
-                href={`/vacatures/${getRechtsgebiedSlug(area)}`}
+                href={`/jobs/${getRechtsgebiedSlug(area)}`}
                 className="group flex min-h-[112px] items-start justify-between border border-white/35 px-5 py-5 transition-colors duration-150 hover:border-[#EBEBEB] hover:bg-[#EBEBEB] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E85A00] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
               >
                 <span
@@ -717,7 +717,7 @@ export default async function HomePage() {
                   Direct reads for candidates and hiring teams in finance.
                 </p>
                 <Link
-                  href="/kennisbank"
+                  href="/insights"
                   className="btn-primary mt-6 shrink-0"
                 >
                   All articles
@@ -729,7 +729,7 @@ export default async function HomePage() {
               {latestBlogs.slice(0, 3).map((blog) => (
                 <Link
                   key={blog.id}
-                  href={`/kennisbank/${blog.slug}`}
+                  href={`/insights/${blog.slug}`}
                   className="group block border border-[#222222] bg-white p-4 transition-colors duration-200 hover:bg-[#0A0A0A]"
                 >
                   <div className="relative w-full aspect-video overflow-hidden">

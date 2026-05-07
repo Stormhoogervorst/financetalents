@@ -25,7 +25,7 @@ export async function DELETE(_request: NextRequest, { params }: Params) {
 
   if (!firm) {
     return NextResponse.json(
-      { error: "Geen werkgever gevonden voor dit account." },
+      { error: "No employer found for this account." },
       { status: 403 }
     );
   }
@@ -45,7 +45,7 @@ export async function DELETE(_request: NextRequest, { params }: Params) {
 
   if (!deleted || deleted.length === 0) {
     return NextResponse.json(
-      { error: "Sollicitatie niet gevonden of geen toegang." },
+      { error: "Application not found or no access." },
       { status: 403 }
     );
   }

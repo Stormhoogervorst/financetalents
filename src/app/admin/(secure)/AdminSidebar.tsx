@@ -8,8 +8,8 @@ import { adminSignOutAction } from "./actions";
 
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-  { href: "/admin/werkgevers", label: "Werkgevers", icon: Building2, exact: false },
-  { href: "/admin/vacatures", label: "Vacatures", icon: Briefcase, exact: false },
+  { href: "/admin/companies", label: "Companies", icon: Building2, exact: false },
+  { href: "/admin/jobs", label: "Jobs", icon: Briefcase, exact: false },
   { href: "/admin/blogs", label: "Blogs", icon: FileText, exact: false },
 ];
 
@@ -70,7 +70,7 @@ export function AdminSidebar({ email }: { email: string | null }) {
           className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-gray-100 hover:text-gray-900 transition"
         >
           <LogOut className="h-4 w-4" />
-          Uitloggen
+          Log out
         </button>
       </form>
     </aside>

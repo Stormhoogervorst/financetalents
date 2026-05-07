@@ -11,7 +11,7 @@ import DeleteApplicationButton from "@/components/portal/DeleteApplicationButton
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Sollicitanten",
+  title: "Applicants",
 };
 
 interface Props {
@@ -97,12 +97,12 @@ export default async function ApplicationsPage({ searchParams }: Props) {
           </Link>
         )}
         <h1 className="text-2xl font-bold text-black">
-          {filteredJobTitle ? `Sollicitanten — ${filteredJobTitle}` : "Sollicitanten"}
+          {filteredJobTitle ? `Applicants — ${filteredJobTitle}` : "Applicants"}
         </h1>
         <p className="text-sm text-gray-500 mt-1">
           {appList.length === 0
-            ? "Nog geen sollicitaties ontvangen"
-            : `${appList.length} sollicitatie${appList.length !== 1 ? "s" : ""} ontvangen`}
+            ? "No applications received yet"
+            : `${appList.length} application${appList.length !== 1 ? "s" : ""} ontvangen`}
         </p>
       </div>
 
@@ -112,10 +112,10 @@ export default async function ApplicationsPage({ searchParams }: Props) {
             <Users className="h-7 w-7 text-primary" />
           </div>
           <h2 className="text-lg font-semibold text-black mb-2">
-            Nog geen sollicitaties
+            Nog geen applications
           </h2>
           <p className="text-sm text-gray-500 max-w-sm">
-            Zodra studenten solliciteren op je vacatures verschijnen ze hier.
+            When candidates apply for your jobs, they will appear here.
           </p>
         </div>
       ) : (
@@ -132,7 +132,7 @@ export default async function ApplicationsPage({ searchParams }: Props) {
                     Contact
                   </th>
                   <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wide px-4 py-3.5">
-                    Vacature
+                    Job
                   </th>
                   <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wide px-4 py-3.5">
                     LinkedIn
@@ -172,7 +172,7 @@ export default async function ApplicationsPage({ searchParams }: Props) {
                         ) : (
                           <span className="flex items-center gap-1.5 text-sm italic text-gray-400">
                             <Mail className="h-3.5 w-3.5 shrink-0" />
-                            Geen e-mail (LinkedIn)
+                            No email (LinkedIn)
                           </span>
                         )}
                         {app.applicant_phone && (
@@ -211,7 +211,7 @@ export default async function ApplicationsPage({ searchParams }: Props) {
                         )}
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
-                        {new Date(app.created_at).toLocaleDateString("nl-NL", {
+                        {new Date(app.created_at).toLocaleDateString("en-US", {
                           day: "numeric",
                           month: "short",
                           year: "numeric",
@@ -226,7 +226,7 @@ export default async function ApplicationsPage({ searchParams }: Props) {
                           <Link
                             href={`/portal/applications/${app.id}`}
                             className="p-1.5 rounded-md text-gray-300 group-hover:text-primary transition-colors inline-flex"
-                            aria-label={`Bekijk sollicitatie van ${app.applicant_name}`}
+                            aria-label={`View application from ${app.applicant_name}`}
                           >
                             <ChevronRight className="h-4 w-4" />
                           </Link>
@@ -292,7 +292,7 @@ export default async function ApplicationsPage({ searchParams }: Props) {
                     ) : (
                       <span className="flex items-center gap-1.5 text-sm italic text-gray-400">
                         <Mail className="h-3.5 w-3.5 shrink-0" />
-                        Geen e-mail (LinkedIn)
+                        No email (LinkedIn)
                       </span>
                     )}
                     {app.applicant_phone && (

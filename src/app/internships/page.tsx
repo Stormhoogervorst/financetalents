@@ -1,6 +1,6 @@
-import VacaturesListingPage, {
-  VacaturesSearchParams,
-} from "../vacatures/VacaturesListingPage";
+import JobsListingPage, {
+  JobsSearchParams,
+} from "../jobs/JobsListingPage";
 
 export const revalidate = 0;
 
@@ -18,18 +18,18 @@ export const metadata = {
 export default async function InternshipsPage({
   searchParams,
 }: {
-  searchParams: Promise<VacaturesSearchParams>;
+  searchParams: Promise<JobsSearchParams>;
 }) {
   const params = await searchParams;
 
   return (
-    <VacaturesListingPage
+    <JobsListingPage
       params={params}
       basePath="/internships"
       headingText="Finance internships"
       subtitleText="Discover internships at the funds, banks and builders shaping modern finance."
       typeValues={INTERNSHIP_TYPE_VALUES}
-      typeOptions={[{ value: "stage", label: "Stage" }]}
+      typeOptions={[{ value: "stage", label: "Internship" }]}
       eyebrowText="Elite finance internships. One platform."
       filterHelperText="Filter by role, city, radius and sector. Apply directly to the firm when you find a fit."
       resultsHeadingText="Open internships."

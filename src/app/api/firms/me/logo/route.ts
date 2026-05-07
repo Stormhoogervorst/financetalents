@@ -96,13 +96,13 @@ export async function POST(request: NextRequest) {
       .maybeSingle();
     if (isMissingTableError(error)) {
       return NextResponse.json(
-        { error: "Werkgeversprofielen gebruiken in deze database geen firms-tabel." },
+        { error: "Employer profiles in this database do not use the firms table." },
         { status: 409 }
       );
     }
     if (!data) {
       return NextResponse.json(
-        { error: "Geïmpersoneerde werkgever niet gevonden." },
+        { error: "Impersonated employer not found." },
         { status: 404 }
       );
     }
@@ -196,7 +196,7 @@ export async function POST(request: NextRequest) {
         updateError.message
       );
       return NextResponse.json(
-        { error: "Logo geüpload, maar kon niet aan werkgever gekoppeld worden." },
+        { error: "Logo uploaded, but could not be linked to the employer." },
         { status: 500 }
       );
     }

@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
   console.log("[linkedin-apply/confirm] job_id received:", jobId ?? null);
 
   if (!jobId || !linkedinUrl || !phone) {
-    return NextResponse.json({ error: "Vul alle velden in." }, { status: 400 });
+    return NextResponse.json({ error: "Fill in all fields." }, { status: 400 });
   }
   if (!cvFile || cvFile.size === 0) {
     return NextResponse.json({ error: "Upload je CV (PDF of Word, max 5 MB)." }, { status: 400 });
@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
 
   if (jobError || !job) {
     return NextResponse.json(
-      { error: "Vacature niet gevonden of niet meer actief." },
+      { error: "Job not found or no longer active." },
       { status: 404 }
     );
   }
@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
 
   if (existing) {
     return NextResponse.json(
-      { error: "Je hebt al gesolliciteerd op deze vacature." },
+      { error: "You have already applied for this job." },
       { status: 409 }
     );
   }
@@ -181,7 +181,7 @@ export async function POST(request: NextRequest) {
           from: "Finance Talents <noreply@finance-talents.com>",
           to: notificationEmail,
           ...(ccEmails.length > 0 ? { cc: ccEmails } : {}),
-          subject: `Nieuwe sollicitatie (LinkedIn): ${fullName} voor ${job.title}`,
+          subject: `New application (LinkedIn): ${fullName} for ${job.title}`,
           html: firmHtml({
             fullName,
             email,
@@ -236,14 +236,14 @@ function firmHtml(data: {
 }) {
   return `
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head><meta charset="UTF-8" /></head>
 <body style="font-family: Arial, sans-serif; color: #0F0F0F; max-width: 600px; margin: 0 auto; padding: 24px;">
   <div style="background: #587DFE; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
     <p style="color: white; font-size: 20px; font-weight: 800; font-style: italic; margin: 0;">Finance Talents.</p>
   </div>
-  <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 4px;">Nieuwe sollicitatie via LinkedIn</h2>
-  <p style="color: #4B5563; margin-bottom: 24px;">Voor de functie <strong>${data.jobTitle}</strong></p>
+  <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 4px;">New application via LinkedIn</h2>
+  <p style="color: #4B5563; margin-bottom: 24px;">For the role <strong>${data.jobTitle}</strong></p>
   <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
     <tr>
       <td style="padding: 10px 0; border-bottom: 1px solid #F3F4F6; color: #4B5563; font-size: 14px; width: 40%;">Naam</td>
@@ -278,25 +278,25 @@ function studentHtml(data: {
 }) {
   return `
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head><meta charset="UTF-8" /></head>
 <body style="font-family: Arial, sans-serif; color: #0F0F0F; max-width: 600px; margin: 0 auto; padding: 24px;">
   <div style="background: #587DFE; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
     <p style="color: white; font-size: 20px; font-weight: 800; font-style: italic; margin: 0;">Finance Talents.</p>
   </div>
-  <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Je sollicitatie is ontvangen!</h2>
+  <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Your application has been received!</h2>
   <p style="color: #4B5563; font-size: 15px; line-height: 1.6; margin-bottom: 20px;">
-    Beste ${data.firstName},<br /><br />
-    Je sollicitatie voor de functie <strong>${data.jobTitle}</strong> bij <strong>${data.firmName}</strong>
-    is in goede orde ontvangen via LinkedIn.
+    Hi ${data.firstName},<br /><br />
+    Your application for the role <strong>${data.jobTitle}</strong> at <strong>${data.firmName}</strong>
+    has been received via LinkedIn.
   </p>
   <div style="background: #EEF1FF; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
     <p style="margin: 0; font-size: 14px; color: #4B5563; line-height: 1.6;">
-      De werkgever neemt contact met je op als je profiel aansluit bij hun wensen.
-      Houd je inbox (en spammap) in de gaten.
+      The employer will contact you if your profile matches what they are looking for.
+      Keep an eye on your inbox and spam folder.
     </p>
   </div>
-  <p style="font-size: 14px; color: #4B5563;">Succes!</p>
+  <p style="font-size: 14px; color: #4B5563;">Good luck!</p>
   <p style="font-size: 14px; font-weight: 700; color: #587DFE;">The Finance Talents team</p>
   <p style="font-size: 13px; color: #9CA3AF; border-top: 1px solid #F3F4F6; padding-top: 16px; margin-top: 24px;">
     <a href="${SITE_URL}" style="color: #587DFE;">finance-talents.com</a>

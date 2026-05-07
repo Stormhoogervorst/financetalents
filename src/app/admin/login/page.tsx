@@ -33,7 +33,7 @@ export default function AdminLoginPage() {
             Super Admin Portaal
           </div>
           <h1 className="mt-4 text-2xl font-bold text-gray-900">
-            Inloggen op de cockpit
+            Log in to the cockpit
           </h1>
           <p className="mt-1 text-sm text-gray-500">
             Toegang uitsluitend voor de platformbeheerder.
@@ -47,7 +47,7 @@ export default function AdminLoginPage() {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                E-mailadres
+                Email address
               </label>
               <input
                 id="email"
@@ -65,7 +65,7 @@ export default function AdminLoginPage() {
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Wachtwoord
+                Password
               </label>
               <div className="relative">
                 <input
@@ -82,7 +82,7 @@ export default function AdminLoginPage() {
                   onClick={() => setShowPassword((v) => !v)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 transition-colors"
                   aria-label={
-                    showPassword ? "Wachtwoord verbergen" : "Wachtwoord tonen"
+                    showPassword ? "Password verbergen" : "Password tonen"
                   }
                 >
                   {showPassword ? (
@@ -106,15 +106,15 @@ export default function AdminLoginPage() {
               className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-red-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-400 disabled:opacity-60 disabled:cursor-not-allowed transition"
             >
               {pending && <Loader2 className="h-4 w-4 animate-spin" />}
-              {pending ? "Inloggen…" : "Inloggen"}
+              {pending ? "Logging in..." : "Log in"}
             </button>
           </form>
         </div>
 
         <p className="mt-6 text-center text-xs text-gray-500">
-          Werkgever? Ga naar{" "}
+          Employer? Go to{" "}
           <a href="/login" className="text-gray-700 hover:text-gray-900 underline">
-            het werkgeversportaal
+            the employer portal
           </a>
           .
         </p>

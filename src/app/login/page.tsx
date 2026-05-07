@@ -44,7 +44,7 @@ export default function LoginPage() {
         });
         setError(
           signInError.message === "Invalid login credentials"
-            ? "E-mailadres of wachtwoord is onjuist."
+            ? "Email address or password is incorrect."
             : `${signInError.message}${signInError.status ? ` (status ${signInError.status})` : ""}`
         );
         setLoading(false);
@@ -76,7 +76,7 @@ export default function LoginPage() {
           : typeof err === "string"
             ? err
             : JSON.stringify(err);
-      setError(`Onverwachte fout: ${message}`);
+      setError(`Unexpected error: ${message}`);
       setLoading(false);
     }
   };
@@ -89,10 +89,10 @@ export default function LoginPage() {
     try {
       console.log(
         "Reset email sent with redirectTo:",
-        'https://www.finance-talents.com/auth/callback?next=/update-wachtwoord'
+        'https://www.finance-talents.com/auth/callback?next=/update-password'
       );
       const { data, error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: 'https://www.finance-talents.com/auth/callback?next=/update-wachtwoord',
+        redirectTo: 'https://www.finance-talents.com/auth/callback?next=/update-password',
       });
       console.log("[forgot-password] resetPasswordForEmail response", { data, resetError });
 
@@ -117,7 +117,7 @@ export default function LoginPage() {
           : typeof err === "string"
             ? err
             : JSON.stringify(err);
-      setError(`Onverwachte fout: ${message}`);
+      setError(`Unexpected error: ${message}`);
       setLoading(false);
     }
   };
@@ -138,12 +138,12 @@ export default function LoginPage() {
             />
           </Link>
           <h1 className="mt-6 text-2xl font-bold text-black">
-            {view === "login" ? "Inloggen" : "Wachtwoord vergeten"}
+            {view === "login" ? "Log in" : "Forgot password"}
           </h1>
           <p className="mt-1 text-sm text-gray-500">
             {view === "login"
-              ? "Welkom terug — log in op je werkgeverportaal"
-              : "Vul je e-mailadres in, dan sturen we een resetlink"}
+              ? "Welcome back. Log in to your employer portal."
+              : "Enter your email address and we will send you a reset link."}
           </p>
         </div>
 
@@ -153,13 +153,13 @@ export default function LoginPage() {
             <form onSubmit={handleLogin} className="space-y-5">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                  E-mailadres
+                  Email address
                 </label>
                 <input
                   id="email"
                   type="email"
                   required
-                  placeholder="werkgever@voorbeeld.nl"
+                  placeholder="employer@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
@@ -169,14 +169,14 @@ export default function LoginPage() {
               <div>
                 <div className="flex items-center justify-between mb-1">
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                    Wachtwoord
+                    Password
                   </label>
                   <button
                     type="button"
                     onClick={() => { setView("forgot"); setError(null); }}
                     className="text-xs text-primary hover:underline font-medium"
                   >
-                    Wachtwoord vergeten?
+                    Forgot password?
                   </button>
                 </div>
                 <div className="relative">
@@ -193,7 +193,7 @@ export default function LoginPage() {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                    aria-label={showPassword ? "Wachtwoord verbergen" : "Wachtwoord tonen"}
+                    aria-label={showPassword ? "Password verbergen" : "Password tonen"}
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -212,7 +212,7 @@ export default function LoginPage() {
                 className="btn-primary w-full"
               >
                 {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-                {loading ? "Inloggen…" : "Inloggen"}
+                {loading ? "Log in…" : "Log in"}
               </button>
             </form>
           )}
@@ -222,13 +222,13 @@ export default function LoginPage() {
             <form onSubmit={handleForgotPassword} className="space-y-5">
               <div>
                 <label htmlFor="resetEmail" className="block text-sm font-medium text-gray-700 mb-1">
-                  E-mailadres
+                  Email address
                 </label>
                 <input
                   id="resetEmail"
                   type="email"
                   required
-                  placeholder="werkgever@voorbeeld.nl"
+                  placeholder="employer@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
@@ -247,7 +247,7 @@ export default function LoginPage() {
                 className="btn-primary w-full"
               >
                 {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-                {loading ? "Versturen…" : "Resetlink versturen"}
+                {loading ? "Sending..." : "Send reset link"}
               </button>
 
               <button
@@ -255,7 +255,7 @@ export default function LoginPage() {
                 onClick={() => { setView("login"); setError(null); }}
                 className="btn-secondary w-full"
               >
-                ← Terug naar inloggen
+                ← Back to login
               </button>
             </form>
           )}
@@ -266,17 +266,17 @@ export default function LoginPage() {
               <div className="w-14 h-14 rounded-full bg-primary-light flex items-center justify-center mx-auto mb-5">
                 <Mail className="h-7 w-7 text-primary" />
               </div>
-              <h2 className="text-base font-bold text-black mb-2">Resetlink verstuurd</h2>
+              <h2 className="text-base font-bold text-black mb-2">Reset link sent</h2>
               <p className="text-sm text-gray-500 leading-relaxed">
-                Check je inbox op{" "}
-                <span className="font-medium text-black">{email}</span> voor de resetlink.
+                Check your inbox at{" "}
+                <span className="font-medium text-black">{email}</span> for the reset link.
               </p>
               <button
                 type="button"
                 onClick={() => { setView("login"); setResetSent(false); setError(null); }}
                 className="mt-6 text-sm text-primary hover:underline font-medium"
               >
-                ← Terug naar inloggen
+                ← Back to login
               </button>
             </div>
           )}
@@ -286,7 +286,7 @@ export default function LoginPage() {
             <p className="mt-6 text-center text-sm text-gray-500">
               Nog geen account?{" "}
               <Link href="/register" className="font-medium text-primary hover:underline">
-                Werkgever aanmelden
+                Employer signup
               </Link>
             </p>
           )}

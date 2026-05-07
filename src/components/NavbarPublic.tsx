@@ -16,21 +16,21 @@ type NavbarPublicProps = {
 function useNavActive(pathname: string | null) {
   const p = pathname ?? "";
   return {
-    vacatures:
-      p === "/vacatures" ||
-      p.startsWith("/vacatures/") ||
-      p === "/vacature" ||
-      p.startsWith("/vacature/"),
+    jobs:
+      p === "/jobs" ||
+      p.startsWith("/jobs/") ||
+      p === "/jobs" ||
+      p.startsWith("/jobs/"),
     internships:
       p === "/internships" ||
       p.startsWith("/internships/") ||
-      p === "/stages" ||
-      p.startsWith("/stages/"),
-    werkgevers:
-      p === "/werkgevers" ||
-      p.startsWith("/werkgevers/") ||
-      p === "/voor-werkgevers",
-    kennisbank: p === "/kennisbank" || p.startsWith("/kennisbank/"),
+      p === "/internships" ||
+      p.startsWith("/internships/"),
+    companies:
+      p === "/companies" ||
+      p.startsWith("/companies/") ||
+      p === "/for-employers",
+    insights: p === "/insights" || p.startsWith("/insights/"),
   };
 }
 
@@ -127,16 +127,16 @@ export default function NavbarPublic({
               </Link>
 
               <div className="hidden md:flex items-center gap-6 lg:gap-8">
-                <Link href="/vacatures" className={linkClass("vacatures")}>
+                <Link href="/jobs" className={linkClass("jobs")}>
                   Jobs
                 </Link>
                 <Link href="/internships" className={linkClass("internships")}>
                   Internships
                 </Link>
-                <Link href="/werkgevers" className={linkClass("werkgevers")}>
+                <Link href="/companies" className={linkClass("companies")}>
                   Companies
                 </Link>
-                <Link href="/kennisbank" className={linkClass("kennisbank")}>
+                <Link href="/insights" className={linkClass("insights")}>
                   Insights
                 </Link>
               </div>
@@ -181,14 +181,14 @@ export default function NavbarPublic({
         >
           <div className="max-w-[1400px] mx-auto flex flex-col items-stretch">
             {[
-              { href: "/vacatures", key: "vacatures" as const, label: "Jobs" },
+              { href: "/jobs", key: "jobs" as const, label: "Jobs" },
               {
                 href: "/internships",
                 key: "internships" as const,
                 label: "Internships",
               },
-              { href: "/werkgevers", key: "werkgevers" as const, label: "Companies" },
-              { href: "/kennisbank", key: "kennisbank" as const, label: "Insights" },
+              { href: "/companies", key: "companies" as const, label: "Companies" },
+              { href: "/insights", key: "insights" as const, label: "Insights" },
             ].map((item) => (
               <Link
                 key={item.href}

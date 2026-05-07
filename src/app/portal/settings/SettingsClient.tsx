@@ -56,12 +56,12 @@ export default function SettingsClient({
     e.preventDefault();
     if (newPassword !== confirmPassword) {
       setPwStatus("error");
-      setPwMessage("De wachtwoorden komen niet overeen.");
+      setPwMessage("The passwords do not match.");
       return;
     }
     if (newPassword.length < 8) {
       setPwStatus("error");
-      setPwMessage("Wachtwoord moet minimaal 8 tekens zijn.");
+      setPwMessage("Password must be at least 8 characters.");
       return;
     }
 
@@ -75,14 +75,14 @@ export default function SettingsClient({
       setPwMessage(error.message);
     } else {
       setPwStatus("success");
-      setPwMessage("Wachtwoord succesvol gewijzigd.");
+      setPwMessage("Password updated successfully.");
       setNewPassword("");
       setConfirmPassword("");
     }
     setPwLoading(false);
   };
 
-  // ── E-mailinstellingen ────────────────────────────────────────────────────
+  // ── Email settings ────────────────────────────────────────────────────
   const [notifEmail, setNotifEmail] = useState(initialNotificationEmail);
   const [ccEmails, setCcEmails] = useState<string[]>(() =>
     initialCcEmails.map(normalizeEmail).filter((e) => EMAIL_RE.test(e))
@@ -181,7 +181,7 @@ export default function SettingsClient({
       );
     } else {
       setEmailStatus("success");
-      setEmailMessage("E-mailinstellingen opgeslagen.");
+      setEmailMessage("Email settings opgeslagen.");
     }
     setEmailLoading(false);
   };
@@ -189,14 +189,14 @@ export default function SettingsClient({
   return (
     <div className="max-w-5xl">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-black">Instellingen</h1>
+        <h1 className="text-2xl font-bold text-black">Settings</h1>
         <p className="text-sm text-gray-500 mt-1">
-          Beheer je accountinstellingen
+          Manage your account settings
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-        {/* Wachtwoord wijzigen */}
+        {/* Change password */}
         <section className="bg-white border border-gray-200 rounded-2xl p-6">
           <div className="flex items-center gap-3 mb-5">
             <div className="w-9 h-9 bg-primary-light rounded-lg flex items-center justify-center">
@@ -204,16 +204,16 @@ export default function SettingsClient({
             </div>
             <div>
               <h2 className="text-base font-semibold text-black">
-                Wachtwoord wijzigen
+                Change password
               </h2>
-              <p className="text-xs text-gray-400">Minimaal 8 tekens</p>
+              <p className="text-xs text-gray-400">At least 8 characters</p>
             </div>
           </div>
 
           <form onSubmit={handlePasswordChange} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Nieuw wachtwoord
+                New password
               </label>
               <input
                 type="password"
@@ -228,7 +228,7 @@ export default function SettingsClient({
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Bevestig nieuw wachtwoord
+                Confirm new password
               </label>
               <input
                 type="password"
@@ -264,7 +264,7 @@ export default function SettingsClient({
               className="btn-primary"
             >
               {pwLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-              {pwLoading ? "Opslaan…" : "Wachtwoord wijzigen"}
+              {pwLoading ? "Saving..." : "Change password"}
             </button>
           </form>
         </section>
@@ -277,10 +277,10 @@ export default function SettingsClient({
               </div>
               <div>
                 <h2 className="text-base font-semibold text-black">
-                  E-mailinstellingen
+                  Email settings
                 </h2>
                 <p className="text-xs text-gray-400">
-                  Ontvang sollicitaties op het juiste adres
+                  Receive applications at the right address
                 </p>
               </div>
             </div>
@@ -288,11 +288,11 @@ export default function SettingsClient({
             <form onSubmit={handleEmailSettings} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Primair notificatie-e-mailadres
+                  Primary notification email address
                 </label>
                 <input
                   type="email"
-                  placeholder="werkgever@voorbeeld.nl"
+                  placeholder="company@voorbeeld.nl"
                   value={notifEmail}
                   onChange={(e) => setNotifEmail(e.target.value)}
                   className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -301,14 +301,14 @@ export default function SettingsClient({
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Extra CC-e-mailadressen{" "}
-                  <span className="text-gray-400 font-normal">(optioneel)</span>
+                  Additional CC email addresses{" "}
+                  <span className="text-gray-400 font-normal">(optional)</span>
                 </label>
 
                 <div className="flex gap-2">
                   <input
                     type="email"
-                    placeholder="extra@werkgever.nl"
+                    placeholder="extra@company.nl"
                     value={ccDraft}
                     onChange={(e) => {
                       setCcDraft(e.target.value);
@@ -328,7 +328,7 @@ export default function SettingsClient({
                     className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
                   >
                     <Plus className="h-4 w-4" />
-                    Toevoegen
+                    Add
                   </button>
                 </div>
 
@@ -342,8 +342,8 @@ export default function SettingsClient({
                 )}
 
                 <p className="mt-1.5 text-xs text-gray-400">
-                  Elk adres hier ontvangt een kopie (CC) van elke sollicitatie.
-                  Tip: druk op Enter om snel toe te voegen.
+                  Each address here receives a copy (CC) of every application.
+                  Tip: press Enter to add quickly.
                 </p>
 
                 {ccEmails.length > 0 && (
@@ -393,7 +393,7 @@ export default function SettingsClient({
                 className="btn-primary"
               >
                 {emailLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-                {emailLoading ? "Opslaan…" : "E-mailinstellingen opslaan"}
+                {emailLoading ? "Saving..." : "Email settings opslaan"}
               </button>
             </form>
           </section>

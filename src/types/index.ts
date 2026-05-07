@@ -13,7 +13,7 @@ export const JOB_TYPE_OPTIONS: { value: string; label: string }[] = [
   { value: "fulltime",        label: "Fulltime" },
   { value: "parttime",        label: "Parttime" },
   { value: "business-course", label: "Business Course" },
-  { value: "stage",           label: "Stage" },
+  { value: "stage",           label: "Internship" },
 ];
 
 /** Label lookup for all values including legacy DB entries */
@@ -21,12 +21,12 @@ export const jobTypeLabels: Record<string, string> = {
   "fulltime":        "Fulltime",
   "parttime":        "Parttime",
   "business-course": "Business Course",
-  "stage":           "Stage",
+  "stage":           "Internship",
   // Legacy-waarden (backward compatibility)
   "full-time":     "Fulltime",
   "part-time":     "Parttime",
-  "internship":    "Stage",
-  "student":       "Stage",
+  "internship":    "Internship",
+  "student":       "Internship",
   "lawcourse":     "Business Course",
   "summer-course": "Business Course",
 };

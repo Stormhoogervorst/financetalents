@@ -85,7 +85,7 @@ export default async function PortalDashboardPage() {
           className="hidden sm:flex btn-primary"
         >
           <Plus className="h-4 w-4" />
-          Nieuwe vacature
+          New job
         </Link>
       </div>
 
@@ -98,7 +98,7 @@ export default async function PortalDashboardPage() {
               Je profiel is nog niet gepubliceerd
             </p>
             <p className="text-sm text-yellow-700 mt-0.5">
-              Vul je werkgeversprofiel volledig in zodat studenten je kunnen vinden.
+              Complete your company profile so candidates can find you.
             </p>
           </div>
           <Link
@@ -118,14 +118,14 @@ export default async function PortalDashboardPage() {
             <div className="w-9 h-9 bg-primary-light rounded-lg flex items-center justify-center">
               <Briefcase className="h-5 w-5 text-primary" />
             </div>
-            <p className="text-sm font-medium text-gray-500">Actieve vacatures</p>
+            <p className="text-sm font-medium text-gray-500">Active jobs</p>
           </div>
           <p className="text-3xl font-bold text-black">{activeJobsCount ?? 0}</p>
           <Link
             href="/portal/jobs"
             className="mt-2 inline-flex items-center gap-1 text-xs text-primary hover:underline font-medium"
           >
-            Beheer vacatures <ChevronRight className="h-3.5 w-3.5" />
+            Manage jobs <ChevronRight className="h-3.5 w-3.5" />
           </Link>
         </div>
 
@@ -134,14 +134,14 @@ export default async function PortalDashboardPage() {
             <div className="w-9 h-9 bg-primary-light rounded-lg flex items-center justify-center">
               <Users className="h-5 w-5 text-primary" />
             </div>
-            <p className="text-sm font-medium text-gray-500">Sollicitaties deze maand</p>
+            <p className="text-sm font-medium text-gray-500">Applications deze maand</p>
           </div>
           <p className="text-3xl font-bold text-black">{applicationsCount ?? 0}</p>
           <Link
             href="/portal/applications"
             className="mt-2 inline-flex items-center gap-1 text-xs text-primary hover:underline font-medium"
           >
-            Bekijk sollicitaties <ChevronRight className="h-3.5 w-3.5" />
+            View applications <ChevronRight className="h-3.5 w-3.5" />
           </Link>
         </div>
       </div>
@@ -149,7 +149,7 @@ export default async function PortalDashboardPage() {
       {/* Recent applications */}
       <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-          <h2 className="text-base font-semibold text-black">Recente sollicitaties</h2>
+          <h2 className="text-base font-semibold text-black">Recent applications</h2>
         </div>
 
         {recentApplications && recentApplications.length > 0 ? (
@@ -167,7 +167,7 @@ export default async function PortalDashboardPage() {
                     )}
                   </div>
                   <span className="text-xs text-gray-400 shrink-0">
-                    {new Date(app.created_at).toLocaleDateString("nl-NL", {
+                    {new Date(app.created_at).toLocaleDateString("en-US", {
                       day: "numeric",
                       month: "short",
                     })}
@@ -178,14 +178,14 @@ export default async function PortalDashboardPage() {
           </ul>
         ) : (
           <div className="px-6 py-12 text-center">
-            <p className="text-sm text-gray-400">Nog geen sollicitaties ontvangen.</p>
+            <p className="text-sm text-gray-400">No applications received yet.</p>
             {(activeJobsCount ?? 0) === 0 && (
               <Link
                 href="/portal/jobs/new"
                 className="mt-3 inline-flex items-center gap-1.5 text-sm text-primary hover:underline font-medium"
               >
                 <Plus className="h-4 w-4" />
-                Maak je eerste vacature aan
+                Create your first job
               </Link>
             )}
           </div>
@@ -199,7 +199,7 @@ export default async function PortalDashboardPage() {
           className="btn-primary w-full"
         >
           <Plus className="h-4 w-4" />
-          Nieuwe vacature plaatsen
+          New job plaatsen
         </Link>
       </div>
     </div>

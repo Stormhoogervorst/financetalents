@@ -60,13 +60,13 @@ export default function LinkedInQuickApply({
     const cleanUrl = sanitizeLinkedInProfileUrl(linkedinUrl.trim());
 
     if (!trimmedFirst || !trimmedLast || !trimmedPhone) {
-      setError("Vul alle velden in.");
+      setError("Fill in all fields.");
       return;
     }
 
     if (!isValidLinkedInInUrl(cleanUrl)) {
       setUrlError(
-        "Voer een geldige LinkedIn-profiel-URL in (https://www.linkedin.com/in/…).",
+        "Enter a valid LinkedIn profile URL (https://www.linkedin.com/in/...).",
       );
       return;
     }
@@ -91,22 +91,22 @@ export default function LinkedInQuickApply({
       const data = await res.json();
 
       if (res.status === 409) {
-        router.replace(`/vacature/${jobSlug}?error=already_applied`);
+        router.replace(`/jobs/${jobSlug}?error=already_applied`);
         return;
       }
 
       if (!res.ok || !data.success) {
-        setError(data.error ?? "Er is iets misgegaan bij het opslaan.");
+        setError(data.error ?? "Something went wrong while saving.");
         setLoading(false);
         return;
       }
 
       setSuccess(true);
       setLoading(false);
-      router.replace(`/vacature/${jobSlug}?status=success`);
+      router.replace(`/jobs/${jobSlug}?status=success`);
     } catch (err) {
       console.error("[LinkedInQuickApply] Submit error:", err);
-      setError("Geen verbinding. Probeer het opnieuw.");
+      setError("No connection. Try again.");
       setLoading(false);
     }
   }
@@ -124,7 +124,7 @@ export default function LinkedInQuickApply({
             <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
           </svg>
           <span className="text-[15px] font-semibold text-emerald-700 whitespace-nowrap">
-            Sollicitatie verstuurd
+            Application sent
           </span>
         </div>
       </div>
@@ -147,7 +147,7 @@ export default function LinkedInQuickApply({
           >
             <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
           </svg>
-          Al gesolliciteerd
+          Already applied
         </button>
       </div>
     );
@@ -168,7 +168,7 @@ export default function LinkedInQuickApply({
           >
             <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
           </svg>
-          <span>Solliciteer direct met LinkedIn</span>
+          <span>Apply directly with LinkedIn</span>
         </button>
       </div>
     );
@@ -188,21 +188,21 @@ export default function LinkedInQuickApply({
     >
       <div className="flex items-center justify-between gap-4">
         <p className="text-[13px] font-medium text-white/90">
-          Vul je gegevens in om je sollicitatie te versturen.
+          Enter your details to send your application.
         </p>
         <button
           type="button"
           onClick={handleCancel}
           className="text-[13px] font-medium text-white/80 underline-offset-4 hover:text-white hover:underline transition-colors"
         >
-          Annuleren
+          Cancel
         </button>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="w-full motion-safe:animate-[fadeInUp_260ms_ease-out]">
           <label htmlFor="linkedin-first-name" className="sr-only">
-            Voornaam
+            First name
           </label>
           <input
             id="linkedin-first-name"
@@ -210,14 +210,14 @@ export default function LinkedInQuickApply({
             autoComplete="given-name"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            placeholder="Voornaam *"
+            placeholder="First name *"
             className={`${inputBase} border-white/25`}
           />
         </div>
 
         <div className="w-full motion-safe:animate-[fadeInUp_300ms_ease-out]">
           <label htmlFor="linkedin-last-name" className="sr-only">
-            Achternaam
+            Last name
           </label>
           <input
             id="linkedin-last-name"
@@ -225,7 +225,7 @@ export default function LinkedInQuickApply({
             autoComplete="family-name"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            placeholder="Achternaam *"
+            placeholder="Last name *"
             className={`${inputBase} border-white/25`}
           />
         </div>
@@ -233,7 +233,7 @@ export default function LinkedInQuickApply({
 
       <div className="w-full motion-safe:animate-[fadeInUp_340ms_ease-out]">
         <label htmlFor="linkedin-profile-url" className="sr-only">
-          LinkedIn profiel-URL
+          LinkedIn profile URL
         </label>
         <input
           id="linkedin-profile-url"
@@ -245,7 +245,7 @@ export default function LinkedInQuickApply({
             setLinkedinUrl(e.target.value);
             if (urlError) setUrlError(null);
           }}
-          placeholder="LinkedIn profiel-URL *"
+          placeholder="LinkedIn profile URL *"
           className={`${inputBase} ${
             urlError ? "border-red-400" : "border-white/25"
           }`}
@@ -254,7 +254,7 @@ export default function LinkedInQuickApply({
           <p className="mt-1.5 text-[13px] text-red-500">{urlError}</p>
         )}
         <p className="mt-2 text-[13px] text-white">
-          Ga naar{" "}
+          Go to{" "}
           <a
             href="https://www.linkedin.com/in/me"
             target="_blank"
@@ -263,13 +263,13 @@ export default function LinkedInQuickApply({
           >
             linkedin.com/in/me
           </a>{" "}
-          en kopieer je profiel-URL.
+          and copy your profile URL.
         </p>
       </div>
 
       <div className="w-full motion-safe:animate-[fadeInUp_380ms_ease-out]">
         <label htmlFor="linkedin-phone" className="sr-only">
-          Telefoonnummer
+          Phone number
         </label>
         <input
           id="linkedin-phone"
@@ -277,7 +277,7 @@ export default function LinkedInQuickApply({
           autoComplete="tel"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          placeholder="Telefoonnummer *"
+          placeholder="Phone number *"
           className={`${inputBase} border-white/25`}
         />
       </div>
@@ -289,14 +289,14 @@ export default function LinkedInQuickApply({
           className="w-full flex justify-center items-center gap-3 rounded-full bg-white px-6 py-3.5 text-[15px] font-semibold text-[#222222] transition-colors duration-200 hover:bg-[#E85A00] hover:text-white md:hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-white disabled:hover:text-[#222222]"
         >
           {loading && <Loader2 className="h-5 w-5 animate-spin" />}
-          {loading ? "Versturen…" : "Sollicitatie afronden"}
+          {loading ? "Sending..." : "Complete application"}
         </button>
         <button
           type="button"
           onClick={handleCancel}
           className="text-[13px] font-medium text-white/80 underline-offset-4 hover:text-white hover:underline transition-colors"
         >
-          Terug
+          Back
         </button>
       </div>
 

@@ -11,14 +11,14 @@ export default function JobCard({ job }: Props) {
   const initials = firmName.slice(0, 2).toUpperCase();
   const typeLabel = jobTypeLabels[job.type] ?? job.type;
 
-  const postedDate = new Date(job.created_at).toLocaleDateString("nl-NL", {
+  const postedDate = new Date(job.created_at).toLocaleDateString("en-US", {
     day: "numeric",
     month: "short",
   });
 
   return (
     <Link
-      href={`/vacature/${job.slug}`}
+      href={`/jobs/${job.slug}`}
       className="group flex items-center gap-5 sm:gap-8 py-6 border-b border-[#E5E5E5] transition-colors duration-300 hover:bg-[#FAFAFA] -mx-2 px-2"
     >
       {/* Firm logo */}

@@ -52,7 +52,7 @@ function RegisterContent() {
     if (signUpError) {
       setError(
         signUpError.message === "User already registered"
-          ? "Er bestaat al een account met dit e-mailadres."
+          ? "An account with this email address already exists."
           : signUpError.message
       );
       setLoading(false);
@@ -82,21 +82,21 @@ function RegisterContent() {
               <Mail className="h-7 w-7 text-primary" />
             </div>
             <h2 className="text-xl font-bold text-black mb-2">
-              Check je inbox
+              Check your inbox
             </h2>
             <p className="text-sm text-gray-500 leading-relaxed">
-              We hebben een verificatielink gestuurd naar{" "}
+              We sent a verification link to{" "}
               <span className="font-medium text-black">{email}</span>.
               <br />
-              Klik op de link in de e-mail om je account te activeren.
+              Click the link in the email to activate your account.
             </p>
             <p className="mt-6 text-xs text-gray-400">
-              Geen e-mail ontvangen? Controleer je spam-map of{" "}
+              No email received? Check your spam folder or{" "}
               <button
                 onClick={() => setSuccess(false)}
                 className="text-primary hover:underline font-medium"
               >
-                probeer opnieuw
+                try again
               </button>
               .
             </p>
@@ -124,10 +124,10 @@ function RegisterContent() {
 
           <>
             <h1 className="mt-6 text-2xl font-bold text-black">
-              Werkgever aanmelden
+              Employer signup
             </h1>
             <p className="mt-1 text-sm text-gray-500">
-              Maak een gratis account aan en plaats je vacatures
+              Create a free account and post your jobs.
             </p>
           </>
         </div>
@@ -139,29 +139,29 @@ function RegisterContent() {
                 htmlFor="firmName"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Naam werkgever
+                Employer name
               </label>
               <input
                 id="firmName"
                 type="text"
                 required
-                placeholder="Bijv. Van der Berg Advocaten"
+                placeholder="e.g. Acme Capital"
                 value={firmName}
                 onChange={(e) => setFirmName(e.target.value)}
                 className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
               />
             </div>
 
-            {/* Contactpersoon */}
+            {/* Contact person */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Contactpersoon
+                Contact person
               </label>
               <div className="grid grid-cols-2 gap-3">
                 <input
                   type="text"
                   required
-                  placeholder="Voornaam"
+                  placeholder="First name"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
@@ -169,7 +169,7 @@ function RegisterContent() {
                 <input
                   type="text"
                   required
-                  placeholder="Achternaam"
+                  placeholder="Last name"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
@@ -177,35 +177,35 @@ function RegisterContent() {
               </div>
             </div>
 
-            {/* E-mailadres */}
+            {/* Email address */}
             <div>
               <label
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                E-mailadres
+                Email address
               </label>
               <input
                 id="email"
                 type="email"
                 required
-                placeholder="werkgever@voorbeeld.nl"
+                placeholder="employer@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
               />
               <p className="mt-1 text-xs text-gray-400">
-                Dit wordt je inlognaam en standaard notificatie-e-mailadres
+                This will be your login and default notification email address.
               </p>
             </div>
 
-            {/* Wachtwoord */}
+            {/* Password */}
             <div>
               <label
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Wachtwoord
+                Password
               </label>
               <div className="relative">
                 <input
@@ -213,7 +213,7 @@ function RegisterContent() {
                   type={showPassword ? "text" : "password"}
                   required
                   minLength={8}
-                  placeholder="Minimaal 8 tekens"
+                  placeholder="At least 8 characters"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full border border-gray-200 rounded-lg px-4 py-2.5 pr-10 text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
@@ -223,7 +223,7 @@ function RegisterContent() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                   aria-label={
-                    showPassword ? "Wachtwoord verbergen" : "Wachtwoord tonen"
+                    showPassword ? "Password verbergen" : "Password tonen"
                   }
                 >
                   {showPassword ? (
@@ -235,13 +235,13 @@ function RegisterContent() {
               </div>
             </div>
 
-            {/* Telefoonnummer */}
+            {/* Phone number */}
             <div>
               <label
                 htmlFor="phone"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Telefoonnummer
+                Phone number
               </label>
               <input
                 id="phone"
@@ -266,7 +266,7 @@ function RegisterContent() {
               className="btn-primary w-full"
             >
               {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-              {loading ? "Account aanmaken…" : "Account aanmaken"}
+              {loading ? "Creating account..." : "Create account"}
             </button>
           </form>
 
@@ -276,7 +276,7 @@ function RegisterContent() {
               href="/login"
               className="font-medium text-primary hover:underline"
             >
-              Inloggen
+              Log in
             </Link>
           </p>
         </div>

@@ -159,7 +159,7 @@ export default async function AdminDashboardPage() {
   const totalApplications = applications.length;
   const totalViews = jobs.reduce((sum, j) => sum + (j.views ?? 0), 0);
 
-  // Groei t.o.v. vorige kalendermaand (werkgevers)
+  // Groei t.o.v. vorige kalendermaand (companies)
   const now = new Date();
   const startOfThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
   const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
@@ -187,7 +187,7 @@ export default async function AdminDashboardPage() {
 
   const kpis = [
     {
-      label: "Totaal werkgevers",
+      label: "Total companies",
       value: totalFirms,
       icon: Building2,
       accent: "bg-brand-50 text-brand-700",
@@ -198,13 +198,13 @@ export default async function AdminDashboardPage() {
           : "t.o.v. vorige maand",
     },
     {
-      label: "Live vacatures",
+      label: "Live jobs",
       value: totalLiveJobs,
       icon: Briefcase,
       accent: "bg-green-50 text-green-700",
     },
     {
-      label: "Totaal sollicitaties",
+      label: "Total applications",
       value: totalApplications,
       icon: FileText,
       accent: "bg-orange-50 text-orange-700",
@@ -217,7 +217,7 @@ export default async function AdminDashboardPage() {
     },
   ];
 
-  const numberFmt = new Intl.NumberFormat("nl-NL");
+  const numberFmt = new Intl.NumberFormat("en-US");
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -232,7 +232,7 @@ export default async function AdminDashboardPage() {
             Super Admin Dashboard
           </h1>
           <p className="mt-1 text-sm text-gray-500">
-            KPI&apos;s, groei en de top best bekeken vacatures — in één oogopslag.
+            KPIs, growth and top viewed jobs at a glance.
           </p>
         </div>
       </div>
@@ -304,7 +304,7 @@ export default async function AdminDashboardPage() {
                   Platform groei
                 </h2>
                 <p className="text-xs text-gray-500">
-                  Nieuwe werkgevers &amp; vacatures — laatste 30 dagen
+                  New companies &amp; jobs — laatste 30 dagen
                 </p>
               </div>
             </div>
@@ -312,7 +312,7 @@ export default async function AdminDashboardPage() {
           <GrowthChart data={growthSeries} />
         </div>
 
-        {/* Top 5 vacatures */}
+        {/* Top 5 jobs */}
         <div className="rounded-2xl bg-white p-6 ring-1 ring-gray-200 shadow-sm">
           <div className="mb-4 flex items-start justify-between gap-3">
             <div className="flex items-center gap-3">
@@ -321,7 +321,7 @@ export default async function AdminDashboardPage() {
               </div>
               <div>
                 <h2 className="text-sm font-semibold text-gray-900">
-                  Top 5 best bekeken vacatures
+                  Top 5 most viewed jobs
                 </h2>
                 <p className="text-xs text-gray-500">
                   Totaal aantal weergaven
@@ -337,13 +337,13 @@ export default async function AdminDashboardPage() {
       <div className="rounded-2xl bg-white ring-1 ring-gray-200 shadow-sm overflow-hidden">
         <div className="flex items-center justify-between border-b border-gray-100 px-5 py-3">
           <div>
-            <h2 className="text-sm font-semibold text-gray-900">Werkgevers</h2>
+            <h2 className="text-sm font-semibold text-gray-900">Companies</h2>
             <p className="text-xs text-gray-500">
-              {firms.length} bedrijven — nieuwste eerst
+              {firms.length} companies — nieuwste eerst
             </p>
           </div>
           <Link
-            href="/admin/werkgevers"
+            href="/admin/companies"
             className="inline-flex items-center gap-1 text-xs font-semibold text-gray-600 hover:text-gray-900"
           >
             Alles bekijken
@@ -353,7 +353,7 @@ export default async function AdminDashboardPage() {
 
         {firms.length === 0 ? (
           <div className="px-6 py-12 text-center text-sm text-gray-400">
-            Nog geen werkgevers geregistreerd.
+            No companies registered yet.
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -367,7 +367,7 @@ export default async function AdminDashboardPage() {
                     Live
                   </th>
                   <th className="px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-gray-500">
-                    Sollicitaties
+                    Applications
                   </th>
                   <th className="px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-gray-500">
                     Status
@@ -387,7 +387,7 @@ export default async function AdminDashboardPage() {
                     <tr key={firm.id} className="hover:bg-gray-50 transition">
                       <td className="px-5 py-2.5">
                         <Link
-                          href={`/admin/werkgevers/${firm.id}`}
+                          href={`/admin/companies/${firm.id}`}
                           className="font-semibold text-gray-900 hover:text-brand-600"
                         >
                           {firm.name}
@@ -418,7 +418,7 @@ export default async function AdminDashboardPage() {
                         )}
                       </td>
                       <td className="px-3 py-2.5 text-xs text-gray-500">
-                        {new Date(firm.created_at).toLocaleDateString("nl-NL", {
+                        {new Date(firm.created_at).toLocaleDateString("en-US", {
                           day: "numeric",
                           month: "short",
                           year: "numeric",
@@ -426,7 +426,7 @@ export default async function AdminDashboardPage() {
                       </td>
                       <td className="px-3 py-2.5 text-right">
                         <Link
-                          href={`/admin/werkgevers/${firm.id}`}
+                          href={`/admin/companies/${firm.id}`}
                           className="inline-flex items-center gap-1 rounded-full bg-gray-900 px-2.5 py-1 text-[11px] font-semibold text-white hover:bg-gray-700 transition"
                         >
                           Beheer
@@ -441,10 +441,10 @@ export default async function AdminDashboardPage() {
             {firms.length > 8 && (
               <div className="border-t border-gray-100 px-5 py-3 text-center">
                 <Link
-                  href="/admin/werkgevers"
+                  href="/admin/companies"
                   className="inline-flex items-center gap-1 text-xs font-semibold text-gray-600 hover:text-gray-900"
                 >
-                  Bekijk alle {firms.length} werkgevers
+                  View all {firms.length} companies
                   <ChevronRight className="h-3.5 w-3.5" />
                 </Link>
               </div>

@@ -63,7 +63,7 @@ export default async function BlogsPage({ searchParams }: Props) {
           </p>
         </div>
         <Link
-          href="/portal/blogs/nieuw"
+          href="/portal/blogs/new"
           className="btn-primary"
         >
           <Plus className="h-4 w-4" />
@@ -83,7 +83,7 @@ export default async function BlogsPage({ searchParams }: Props) {
             Write your first article and let candidates get to know your organisation.
           </p>
           <Link
-            href="/portal/blogs/nieuw"
+            href="/portal/blogs/new"
             className="btn-primary"
           >
             <Plus className="h-4 w-4" />
@@ -144,7 +144,7 @@ export default async function BlogsPage({ searchParams }: Props) {
                       </span>
                     </td>
                     <td className="px-4 py-4 text-sm text-gray-500">
-                      {new Date(blog.created_at).toLocaleDateString("nl-NL", {
+                      {new Date(blog.created_at).toLocaleDateString("en-US", {
                         day: "numeric",
                         month: "short",
                         year: "numeric",
@@ -178,7 +178,7 @@ export default async function BlogsPage({ searchParams }: Props) {
                     {blog.status === "published" ? "Gepubliceerd" : "Concept"}
                   </span>
                   <span className="text-xs text-gray-400">
-                    {new Date(blog.created_at).toLocaleDateString("nl-NL", {
+                    {new Date(blog.created_at).toLocaleDateString("en-US", {
                       day: "numeric",
                       month: "short",
                     })}

@@ -21,8 +21,8 @@ export default async function NewJobPage({ searchParams }: Props) {
 
   if (!user) redirect("/login");
 
-  // ── "Plaats vacature namens dit bedrijf" (admin-flow) ───────────────────
-  // Wanneer een admin via de knop op de werkgever-detailpagina hier komt,
+  // ── "Plaats job namens dit bedrijf" (admin-flow) ───────────────────
+  // Wanneer een admin via de knop op de company-detailpagina hier komt,
   // wordt `?asEmployer=<firmId>` meegegeven. We verifiëren de admin-rol én
   // het bestaan van de firm voordat we het formulier renderen.
   if (asEmployer) {
@@ -50,23 +50,23 @@ export default async function NewJobPage({ searchParams }: Props) {
     return (
       <div className="max-w-2xl">
         <Link
-          href={`/admin/werkgevers/${targetFirm.id}`}
+          href={`/admin/companies/${targetFirm.id}`}
           className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors mb-6"
         >
           <ChevronLeft className="h-4 w-4" />
-          Terug naar werkgever
+          Back to company
         </Link>
 
         <div className="mb-6 inline-flex items-center gap-1.5 rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-semibold text-red-700 ring-1 ring-inset ring-red-200">
           <Shield className="h-3 w-3" />
-          Super Admin · namens werkgever
+          Super Admin · on behalf of company
         </div>
 
-        <h1 className="text-2xl font-bold text-black">Nieuwe vacature</h1>
+        <h1 className="text-2xl font-bold text-black">New job</h1>
         <p className="mt-1 mb-6 text-sm text-gray-500">
-          Je plaatst deze vacature namens{" "}
-          <strong className="text-black">{targetFirm.name}</strong>. De vacature
-          wordt gemarkeerd als <em>door admin geplaatst</em>.
+          You are posting this job on behalf of{" "}
+          <strong className="text-black">{targetFirm.name}</strong>. The job
+          will be marked as <em>posted by admin</em>.
         </p>
 
         <JobForm
@@ -74,13 +74,13 @@ export default async function NewJobPage({ searchParams }: Props) {
           firmSlug={targetFirm.slug ?? ""}
           postedByAdmin
           firmName={targetFirm.name}
-          returnTo={`/admin/werkgevers/${targetFirm.id}`}
+          returnTo={`/admin/companies/${targetFirm.id}`}
         />
       </div>
     );
   }
 
-  // ── Standaard werkgevers-flow ──────────────────────────────────────────
+  // ── Default company flow ──────────────────────────────────────────
   const { firm } = await getActingFirm<{ id: string; slug: string | null }>(
     "id, slug",
     user.id
@@ -95,10 +95,10 @@ export default async function NewJobPage({ searchParams }: Props) {
         className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors mb-6"
       >
         <ChevronLeft className="h-4 w-4" />
-        Terug naar vacatures
+        Back to jobs
       </Link>
 
-      <h1 className="text-2xl font-bold text-black mb-8">Nieuwe vacature</h1>
+      <h1 className="text-2xl font-bold text-black mb-8">New job</h1>
 
       <JobForm firmId={firm.id} firmSlug={firm.slug ?? ""} />
     </div>

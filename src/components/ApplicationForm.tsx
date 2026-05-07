@@ -47,12 +47,12 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
       setFileError(null);
       if (!file) { setCvFile(null); return; }
       if (file.type !== "application/pdf") {
-        setFileError("Alleen PDF-bestanden zijn toegestaan.");
+        setFileError("Only PDF files are allowed.");
         e.target.value = "";
         return;
       }
       if (file.size > MAX_FILE_BYTES) {
-        setFileError("Bestand is te groot. Maximum is 5 MB.");
+        setFileError("File is too large. The maximum is 5 MB.");
         e.target.value = "";
         return;
       }
@@ -66,11 +66,11 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
     setError(null);
 
     if (wordsOver) {
-      setError(`Je motivatie bevat ${wordCount} woorden. Maximum is ${MAX_WORDS}.`);
+      setError(`Your motivation contains ${wordCount} words. The maximum is ${MAX_WORDS}.`);
       return;
     }
     if (!cvFile) {
-      setError("Upload je CV als PDF.");
+      setError("Upload your CV as a PDF.");
       return;
     }
 
@@ -80,7 +80,7 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
       : "";
     if (linkedInTrimmed && !isValidLinkedInInUrl(linkedInClean)) {
       setError(
-        "Voer een geldige LinkedIn-profiel-URL in (https://www.linkedin.com/in/…), of laat het veld leeg."
+        "Enter a valid LinkedIn profile URL (https://www.linkedin.com/in/...), or leave the field empty."
       );
       return;
     }
@@ -121,7 +121,7 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
       setSuccess(true);
     } catch (err) {
       console.error("[ApplicationForm] Fetch error:", err);
-      setError("Geen verbinding. Controleer je internet en probeer opnieuw.");
+      setError("No connection. Check your internet connection and try again.");
     } finally {
       setLoading(false);
     }
@@ -148,7 +148,7 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
           className="font-bold tracking-[-0.025em] leading-[1.1] text-[#0A0A0A] mb-4"
           style={{ fontSize: "clamp(24px, 2.5vw, 36px)" }}
         >
-          Je sollicitatie is verstuurd
+          Your application has been sent
         </h3>
         <p
           style={{
@@ -157,9 +157,9 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
             color: "#6B6B6B",
           }}
         >
-          Je sollicitatie voor <strong className="text-[#0A0A0A] font-semibold">{jobTitle}</strong> bij{" "}
-          <strong className="text-[#0A0A0A] font-semibold">{firmName}</strong> is in goede orde
-          ontvangen. Je krijgt een bevestiging per e-mail.
+          Your application for <strong className="text-[#0A0A0A] font-semibold">{jobTitle}</strong> at{" "}
+          <strong className="text-[#0A0A0A] font-semibold">{firmName}</strong> has been received.
+          You will receive a confirmation by email.
         </p>
       </div>
     );
@@ -174,7 +174,7 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
         <div>
           <label htmlFor="apply-firstname" className="sr-only">
-            Voornaam
+            First name
           </label>
           <input
             id="apply-firstname"
@@ -182,13 +182,13 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
             required
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            placeholder="Voornaam *"
+            placeholder="First name *"
             className={inputBase}
           />
         </div>
         <div>
           <label htmlFor="apply-lastname" className="sr-only">
-            Achternaam
+            Last name
           </label>
           <input
             id="apply-lastname"
@@ -196,7 +196,7 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
             required
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            placeholder="Achternaam *"
+            placeholder="Last name *"
             className={inputBase}
           />
         </div>
@@ -206,7 +206,7 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
         <div>
           <label htmlFor="apply-email" className="sr-only">
-            E-mailadres
+            Email address
           </label>
           <input
             id="apply-email"
@@ -214,13 +214,13 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="E-mailadres *"
+            placeholder="Email address *"
             className={inputBase}
           />
         </div>
         <div>
           <label htmlFor="apply-phone" className="sr-only">
-            Telefoonnummer
+            Phone number
           </label>
           <input
             id="apply-phone"
@@ -228,7 +228,7 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
             required
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder="Telefoonnummer *"
+            placeholder="Phone number *"
             className={inputBase}
           />
         </div>
@@ -237,7 +237,7 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
       {/* LinkedIn */}
       <div>
         <label htmlFor="apply-linkedin" className="sr-only">
-          LinkedIn-profiel
+          LinkedIn profile
         </label>
         <input
           id="apply-linkedin"
@@ -247,7 +247,7 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
           onChange={(e) =>
             setLinkedInUrl(sanitizeLinkedInProfileUrl(e.target.value))
           }
-          placeholder="LinkedIn-profiel (optioneel)"
+          placeholder="LinkedIn profile (optioneel)"
           className={inputBase}
         />
       </div>
@@ -256,27 +256,27 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
         <div>
           <label htmlFor="apply-university" className="sr-only">
-            Universiteit
+            University
           </label>
           <input
             id="apply-university"
             type="text"
             value={university}
             onChange={(e) => setUniversity(e.target.value)}
-            placeholder="Universiteit"
+            placeholder="University"
             className={inputBase}
           />
         </div>
         <div>
           <label htmlFor="apply-studyfield" className="sr-only">
-            Studierichting
+            Field of study
           </label>
           <input
             id="apply-studyfield"
             type="text"
             value={studyField}
             onChange={(e) => setStudyField(e.target.value)}
-            placeholder="Studierichting"
+            placeholder="Field of study"
             className={inputBase}
           />
         </div>
@@ -286,14 +286,14 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
       <div>
         <div className="flex items-center justify-between mb-2">
           <label htmlFor="apply-motivation" className="sr-only">
-            Motivatie
+            Motivation
           </label>
           <span
             className={`text-[13px] font-medium tracking-[0.02em] ${
               wordsOver ? "text-red-500" : "text-[#999999]"
             }`}
           >
-            {wordCount} / {MAX_WORDS} woorden
+            {wordCount} / {MAX_WORDS} words
           </span>
         </div>
         <textarea
@@ -302,7 +302,7 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
           rows={6}
           value={motivation}
           onChange={(e) => setMotivation(e.target.value)}
-          placeholder="Vertel waarom je solliciteert en wat je te bieden hebt… *"
+          placeholder="Tell us why you are applying and what you bring... *"
           className={`w-full bg-transparent border-0 border-b ${
             wordsOver ? "border-red-400" : "border-[#CCCCCC]"
           } py-3 text-[15px] text-[#0A0A0A] placeholder-[#999999] focus:outline-none focus:border-[#0A0A0A] transition-colors duration-200 resize-none`}
@@ -318,7 +318,7 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
       {/* CV upload */}
       <div>
         <p className="text-[13px] font-medium tracking-[0.02em] text-[#999999] uppercase mb-3">
-          CV uploaden *
+          Upload CV *
         </p>
 
         {cvFile ? (
@@ -337,7 +337,7 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
                 if (fileInputRef.current) fileInputRef.current.value = "";
               }}
               className="p-1 text-[#999999] hover:text-[#0A0A0A] transition-colors duration-200"
-              aria-label="CV verwijderen"
+              aria-label="Remove CV"
             >
               <X className="h-4 w-4" />
             </button>
@@ -346,7 +346,7 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
           <label className="flex items-center gap-4 border-b border-[#CCCCCC] pb-4 cursor-pointer group hover:border-[#0A0A0A] transition-colors duration-200">
             <Upload className="h-5 w-5 text-[#999999] group-hover:text-[#0A0A0A] transition-colors duration-200 shrink-0" />
             <span className="text-[15px] text-[#999999] group-hover:text-[#0A0A0A] transition-colors duration-200">
-              Klik om je CV te uploaden (PDF, max 5 MB)
+              Click to upload your CV (PDF, max 5 MB)
             </span>
             <input
               ref={fileInputRef}
@@ -378,11 +378,11 @@ export default function ApplicationForm({ jobId, jobTitle, firmName }: Props) {
           className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-          {loading ? "Versturen…" : "Sollicitatie versturen"}
+          {loading ? "Sending..." : "Send application"}
         </button>
         <p className="mt-4 text-[13px] text-[#999999]">
-          Geen account nodig · Je gegevens worden alleen doorgestuurd aan{" "}
-          {firmName || "de werkgever"}.
+          No account needed - your details are only forwarded to{" "}
+          {firmName || "the employer"}.
         </p>
       </div>
     </form>

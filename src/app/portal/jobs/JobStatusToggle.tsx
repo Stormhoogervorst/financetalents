@@ -42,7 +42,7 @@ export default function JobStatusToggle({ jobId, initialStatus }: Props) {
       onClick={toggle}
       disabled={isPending}
       className="flex items-center gap-2.5 group"
-      aria-label={isActive ? "Deactiveer vacature" : "Activeer vacature"}
+      aria-label={isActive ? "Deactivate job" : "Activate job"}
     >
       <span
         className={`

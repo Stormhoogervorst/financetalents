@@ -55,7 +55,7 @@ export default function HeroSection() {
                   Create profile
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
-                <Link href="/werkgevers" className="btn-secondary">
+                <Link href="/companies" className="btn-secondary">
                   Browse companies
                 </Link>
               </div>
