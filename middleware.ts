@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { isRefreshTokenError } from "@/lib/supabase/auth-errors";
 
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 
@@ -67,10 +68,32 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  // Refresh the Supabase session — must be called on every request
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // Refresh the Supabase session — must be called on every request.
+  //
+  // If the refresh token is missing, expired, or already rotated, treat the
+  // visitor as anonymous instead of crashing the request. `@supabase/ssr`
+  // already calls `setAll` with cleared values when it detects a stale token,
+  // so the response we return will instruct the browser to drop the bad
+  // sb-* cookies — preventing an infinite loop of failing refresh attempts.
+  let user: Awaited<
+    ReturnType<typeof supabase.auth.getUser>
+  >["data"]["user"] = null;
+  try {
+    const result = await supabase.auth.getUser();
+    if (result.error) {
+      if (!isRefreshTokenError(result.error)) {
+        console.warn("[middleware] supabase.auth.getUser error", result.error);
+      }
+      user = null;
+    } else {
+      user = result.data.user;
+    }
+  } catch (e) {
+    if (!isRefreshTokenError(e)) {
+      console.warn("[middleware] supabase.auth.getUser threw", e);
+    }
+    user = null;
+  }
 
   // /admin/login is de publieke "geheime voordeur" voor de Super Admin.
   // Hier mag elke (niet-)bezoeker langs zonder role-check.

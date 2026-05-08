@@ -21,6 +21,7 @@ function RegisterForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [duplicateEmail, setDuplicateEmail] = useState(false);
 
   const supabase = createClient();
 
@@ -47,6 +48,20 @@ function RegisterForm() {
       return;
     }
 
+    // Duplicate-email detection. Supabase returns 200 with `data.user`
+    // populated but `identities` empty when the email is already registered;
+    // it deliberately does NOT send a confirmation email.
+    //
+    // Critical: we MUST short-circuit before the profiles upsert below.
+    // `data.user.id` in this case is the EXISTING user's id, so an upsert
+    // would overwrite a legitimate user's profile metadata (full_name, role,
+    // company_name) with whatever the duplicate-signup attempt typed.
+    if (data.user && (data.user.identities?.length ?? 0) === 0) {
+      setDuplicateEmail(true);
+      setLoading(false);
+      return;
+    }
+
     if (data.user) {
       await supabase.from("profiles").upsert({
         id: data.user.id,
@@ -65,6 +80,47 @@ function RegisterForm() {
       else router.push("/");
     }, 2000);
   };
+
+  if (duplicateEmail) {
+    return (
+      <div className="card p-10 text-center">
+        <h2 className="text-xl font-bold text-gray-900">
+          This email is already registered
+        </h2>
+        <p className="text-sm text-gray-500 mt-2">
+          An account already exists for{" "}
+          <span className="font-medium text-gray-900">{email}</span>.
+        </p>
+        <div className="mt-6 flex flex-col gap-2">
+          <Link
+            href={`/auth/login?email=${encodeURIComponent(email)}`}
+            className="btn-primary w-full"
+          >
+            Log in
+          </Link>
+          <Link
+            href={`/login?reset=1&email=${encodeURIComponent(email)}`}
+            className="text-sm text-brand-600 hover:underline font-medium"
+          >
+            Forgot password?
+          </Link>
+        </div>
+        <p className="mt-6 text-xs text-gray-400">
+          Wrong email?{" "}
+          <button
+            onClick={() => {
+              setDuplicateEmail(false);
+              setEmail("");
+            }}
+            className="text-brand-600 hover:underline font-medium"
+          >
+            Try a different one
+          </button>
+          .
+        </p>
+      </div>
+    );
+  }
 
   if (success) {
     return (

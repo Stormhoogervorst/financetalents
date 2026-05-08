@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
+import { getSiteUrl } from "@/lib/site";
 import { Eye, EyeOff, Loader2, Mail } from "lucide-react";
 
 type View = "login" | "forgot";
@@ -21,6 +22,19 @@ export default function LoginPage() {
   const [resetSent, setResetSent] = useState(false);
 
   const supabase = createClient();
+
+  // Deep-link support: /login?reset=1 lands on the forgot-password view,
+  // /login?email=foo@bar.com prefills the email field. Used by the
+  // duplicate-signup screen so users coming from /register can resolve
+  // the situation in one click. We read window.location instead of
+  // useSearchParams to avoid forcing a Suspense boundary on this page.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const prefillEmail = params.get("email");
+    if (prefillEmail) setEmail(prefillEmail);
+    if (params.get("reset") === "1") setView("forgot");
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,12 +101,10 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      console.log(
-        "Reset email sent with redirectTo:",
-        'https://www.finance-talents.com/auth/callback?next=/update-password'
-      );
+      const resetRedirect = `${getSiteUrl()}/auth/callback?next=/update-password`;
+      console.log("Reset email sent with redirectTo:", resetRedirect);
       const { data, error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: 'https://www.finance-talents.com/auth/callback?next=/update-password',
+        redirectTo: resetRedirect,
       });
       console.log("[forgot-password] resetPasswordForEmail response", { data, resetError });
 

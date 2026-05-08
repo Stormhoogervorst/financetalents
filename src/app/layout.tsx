@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "sonner";
 import ImpersonationBar from "@/components/ImpersonationBar";
+import AuthListener from "@/components/AuthListener";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -69,6 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
+        <AuthListener />
         <ImpersonationBar />
         {children}
         <Toaster richColors position="top-right" />

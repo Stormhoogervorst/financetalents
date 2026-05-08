@@ -4,6 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
+import {
+  handleClientAuthError,
+  isRefreshTokenError,
+} from "@/lib/supabase/auth-errors";
 import { Profile } from "@/types";
 import { Briefcase, Menu, X, ChevronDown, LogOut, LayoutDashboard, Shield } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -17,7 +21,13 @@ export default function Navbar() {
 
   useEffect(() => {
     const getProfile = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { user }, error } = await supabase.auth.getUser();
+      if (error) {
+        if (isRefreshTokenError(error)) {
+          await handleClientAuthError(supabase);
+        }
+        return;
+      }
       if (!user) return;
       const { data } = await supabase
         .from("profiles")

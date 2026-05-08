@@ -4,7 +4,8 @@ import { Suspense, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
-import { Eye, EyeOff, Loader2, Mail } from "lucide-react";
+import { getSiteUrl } from "@/lib/site";
+import { AlertCircle, Eye, EyeOff, Loader2, Mail } from "lucide-react";
 
 function RegisterContent() {
   const [firmName, setFirmName] = useState("");
@@ -17,6 +18,7 @@ function RegisterContent() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [duplicateEmail, setDuplicateEmail] = useState(false);
 
   const supabase = createClient();
 
@@ -40,12 +42,15 @@ function RegisterContent() {
       role: metadata.role ?? "(default)",
     });
 
-    const { error: signUpError } = await supabase.auth.signUp({
+    const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: metadata,
-        emailRedirectTo: `${location.origin}/api/auth/callback`,
+        // Verification email is opened from the user's mailbox (often on a
+        // different device/session) — must point at the canonical site URL,
+        // not whatever origin they registered from.
+        emailRedirectTo: `${getSiteUrl()}/api/auth/callback`,
       },
     });
 
@@ -59,9 +64,80 @@ function RegisterContent() {
       return;
     }
 
+    // Duplicate-email detection. Supabase deliberately returns 200 with a
+    // populated `data.user` when the email is already registered, but it
+    // sets `identities` to an empty array and silently does NOT send a
+    // confirmation email. Without this check the user sees the generic
+    // "check your inbox" screen and waits forever for an email that never
+    // arrives. Reference:
+    //   https://github.com/supabase/auth-js/issues/296
+    if (data.user && (data.user.identities?.length ?? 0) === 0) {
+      setDuplicateEmail(true);
+      setLoading(false);
+      return;
+    }
+
     setSuccess(true);
     setLoading(false);
   };
+
+  if (duplicateEmail) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
+        <div className="w-full max-w-md text-center">
+          <Link href="/" className="inline-flex items-center justify-center">
+            <Image
+              src="/logo FT.png"
+              alt="Finance Talents logo"
+              width={150}
+              height={40}
+              className="h-10 w-auto"
+              priority
+            />
+          </Link>
+          <div className="mt-8 bg-white border border-gray-200 rounded-2xl p-10">
+            <div className="w-14 h-14 rounded-full bg-amber-50 flex items-center justify-center mx-auto mb-5">
+              <AlertCircle className="h-7 w-7 text-amber-600" />
+            </div>
+            <h2 className="text-xl font-bold text-black mb-2">
+              This email is already registered
+            </h2>
+            <p className="text-sm text-gray-500 leading-relaxed">
+              An account already exists for{" "}
+              <span className="font-medium text-black">{email}</span>.
+            </p>
+            <div className="mt-6 flex flex-col gap-2">
+              <Link
+                href={`/login?email=${encodeURIComponent(email)}`}
+                className="btn-primary w-full"
+              >
+                Log in
+              </Link>
+              <Link
+                href={`/login?reset=1&email=${encodeURIComponent(email)}`}
+                className="text-sm text-primary hover:underline font-medium"
+              >
+                Forgot password?
+              </Link>
+            </div>
+            <p className="mt-6 text-xs text-gray-400">
+              Wrong email?{" "}
+              <button
+                onClick={() => {
+                  setDuplicateEmail(false);
+                  setEmail("");
+                }}
+                className="text-primary hover:underline font-medium"
+              >
+                Try a different one
+              </button>
+              .
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (success) {
     return (
