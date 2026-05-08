@@ -69,7 +69,14 @@ const TYPE_ALIASES: Record<string, string[]> = {
   stage: ["stage", "internship", "student", "Studentbaan"],
 };
 
-const DEFAULT_JOB_TYPE_VALUES = ["full-time", "part-time"];
+const DEFAULT_JOB_TYPE_VALUES = [
+  "fulltime",
+  "parttime",
+  "full-time",
+  "part-time",
+  "Voltijd",
+  "Deeltijd",
+];
 
 function fuzzy(term: string) {
   return term.trim().replace(/[\s-]+/g, "%");
