@@ -6,7 +6,6 @@ import {
   Building2,
   Globe2,
   Linkedin,
-  Mail,
   MapPin,
   Phone,
   Users,
@@ -130,11 +129,11 @@ export default async function FirmPage({ params }: Props) {
 
             <div className="mt-10 grid min-h-[calc(72vh-4.25rem)] grid-cols-1 content-between gap-12">
               <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-                <div className="lg:col-span-9">
+                <div className="min-w-0 lg:col-span-9">
                   <p className="ft-display text-[15px] font-normal tracking-[-0.02em] text-[#222222]/70 md:text-[18px]">
                     {primaryPracticeArea}
                   </p>
-                  <h1 className="ft-display mt-7 max-w-[11ch] text-[clamp(62px,13vw,210px)] font-extrabold leading-[0.82] tracking-[-0.08em] text-[#222222]">
+                  <h1 className="ft-display mt-7 min-w-0 max-w-[11ch] text-[clamp(40px,13vw,210px)] font-extrabold leading-[0.82] tracking-[-0.08em] text-[#222222] break-words hyphens-auto">
                     {firmData.name}
                   </h1>
                 </div>
@@ -383,20 +382,6 @@ export default async function FirmPage({ params }: Props) {
                           {firmData.contact_person}
                         </span>
                       </div>
-                    )}
-                    {firmData.notification_email && (
-                      <a
-                        href={`mailto:${firmData.notification_email}`}
-                        className="flex items-center justify-between gap-4 py-4 text-white transition-colors duration-200 hover:text-[#E85A00]"
-                      >
-                        <span className="inline-flex items-center gap-2 text-[15px] text-white/60">
-                          <Mail className="h-4 w-4" />
-                          E-mail
-                        </span>
-                        <span className="text-right text-[15px]">
-                          {firmData.notification_email}
-                        </span>
-                      </a>
                     )}
                     {firmData.phone && (
                       <a
