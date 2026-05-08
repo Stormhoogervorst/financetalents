@@ -74,10 +74,10 @@ export default async function PortalDashboardPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold text-black">
-            Welkom terug{firm.name ? `, ${firm.name}` : ""}
+            Welcome back{firm.name ? `, ${firm.name}` : ""}
           </h1>
           <p className="text-sm text-gray-500 mt-1">
-            Hier is een overzicht van je activiteit
+            Here&apos;s an overview of your activity
           </p>
         </div>
         <Link
@@ -95,7 +95,7 @@ export default async function PortalDashboardPage() {
           <AlertCircle className="h-5 w-5 text-yellow-600 shrink-0 mt-0.5" />
           <div className="flex-1">
             <p className="text-sm font-semibold text-yellow-800">
-              Je profiel is nog niet gepubliceerd
+              Your profile isn&apos;t published yet
             </p>
             <p className="text-sm text-yellow-700 mt-0.5">
               Complete your company profile so candidates can find you.
@@ -105,7 +105,7 @@ export default async function PortalDashboardPage() {
             href="/portal/profile"
             className="shrink-0 text-sm font-semibold text-yellow-700 hover:text-yellow-900 flex items-center gap-1"
           >
-            Profiel aanvullen
+            Complete profile
             <ChevronRight className="h-4 w-4" />
           </Link>
         </div>
@@ -134,7 +134,7 @@ export default async function PortalDashboardPage() {
             <div className="w-9 h-9 bg-primary-light rounded-lg flex items-center justify-center">
               <Users className="h-5 w-5 text-primary" />
             </div>
-            <p className="text-sm font-medium text-gray-500">Applications deze maand</p>
+            <p className="text-sm font-medium text-gray-500">Applications this month</p>
           </div>
           <p className="text-3xl font-bold text-black">{applicationsCount ?? 0}</p>
           <Link
@@ -199,7 +199,7 @@ export default async function PortalDashboardPage() {
           className="btn-primary w-full"
         >
           <Plus className="h-4 w-4" />
-          New job plaatsen
+          New job
         </Link>
       </div>
     </div>

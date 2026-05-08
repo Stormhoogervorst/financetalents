@@ -120,7 +120,7 @@ export default function NewBlogPage() {
       router.refresh();
     } catch (err) {
       console.error(err);
-      setError(err instanceof Error ? err.message : "Save failed. Probeer opnieuw.");
+      setError(err instanceof Error ? err.message : "Save failed. Try again.");
     } finally {
       setSaving(false);
     }
@@ -174,7 +174,7 @@ export default function NewBlogPage() {
         {/* Image upload */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Omslagfoto
+            Cover image
           </label>
           {imagePreview ? (
             <div className="relative w-full aspect-[2/1] rounded-xl overflow-hidden border border-gray-200">
@@ -209,9 +209,9 @@ export default function NewBlogPage() {
                 <Upload className="h-6 w-6 text-gray-400" />
               )}
               <span className="text-sm text-gray-500">
-                {uploading ? "Uploaden…" : "Klik om een afbeelding te uploaden"}
+                {uploading ? "Uploading…" : "Click to upload an image"}
               </span>
-              <span className="text-xs text-gray-400">JPG, PNG, WebP of AVIF</span>
+              <span className="text-xs text-gray-400">JPG, PNG, WebP or AVIF</span>
             </button>
           )}
           <input
@@ -229,7 +229,7 @@ export default function NewBlogPage() {
         {/* Rich text editor */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Inhoud <span className="text-red-500">*</span>
+            Content <span className="text-red-500">*</span>
           </label>
           <BlogEditor content={content} onChange={setContent} />
         </div>
@@ -258,7 +258,7 @@ export default function NewBlogPage() {
             disabled={saving}
             className="btn-secondary"
           >
-            Opslaan als concept
+            Save as draft
           </button>
         </div>
       </form>

@@ -93,7 +93,7 @@ export default async function ApplicationsPage({ searchParams }: Props) {
             className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-primary mb-3 transition-colors"
           >
             <ChevronLeft className="h-4 w-4" />
-            Alle sollicitanten
+            All applicants
           </Link>
         )}
         <h1 className="text-2xl font-bold text-black">
@@ -102,7 +102,7 @@ export default async function ApplicationsPage({ searchParams }: Props) {
         <p className="text-sm text-gray-500 mt-1">
           {appList.length === 0
             ? "No applications received yet"
-            : `${appList.length} application${appList.length !== 1 ? "s" : ""} ontvangen`}
+            : `${appList.length} application${appList.length !== 1 ? "s" : ""} received`}
         </p>
       </div>
 
@@ -112,7 +112,7 @@ export default async function ApplicationsPage({ searchParams }: Props) {
             <Users className="h-7 w-7 text-primary" />
           </div>
           <h2 className="text-lg font-semibold text-black mb-2">
-            Nog geen applications
+            No applications yet
           </h2>
           <p className="text-sm text-gray-500 max-w-sm">
             When candidates apply for your jobs, they will appear here.
@@ -126,7 +126,7 @@ export default async function ApplicationsPage({ searchParams }: Props) {
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50">
                   <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wide px-6 py-3.5">
-                    Naam
+                    Name
                   </th>
                   <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wide px-4 py-3.5">
                     Contact
@@ -138,10 +138,10 @@ export default async function ApplicationsPage({ searchParams }: Props) {
                     LinkedIn
                   </th>
                   <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wide px-4 py-3.5">
-                    Datum
+                    Date
                   </th>
                   <th className="px-4 py-3.5 w-24 text-right">
-                    <span className="sr-only">Acties</span>
+                    <span className="sr-only">Actions</span>
                   </th>
                 </tr>
               </thead>
@@ -202,7 +202,7 @@ export default async function ApplicationsPage({ searchParams }: Props) {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center justify-center p-1.5 text-[#0077b5] hover:text-[#005f8d] transition-colors"
-                            aria-label={`LinkedIn profiel van ${app.applicant_name}`}
+                            aria-label={`LinkedIn profile of ${app.applicant_name}`}
                           >
                             <Linkedin className="h-4 w-4" />
                           </a>
@@ -274,7 +274,7 @@ export default async function ApplicationsPage({ searchParams }: Props) {
                         href={`/portal/applications/${app.id}`}
                         className="flex items-center gap-1 text-xs text-primary font-medium"
                       >
-                        Bekijken
+                        View
                         <ChevronRight className="h-3.5 w-3.5" />
                       </Link>
                     </div>
@@ -312,7 +312,7 @@ export default async function ApplicationsPage({ searchParams }: Props) {
                         className="flex items-center gap-1.5 text-xs text-[#0077b5] hover:text-[#005f8d] transition-colors"
                       >
                         <Linkedin className="h-3 w-3 shrink-0" />
-                        LinkedIn profiel
+                        LinkedIn profile
                       </a>
                     )}
                   </div>

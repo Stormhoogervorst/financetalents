@@ -108,19 +108,19 @@ export default function SettingsClient({
   const addCcEmail = () => {
     const candidate = normalizeEmail(ccDraft);
     if (!candidate) {
-      setCcError("Voer een e-mailadres in.");
+      setCcError("Enter an email address.");
       return;
     }
     if (!EMAIL_RE.test(candidate)) {
-      setCcError("Ongeldig e-mailadres.");
+      setCcError("Invalid email address.");
       return;
     }
     if (ccEmails.includes(candidate)) {
-      setCcError("Dit adres staat al in de lijst.");
+      setCcError("This address is already in the list.");
       return;
     }
     if (ccEmails.length >= MAX_CC_EMAILS) {
-      setCcError(`Maximaal ${MAX_CC_EMAILS} CC-adressen.`);
+      setCcError(`Maximum ${MAX_CC_EMAILS} CC addresses.`);
       return;
     }
     setCcEmails((prev) => [...prev, candidate]);
@@ -159,7 +159,7 @@ export default function SettingsClient({
 
     if (Object.keys(updates).length === 0) {
       setEmailStatus("error");
-      setEmailMessage("Niets om op te slaan — wijzig minimaal één veld.");
+      setEmailMessage("Nothing to save — change at least one field.");
       setEmailLoading(false);
       return;
     }
@@ -177,11 +177,11 @@ export default function SettingsClient({
       setEmailMessage(
         typeof json?.error === "string" && json.error
           ? json.error
-          : "Opslaan mislukt."
+          : "Save failed."
       );
     } else {
       setEmailStatus("success");
-      setEmailMessage("Email settings opgeslagen.");
+      setEmailMessage("Email settings saved.");
     }
     setEmailLoading(false);
   };
@@ -292,7 +292,7 @@ export default function SettingsClient({
                 </label>
                 <input
                   type="email"
-                  placeholder="company@voorbeeld.nl"
+                  placeholder="company@example.com"
                   value={notifEmail}
                   onChange={(e) => setNotifEmail(e.target.value)}
                   className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -359,7 +359,7 @@ export default function SettingsClient({
                         <button
                           type="button"
                           onClick={() => removeCcEmail(email)}
-                          aria-label={`${email} verwijderen`}
+                          aria-label={`Remove ${email}`}
                           className="inline-flex h-7 w-7 items-center justify-center rounded-md text-gray-400 hover:text-red-600 hover:bg-red-50 shrink-0"
                         >
                           <X className="h-4 w-4" />
@@ -393,7 +393,7 @@ export default function SettingsClient({
                 className="btn-primary"
               >
                 {emailLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-                {emailLoading ? "Saving..." : "Email settings opslaan"}
+                {emailLoading ? "Saving..." : "Save email settings"}
               </button>
             </form>
           </section>

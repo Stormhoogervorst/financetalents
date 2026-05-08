@@ -17,9 +17,9 @@ export default function BlogsToast({ value }: Props) {
   useEffect(() => {
     if (!value || hasShownRef.current) return;
 
-    if (value === "blog-deleted") toast.success("Blog verwijderd");
-    if (value === "blog-unauthorized") toast.error("Niet geautoriseerd");
-    if (value === "blog-delete-error") toast.error("Blog verwijderen mislukt");
+    if (value === "blog-deleted") toast.success("Blog deleted");
+    if (value === "blog-unauthorized") toast.error("Not authorized");
+    if (value === "blog-delete-error") toast.error("Failed to delete blog");
 
     hasShownRef.current = true;
     const params = new URLSearchParams(searchParams.toString());

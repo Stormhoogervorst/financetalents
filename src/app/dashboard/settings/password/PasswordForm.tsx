@@ -187,7 +187,7 @@ export default function PasswordForm() {
           {loading
             ? "Saving..."
             : status === "success"
-              ? "Doorsturen…"
+              ? "Redirecting…"
               : "Save password"}
         </button>
       </form>

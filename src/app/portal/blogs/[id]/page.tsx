@@ -35,9 +35,9 @@ export default async function EditBlogPage({ params }: Props) {
   if (!blog) {
     return (
       <div className="max-w-2xl">
-        <h1 className="text-2xl font-bold text-black mb-2">Blog niet gevonden</h1>
+        <h1 className="text-2xl font-bold text-black mb-2">Blog not found</h1>
         <p className="text-sm text-gray-500">
-          Deze blog bestaat niet (meer) of is verplaatst.
+          This blog no longer exists or has been moved.
         </p>
       </div>
     );
@@ -46,9 +46,9 @@ export default async function EditBlogPage({ params }: Props) {
   if (blog.firm_id !== firm.id) {
     return (
       <div className="max-w-2xl">
-        <h1 className="text-2xl font-bold text-black mb-2">Niet geautoriseerd</h1>
+        <h1 className="text-2xl font-bold text-black mb-2">Not authorized</h1>
         <p className="text-sm text-gray-500">
-          Je hebt geen toegang om deze blog te bekijken of bewerken.
+          You don&apos;t have access to view or edit this blog.
         </p>
       </div>
     );
@@ -67,7 +67,7 @@ export default async function EditBlogPage({ params }: Props) {
         Back to blogs
       </Link>
 
-      <h1 className="text-2xl font-bold text-black mb-2">Blog bewerken</h1>
+      <h1 className="text-2xl font-bold text-black mb-2">Edit blog</h1>
       <p className="text-sm text-gray-500 mb-8">{blog.title}</p>
 
       <EditBlogForm

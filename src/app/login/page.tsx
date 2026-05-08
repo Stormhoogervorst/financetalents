@@ -205,7 +205,7 @@ export default function LoginPage() {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                    aria-label={showPassword ? "Password verbergen" : "Password tonen"}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -296,7 +296,7 @@ export default function LoginPage() {
           {/* Register link */}
           {view === "login" && (
             <p className="mt-6 text-center text-sm text-gray-500">
-              Nog geen account?{" "}
+              Don&apos;t have an account?{" "}
               <Link href="/register" className="font-medium text-primary hover:underline">
                 Employer signup
               </Link>

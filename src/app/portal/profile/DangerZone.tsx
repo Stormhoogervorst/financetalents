@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { AlertTriangle, Loader2, X } from "lucide-react";
 
-const CONFIRM_WORD = "VERWIJDEREN";
+const CONFIRM_WORD = "DELETE";
 
 export default function DangerZone() {
   const router = useRouter();
@@ -58,7 +58,7 @@ export default function DangerZone() {
         setError(
           typeof json?.error === "string" && json.error
             ? json.error
-            : "Account verwijderen is mislukt. Probeer het opnieuw."
+            : "Account deletion failed. Try again."
         );
         setDeleting(false);
         return;
@@ -86,18 +86,17 @@ export default function DangerZone() {
             <AlertTriangle className="h-5 w-5 text-red-600" />
           </div>
           <div className="flex-1">
-            <h2 className="text-lg font-semibold text-red-700">Gevarenzone</h2>
+            <h2 className="text-lg font-semibold text-red-700">Danger zone</h2>
             <p className="mt-1 text-sm text-red-700/80">
-              Zodra je je account verwijdert, is er geen weg meer terug. Wees
-              please be sure. All your jobs and company data
-              worden permanent gewist.
+              Once you delete your account, there&apos;s no going back. Please be sure.
+              All your jobs and company data will be permanently erased.
             </p>
             <button
               type="button"
               onClick={() => setOpen(true)}
               className="mt-4 inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
             >
-              Verwijder mijn account
+              Delete my account
             </button>
           </div>
         </div>
@@ -124,7 +123,7 @@ export default function DangerZone() {
               onClick={() => !deleting && setOpen(false)}
               disabled={deleting}
               className="absolute right-4 top-4 rounded-md p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 disabled:cursor-not-allowed disabled:opacity-50"
-              aria-label="Sluiten"
+              aria-label="Close"
             >
               <X className="h-5 w-5" />
             </button>
@@ -138,7 +137,7 @@ export default function DangerZone() {
                   id="delete-account-title"
                   className="text-base font-semibold text-black"
                 >
-                  Account permanent verwijderen?
+                  Permanently delete account?
                 </h3>
                 <p className="mt-2 text-sm text-gray-600">
                   This action cannot be undone. Your company profile, all jobs, applications and related data will be permanently deleted immediately.
@@ -151,11 +150,11 @@ export default function DangerZone() {
                 htmlFor="confirm-delete"
                 className="block text-sm font-medium text-gray-700"
               >
-                Typ{" "}
+                Type{" "}
                 <span className="font-mono font-semibold text-red-600">
                   {CONFIRM_WORD}
                 </span>{" "}
-                om te bevestigen
+                to confirm
               </label>
               <input
                 id="confirm-delete"
@@ -186,7 +185,7 @@ export default function DangerZone() {
                 disabled={deleting}
                 className="rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                Annuleer
+                Cancel
               </button>
               <button
                 type="button"
@@ -195,7 +194,7 @@ export default function DangerZone() {
                 className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-red-300"
               >
                 {deleting && <Loader2 className="h-4 w-4 animate-spin" />}
-                {deleting ? "Verwijderen…" : "Bevestig verwijdering"}
+                {deleting ? "Deleting…" : "Confirm delete"}
               </button>
             </div>
           </div>

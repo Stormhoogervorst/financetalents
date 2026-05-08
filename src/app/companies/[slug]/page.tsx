@@ -133,7 +133,7 @@ export default async function FirmPage({ params }: Props) {
                   <p className="ft-display text-[15px] font-normal tracking-[-0.02em] text-[#222222]/70 md:text-[18px]">
                     {primaryPracticeArea}
                   </p>
-                  <h1 className="ft-display mt-7 min-w-0 max-w-[11ch] text-[clamp(40px,13vw,210px)] font-extrabold leading-[0.82] tracking-[-0.08em] text-[#222222] break-words hyphens-auto">
+                  <h1 className="ft-display mt-7 min-w-0 max-w-[11ch] text-[clamp(40px,10vw,168px)] font-extrabold leading-[0.82] tracking-[-0.08em] text-[#222222] break-words hyphens-auto">
                     {firmData.name}
                   </h1>
                 </div>
@@ -327,24 +327,11 @@ export default async function FirmPage({ params }: Props) {
 
       {(hasHeroPracticeTags || hasContactDetails) && (
         <section
-          className="relative isolate overflow-hidden bg-[#0A0A0A]"
+          className="relative isolate overflow-hidden bg-[#262626]"
           style={{
             padding: "clamp(80px, 10vh, 160px) clamp(24px, 5vw, 80px)",
           }}
         >
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -right-[18vw] top-1/2 -z-10 h-[58vw] max-h-[720px] min-h-[340px] w-[58vw] min-w-[340px] max-w-[720px] -translate-y-1/2 overflow-hidden rounded-full border border-white/15"
-          >
-            <Image
-              src="/icon FT.png"
-              alt=""
-              fill
-              className="object-contain opacity-[0.34]"
-              sizes="58vw"
-            />
-          </div>
-
           <div className="max-w-[1400px] mx-auto grid grid-cols-1 gap-12 lg:grid-cols-12">
             <div className="lg:col-span-7">
               <h2 className="ft-display max-w-[780px] text-[clamp(54px,9vw,142px)] font-extrabold leading-[0.88] tracking-[-0.075em] text-white">

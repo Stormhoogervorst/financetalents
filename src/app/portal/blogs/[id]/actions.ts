@@ -26,7 +26,7 @@ export async function updateBlogAction(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    return { error: "Je sessie is verlopen. Log opnieuw in." };
+    return { error: "Your session has expired. Log in again." };
   }
 
   const { data: firm } = await supabase
@@ -46,11 +46,11 @@ export async function updateBlogAction(
     .maybeSingle();
 
   if (!existingBlog) {
-    return { error: "Deze blog bestaat niet (meer)." };
+    return { error: "This blog no longer exists." };
   }
 
   if (existingBlog.firm_id !== firm.id) {
-    return { error: "Niet geautoriseerd" };
+    return { error: "Not authorized" };
   }
 
   const title = String(formData.get("title") ?? "").trim();
@@ -65,7 +65,7 @@ export async function updateBlogAction(
 
   const allowedCategories = ["carriere", "finance", "kantoorleven"];
   if (!allowedCategories.includes(category)) {
-    return { error: "Ongeldige categorie." };
+    return { error: "Invalid category." };
   }
 
   const { error: updateError } = await admin
@@ -85,7 +85,7 @@ export async function updateBlogAction(
   revalidatePath("/portal/blogs");
   revalidatePath(`/portal/blogs/${blogId}`);
 
-  return { success: "Blog succesvol bijgewerkt" };
+  return { success: "Blog updated successfully" };
 }
 
 export async function deleteBlogAction(blogId: string): Promise<never> {

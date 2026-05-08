@@ -36,7 +36,7 @@ function SaveButton() {
       className="btn-primary"
     >
       {pending && <Loader2 className="h-4 w-4 animate-spin" />}
-      Wijzigingen opslaan
+      Save changes
     </button>
   );
 }
@@ -51,7 +51,7 @@ function DeleteButton({ confirmDelete }: { confirmDelete: () => void }) {
       className="btn-danger"
     >
       {pending && <Loader2 className="h-4 w-4 animate-spin" />}
-      Blog verwijderen
+      Delete blog
     </button>
   );
 }
@@ -106,7 +106,7 @@ export default function EditBlogForm({
     setLocalError(null);
 
     if (!ALLOWED_TYPES.includes(file.type)) {
-      setLocalError("Ongeldig bestandstype. Upload een JPG, PNG, WebP of AVIF.");
+      setLocalError("Invalid file type. Upload a JPG, PNG, WebP or AVIF.");
       setUploading(false);
       return;
     }
@@ -117,7 +117,7 @@ export default function EditBlogForm({
       setImagePreview(publicUrl);
     } catch (error) {
       console.error(error);
-      setLocalError("Afbeelding uploaden mislukt. Probeer opnieuw.");
+      setLocalError("Image upload failed. Try again.");
     } finally {
       setUploading(false);
     }
@@ -125,7 +125,7 @@ export default function EditBlogForm({
 
   function confirmDelete() {
     const shouldDelete = window.confirm(
-      "Weet je zeker dat je deze blog wilt verwijderen? Dit kan niet ongedaan worden gemaakt."
+      "Are you sure you want to delete this blog? This cannot be undone."
     );
     if (!shouldDelete) return;
     deleteFormRef.current?.requestSubmit();
@@ -141,7 +141,7 @@ export default function EditBlogForm({
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Titel <span className="text-red-500">*</span>
+            Title <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -153,7 +153,7 @@ export default function EditBlogForm({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Categorie</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
           <select
             value={category}
             onChange={(event) => setCategory(event.target.value)}
@@ -168,7 +168,7 @@ export default function EditBlogForm({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Omslagfoto</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Cover image</label>
           {imagePreview ? (
             <div className="relative w-full aspect-[2/1] rounded-xl overflow-hidden border border-gray-200">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -198,9 +198,9 @@ export default function EditBlogForm({
                 <Upload className="h-6 w-6 text-gray-400" />
               )}
               <span className="text-sm text-gray-500">
-                {uploading ? "Uploaden..." : "Klik om een afbeelding te uploaden"}
+                {uploading ? "Uploading…" : "Click to upload an image"}
               </span>
-              <span className="text-xs text-gray-400">JPG, PNG, WebP of AVIF</span>
+              <span className="text-xs text-gray-400">JPG, PNG, WebP or AVIF</span>
             </button>
           )}
           <input
@@ -217,7 +217,7 @@ export default function EditBlogForm({
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Inhoud <span className="text-red-500">*</span>
+            Content <span className="text-red-500">*</span>
           </label>
           <BlogEditor content={content} onChange={setContent} />
         </div>

@@ -19,11 +19,11 @@ import { RECHTSGEBIEDEN_MET_OVERIG } from "@/lib/constants/rechtsgebieden";
 // Company size options for the finance market. The value is stored in
 // firms.team_size; het label wordt in de dropdown getoond.
 const TEAM_SIZE_OPTIONS = [
-  { value: "1-5", label: "1 - 5 medewerkers" },
-  { value: "6-20", label: "6 - 20 medewerkers" },
-  { value: "21-50", label: "21 - 50 medewerkers" },
-  { value: "51-100", label: "51 - 100 medewerkers" },
-  { value: "100+", label: "100+ medewerkers" },
+  { value: "1-5", label: "1 – 5 employees" },
+  { value: "6-20", label: "6 – 20 employees" },
+  { value: "21-50", label: "21 – 50 employees" },
+  { value: "51-100", label: "51 – 100 employees" },
+  { value: "100+", label: "100+ employees" },
 ] as const;
 
 type TeamSizeValue = (typeof TEAM_SIZE_OPTIONS)[number]["value"];
@@ -158,11 +158,11 @@ export default function ProfileForm({
 
   const missingFields = [
     !name.trim() && "Company name",
-    !location.trim() && "Vestigingsplaats",
+    !location.trim() && "Location",
     practiceAreas.length === 0 && "Sectors",
-    !description.trim() && "Omschrijving",
-    !contactPerson.trim() && "Contactpersoon",
-    !notificationEmail.trim() && "Notificatie-emailadres",
+    !description.trim() && "Description",
+    !contactPerson.trim() && "Contact person",
+    !notificationEmail.trim() && "Notification email",
   ].filter(Boolean) as string[];
 
   // ── Logo handlers ──────────────────────────────────────────────────────────
@@ -170,11 +170,11 @@ export default function ProfileForm({
     const file = e.target.files?.[0];
     if (!file) return;
     if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
-      setSaveError("Alleen JPG, PNG of WebP bestanden zijn toegestaan.");
+      setSaveError("Only JPG, PNG or WebP files are allowed.");
       return;
     }
     if (file.size > 2 * 1024 * 1024) {
-      setSaveError("Logo mag maximaal 2 MB zijn.");
+      setSaveError("Logo must be 2 MB or smaller.");
       return;
     }
     setLogoFile(file);
@@ -249,13 +249,13 @@ export default function ProfileForm({
       throw new Error(
         typeof json?.error === "string" && json.error
           ? json.error
-          : "Logo uploaden mislukt."
+          : "Logo upload failed."
       );
     }
 
     const json = (await uploadRes.json()) as { logo_url?: string };
     if (!json.logo_url) {
-      throw new Error("Logo uploaden mislukt: publieke URL ontbreekt.");
+      throw new Error("Logo upload failed: missing public URL.");
     }
 
     return json.logo_url;
@@ -285,8 +285,8 @@ export default function ProfileForm({
       } catch (error) {
         setSaveError(
           error instanceof Error && error.message
-            ? `Logo uploaden mislukt: ${error.message}`
-            : "Logo uploaden mislukt."
+            ? `Logo upload failed: ${error.message}`
+            : "Logo upload failed."
         );
         setSaving(false);
         return;
@@ -329,7 +329,7 @@ export default function ProfileForm({
             : "No access: you can only edit your own company profile."
         );
       } else {
-        setSaveError(json?.error ?? "Opslaan mislukt.");
+        setSaveError(json?.error ?? "Save failed.");
       }
       setSaving(false);
       return;
@@ -364,7 +364,7 @@ export default function ProfileForm({
           <>
             <CheckCircle className="h-5 w-5 shrink-0" />
             <span>
-              Profiel is live —{" "}
+              Profile is live —{" "}
               <span className="font-normal">visible to candidates on Finance Talents</span>
             </span>
           </>
@@ -372,9 +372,9 @@ export default function ProfileForm({
           <>
             <AlertCircle className="h-5 w-5 shrink-0" />
             <span>
-              Profiel nog niet zichtbaar —{" "}
+              Profile not visible yet —{" "}
               <span className="font-normal">
-                vul alle verplichte velden in:{" "}
+                fill in all required fields:{" "}
                 {missingFields.join(", ")}
               </span>
             </span>
@@ -385,7 +385,7 @@ export default function ProfileForm({
       {/* ── Verplichte velden ─────────────────────────────────────── */}
       <section className="bg-white border border-gray-200 rounded-2xl p-6 space-y-5">
         <h2 className="text-lg font-semibold text-black">
-          Verplichte informatie
+          Required information
         </h2>
 
         {/* Company name */}
@@ -396,22 +396,22 @@ export default function ProfileForm({
           <input
             type="text"
             required
-            placeholder="Bijv. Van der Berg Advocaten"
+            placeholder="e.g. Van der Berg Advocaten"
             value={name}
             onChange={(e) => setName(e.target.value)}
             className={inputCls}
           />
         </div>
 
-        {/* Vestigingsplaats */}
+        {/* Location */}
         <div>
           <label className={labelCls}>
-            Vestigingsplaats <span className="text-red-500">*</span>
+            Location <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
             required
-            placeholder="Bijv. Amsterdam"
+            placeholder="e.g. Amsterdam"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             className={inputCls}
@@ -452,18 +452,18 @@ export default function ProfileForm({
           )}
         </div>
 
-        {/* Omschrijving */}
+        {/* Description */}
         <div>
           <div className="flex items-center justify-between mb-1">
             <label className={labelCls.replace("mb-1", "")}>
-              Korte omschrijving <span className="text-red-500">*</span>
+              Short description <span className="text-red-500">*</span>
             </label>
             <span
               className={`text-xs ${
                 wordCount > 300 ? "text-red-500 font-semibold" : "text-gray-400"
               }`}
             >
-              {wordCount} / 300 woorden
+              {wordCount} / 300 words
             </span>
           </div>
           <textarea
@@ -476,31 +476,31 @@ export default function ProfileForm({
           />
           {wordCount > 300 && (
             <p className="mt-1 text-xs text-red-500">
-              Omschrijving is te lang — verwijder {wordCount - 300} woord
-              {wordCount - 300 !== 1 ? "en" : ""}.
+              Description is too long — remove {wordCount - 300} word
+              {wordCount - 300 !== 1 ? "s" : ""}.
             </p>
           )}
         </div>
 
-        {/* Contactpersoon */}
+        {/* Contact person */}
         <div>
           <label className={labelCls}>
-            Contactpersoon platform <span className="text-red-500">*</span>
+            Contact person <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
             required
-            placeholder="Voornaam Achternaam"
+            placeholder="First name Last name"
             value={contactPerson}
             onChange={(e) => setContactPerson(e.target.value)}
             className={inputCls}
           />
         </div>
 
-        {/* Notificatie-email */}
+        {/* Notification email */}
         <div>
           <label className={labelCls}>
-            Notificatie-emailadres <span className="text-red-500">*</span>
+            Notification email <span className="text-red-500">*</span>
           </label>
           <input
             type="email"
@@ -519,7 +519,7 @@ export default function ProfileForm({
       {/* ── Optionele velden ──────────────────────────────────────── */}
       <section className="bg-white border border-gray-200 rounded-2xl p-6 space-y-5">
         <h2 className="text-lg font-semibold text-black">
-          Extra informatie{" "}
+          Additional information{" "}
           <span className="text-sm font-normal text-gray-400">(optional)</span>
         </h2>
 
@@ -543,7 +543,7 @@ export default function ProfileForm({
                   className="flex items-center gap-2 text-sm text-primary hover:underline font-medium"
                 >
                   <Upload className="h-4 w-4" />
-                  Ander logo kiezen
+                  Choose another logo
                 </button>
                 <button
                   type="button"
@@ -551,7 +551,7 @@ export default function ProfileForm({
                   className="flex items-center gap-2 text-sm text-red-500 hover:underline"
                 >
                   <X className="h-4 w-4" />
-                  Logo verwijderen
+                  Remove logo
                 </button>
               </div>
             </div>
@@ -562,7 +562,7 @@ export default function ProfileForm({
               className="flex items-center justify-center gap-2 w-full border-2 border-dashed border-gray-200 rounded-xl py-8 text-sm text-gray-400 hover:border-primary hover:text-primary transition-colors"
             >
               <Upload className="h-5 w-5" />
-              Klik om een logo te uploaden
+              Click to upload a logo
             </button>
           )}
           <input
@@ -573,7 +573,7 @@ export default function ProfileForm({
             className="hidden"
           />
           <p className="mt-1.5 text-xs text-gray-400">
-            JPG, PNG of WebP · max. 2 MB
+            JPG, PNG or WebP · max 2 MB
           </p>
         </div>
 
@@ -589,15 +589,15 @@ export default function ProfileForm({
           />
         </div>
 
-        {/* Bedrijfsgrootte */}
+        {/* Company size */}
         <div>
-          <label className={labelCls}>Bedrijfsgrootte</label>
+          <label className={labelCls}>Company size</label>
           <select
             value={teamSize}
             onChange={(e) => setTeamSize(e.target.value as TeamSizeValue | "")}
             className={inputCls}
           >
-            <option value="">Kies bedrijfsgrootte…</option>
+            <option value="">Choose company size…</option>
             {TEAM_SIZE_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
                 {opt.label}
@@ -605,8 +605,7 @@ export default function ProfileForm({
             ))}
           </select>
           <p className="mt-1 text-xs text-gray-400">
-            Geef het aantal medewerkers op zodat kandidaten weten wat voor
-            company you are.
+            Tell candidates how big your company is.
           </p>
         </div>
 
@@ -667,7 +666,7 @@ export default function ProfileForm({
           className="btn-primary"
         >
           {saving && <Loader2 className="h-4 w-4 animate-spin" />}
-          {saving ? "Saving..." : "Profiel opslaan"}
+          {saving ? "Saving..." : "Save profile"}
         </button>
       </div>
     </form>

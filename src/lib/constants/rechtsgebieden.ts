@@ -20,6 +20,7 @@ export const RECHTSGEBIEDEN = [
   "Debt Capital Markets",
   "Equity Capital Markets",
   "Restructuring",
+  "Financial Consultancy",
   "Real Assets",
   "Infrastructure",
   "Hedge Funds",
@@ -41,6 +42,7 @@ export const RECHTSGEBIED_SLUGS: Record<Rechtsgebied, string> = {
   "Debt Capital Markets": "debt-capital-markets",
   "Equity Capital Markets": "equity-capital-markets",
   Restructuring: "restructuring",
+  "Financial Consultancy": "financial-consultancy",
   "Real Assets": "real-assets",
   Infrastructure: "infrastructure",
   "Hedge Funds": "hedge-funds",
@@ -121,6 +123,11 @@ export const RECHTSGEBIED_SEO: Record<
     title: "Restructuring Jobs",
     description:
       "Discover Restructuring jobs in advisory, turnaround, distressed debt and special situations at leading finance firms.",
+  },
+  "Financial Consultancy": {
+    title: "Financial Consultancy Jobs",
+    description:
+      "Browse Financial Consultancy jobs at advisory firms, Big Four practices and boutique consultancies serving finance clients. Find consultant, analyst and internship roles on Finance Talents.",
   },
   "Real Assets": {
     title: "Real Assets Jobs",

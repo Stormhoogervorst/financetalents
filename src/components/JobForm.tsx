@@ -259,7 +259,7 @@ export default function JobForm({
             </p>
             <p className="text-red-700">
               The job will be linked to the company and marked as
-              door admin geplaatst ({" "}
+              posted by admin ({" "}
               <code className="rounded bg-red-100 px-1 py-0.5 text-[11px] font-mono">
                 posted_by_admin
               </code>{" "}

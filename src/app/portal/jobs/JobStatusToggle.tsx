@@ -65,7 +65,7 @@ export default function JobStatusToggle({ jobId, initialStatus }: Props) {
           isActive ? "text-green-700" : isDraft ? "text-orange-700" : "text-gray-500"
         }`}
       >
-        {isActive ? "Actief" : isDraft ? "Concept" : "Offline"}
+        {isActive ? "Active" : isDraft ? "Draft" : "Offline"}
       </span>
     </button>
   );

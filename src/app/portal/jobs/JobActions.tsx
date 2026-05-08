@@ -83,7 +83,7 @@ export default function JobActions({ job }: Props) {
       await fn();
       router.refresh();
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Er ging iets mis.");
+      setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
       setLoading(false);
       setOpen(false);
@@ -99,18 +99,18 @@ export default function JobActions({ job }: Props) {
       });
       if (!res.ok) {
         const { error } = await res.json();
-        throw new Error(error ?? "Status wijzigen mislukt.");
+        throw new Error(error ?? "Failed to change status.");
       }
     });
 
   const deleteJob = () => {
-    if (!window.confirm(`Job "${job.title}" permanent verwijderen?`)) return;
+    if (!window.confirm(`Permanently delete job "${job.title}"?`)) return;
     run(async () => {
       const res = await fetch(`/api/jobs/${job.id}`, { method: "DELETE" });
       if (!res.ok) {
         const { error } = await res.json();
         if (res.status === 403) throw new Error("No access: this is not your job.");
-        throw new Error(error ?? "Verwijderen mislukt.");
+        throw new Error(error ?? "Delete failed.");
       }
     });
   };
@@ -127,7 +127,7 @@ export default function JobActions({ job }: Props) {
             className="flex items-center gap-2.5 px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-black transition-colors"
           >
             <Pencil className="h-4 w-4" />
-            Bewerken
+            Edit
           </a>
 
           <div className="my-1 border-t border-gray-100" />
@@ -138,7 +138,7 @@ export default function JobActions({ job }: Props) {
               className="w-full flex items-center gap-2.5 px-4 py-2 text-gray-500 hover:bg-gray-50 transition-colors"
             >
               <XCircle className="h-4 w-4" />
-              Sluiten
+              Close
             </button>
           )}
 
@@ -149,7 +149,7 @@ export default function JobActions({ job }: Props) {
             className="w-full flex items-center gap-2.5 px-4 py-2 text-red-600 hover:bg-red-50 transition-colors"
           >
             <Trash2 className="h-4 w-4" />
-            Verwijderen
+            Delete
           </button>
         </div>,
         document.body,
@@ -167,7 +167,7 @@ export default function JobActions({ job }: Props) {
         onClick={() => setOpen((v) => !v)}
         disabled={loading}
         className="p-1.5 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50"
-        aria-label="Acties"
+        aria-label="Actions"
       >
         {loading ? (
           <Loader2 className="h-4 w-4 animate-spin" />

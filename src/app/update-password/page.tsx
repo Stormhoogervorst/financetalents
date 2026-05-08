@@ -32,7 +32,7 @@ export default function UpdatePasswordPage() {
       return;
     }
     if (newPassword.length < 8) {
-      setError("Password moet minimaal 8 tekens zijn.");
+      setError("Password must be at least 8 characters.");
       return;
     }
 
@@ -70,7 +70,7 @@ export default function UpdatePasswordPage() {
             />
           </Link>
           <h1 className="mt-6 text-2xl font-bold text-black">
-            {success ? "Password gewijzigd" : "Set a new password"}
+            {success ? "Password updated" : "Set a new password"}
           </h1>
           <p className="mt-1 text-sm text-gray-500">
             {success
@@ -120,7 +120,7 @@ export default function UpdatePasswordPage() {
                     onClick={() => setShowPassword((v) => !v)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                     aria-label={
-                      showPassword ? "Password verbergen" : "Password tonen"
+                      showPassword ? "Hide password" : "Show password"
                     }
                   >
                     {showPassword ? (
@@ -169,12 +169,12 @@ export default function UpdatePasswordPage() {
                 {loading ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Opslaan…
+                    Saving…
                   </>
                 ) : (
                   <>
                     <KeyRound className="h-4 w-4" />
-                    Password opslaan
+                    Save password
                   </>
                 )}
               </button>

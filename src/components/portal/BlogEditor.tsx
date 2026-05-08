@@ -78,7 +78,7 @@ export default function BlogEditor({ content, onChange }: BlogEditorProps) {
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={btn(editor.isActive("bold"))}
-          title="Vetgedrukt"
+          title="Bold"
         >
           <Bold className="h-4 w-4" />
         </button>
@@ -86,7 +86,7 @@ export default function BlogEditor({ content, onChange }: BlogEditorProps) {
           type="button"
           onClick={() => editor.chain().focus().toggleItalic().run()}
           className={btn(editor.isActive("italic"))}
-          title="Cursief"
+          title="Italic"
         >
           <Italic className="h-4 w-4" />
         </button>
@@ -97,7 +97,7 @@ export default function BlogEditor({ content, onChange }: BlogEditorProps) {
           type="button"
           onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
           className={btn(editor.isActive("heading", { level: 2 }))}
-          title="Kop 2"
+          title="Heading 2"
         >
           <Heading2 className="h-4 w-4" />
         </button>
@@ -105,7 +105,7 @@ export default function BlogEditor({ content, onChange }: BlogEditorProps) {
           type="button"
           onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
           className={btn(editor.isActive("heading", { level: 3 }))}
-          title="Kop 3"
+          title="Heading 3"
         >
           <Heading3 className="h-4 w-4" />
         </button>
@@ -116,7 +116,7 @@ export default function BlogEditor({ content, onChange }: BlogEditorProps) {
           type="button"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           className={btn(editor.isActive("bulletList"))}
-          title="Opsomming"
+          title="Bullet list"
         >
           <List className="h-4 w-4" />
         </button>
@@ -127,7 +127,7 @@ export default function BlogEditor({ content, onChange }: BlogEditorProps) {
           type="button"
           onClick={setLink}
           className={btn(editor.isActive("link"))}
-          title="Link invoegen"
+          title="Insert link"
         >
           <LinkIcon className="h-4 w-4" />
         </button>
@@ -136,7 +136,7 @@ export default function BlogEditor({ content, onChange }: BlogEditorProps) {
             type="button"
             onClick={() => editor.chain().focus().unsetLink().run()}
             className={btn(false)}
-            title="Link verwijderen"
+            title="Remove link"
           >
             <Unlink className="h-4 w-4" />
           </button>

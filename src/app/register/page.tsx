@@ -299,7 +299,7 @@ function RegisterContent() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                   aria-label={
-                    showPassword ? "Password verbergen" : "Password tonen"
+                    showPassword ? "Hide password" : "Show password"
                   }
                 >
                   {showPassword ? (
@@ -347,7 +347,7 @@ function RegisterContent() {
           </form>
 
           <p className="mt-6 text-center text-sm text-gray-500">
-            Al een account?{" "}
+            Already have an account?{" "}
             <Link
               href="/login"
               className="font-medium text-primary hover:underline"

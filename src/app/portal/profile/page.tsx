@@ -4,7 +4,7 @@ import ProfileForm from "./ProfileForm";
 import DangerZone from "./DangerZone";
 
 export const metadata = {
-  title: "Mijn profiel",
+  title: "My profile",
 };
 
 export default async function ProfilePage() {
@@ -26,7 +26,7 @@ export default async function ProfilePage() {
   return (
     <div className="max-w-3xl">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-black">Mijn profiel</h1>
+        <h1 className="text-2xl font-bold text-black">My profile</h1>
         <p className="mt-1 text-sm text-gray-500">
           {firm
             ? "Manage the information of your company that is visible on Finance Talents."
@@ -37,7 +37,7 @@ export default async function ProfilePage() {
       {isImpersonating && (
         <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
           You are editing this company profile as an admin. Changes are saved directly to this existing company. No new
-          profiel aangemaakt.
+          profile is created.
         </div>
       )}
 

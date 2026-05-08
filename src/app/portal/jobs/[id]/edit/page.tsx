@@ -61,7 +61,7 @@ export default async function EditJobPage({ params }: Props) {
         Back to jobs
       </Link>
 
-      <h1 className="text-2xl font-bold text-black mb-2">Job bewerken</h1>
+      <h1 className="text-2xl font-bold text-black mb-2">Edit job</h1>
       <p className="text-sm text-gray-500 mb-8">{job.title}</p>
 
       <JobForm

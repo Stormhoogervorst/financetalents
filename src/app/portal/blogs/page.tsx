@@ -58,7 +58,7 @@ export default async function BlogsPage({ searchParams }: Props) {
           <h1 className="text-2xl font-bold text-black">Blogs</h1>
           <p className="text-sm text-gray-500 mt-1">
             {blogList.length === 0
-              ? "Nog geen blogs geschreven"
+              ? "No articles written yet"
               : `${blogList.length} blog${blogList.length !== 1 ? "s" : ""}`}
           </p>
         </div>
@@ -77,7 +77,7 @@ export default async function BlogsPage({ searchParams }: Props) {
             <FileText className="h-7 w-7 text-primary" />
           </div>
           <h2 className="text-lg font-semibold text-black mb-2">
-            Nog geen blogs
+            No articles yet
           </h2>
           <p className="text-sm text-gray-500 mb-6 max-w-sm">
             Write your first article and let candidates get to know your organisation.
@@ -98,16 +98,16 @@ export default async function BlogsPage({ searchParams }: Props) {
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50">
                   <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wide px-6 py-3.5">
-                    Titel
+                    Title
                   </th>
                   <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wide px-4 py-3.5">
-                    Categorie
+                    Category
                   </th>
                   <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wide px-4 py-3.5">
                     Status
                   </th>
                   <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wide px-4 py-3.5">
-                    Datum
+                    Date
                   </th>
                 </tr>
               </thead>
@@ -140,7 +140,7 @@ export default async function BlogsPage({ searchParams }: Props) {
                             blog.status === "published" ? "bg-green-500" : "bg-gray-400"
                           }`}
                         />
-                        {blog.status === "published" ? "Gepubliceerd" : "Concept"}
+                        {blog.status === "published" ? "Published" : "Draft"}
                       </span>
                     </td>
                     <td className="px-4 py-4 text-sm text-gray-500">
@@ -175,7 +175,7 @@ export default async function BlogsPage({ searchParams }: Props) {
                       blog.status === "published" ? "text-green-600" : "text-gray-400"
                     }`}
                   >
-                    {blog.status === "published" ? "Gepubliceerd" : "Concept"}
+                    {blog.status === "published" ? "Published" : "Draft"}
                   </span>
                   <span className="text-xs text-gray-400">
                     {new Date(blog.created_at).toLocaleDateString("en-US", {

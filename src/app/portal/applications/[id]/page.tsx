@@ -114,7 +114,7 @@ export default async function ApplicationDetailPage({ params }: Props) {
         {/* Contact */}
         <div className="bg-white border border-gray-200 rounded-2xl p-5">
           <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">
-            Contactgegevens
+            Contact details
           </h2>
           <ul className="space-y-3">
             <li className="flex items-center gap-3">
@@ -158,17 +158,17 @@ export default async function ApplicationDetailPage({ params }: Props) {
                   rel="noopener noreferrer"
                   className="text-sm text-[#0077b5] hover:underline"
                 >
-                  LinkedIn profiel
+                  LinkedIn profile
                 </a>
               </li>
             )}
           </ul>
         </div>
 
-        {/* Opleiding */}
+        {/* Education */}
         <div className="bg-white border border-gray-200 rounded-2xl p-5">
           <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">
-            Opleiding
+            Education
           </h2>
           {app.study_field || app.university ? (
             <ul className="space-y-3">
@@ -190,7 +190,7 @@ export default async function ApplicationDetailPage({ params }: Props) {
               )}
             </ul>
           ) : (
-            <p className="text-sm text-gray-400">Niet opgegeven</p>
+            <p className="text-sm text-gray-400">Not provided</p>
           )}
         </div>
       </div>
@@ -208,7 +208,7 @@ export default async function ApplicationDetailPage({ params }: Props) {
             className="btn-primary"
           >
             <Download className="h-4 w-4" />
-            CV downloaden (PDF)
+            Download CV (PDF)
           </a>
         ) : (
           <div className="flex items-center gap-2 text-sm text-gray-400">
@@ -218,11 +218,11 @@ export default async function ApplicationDetailPage({ params }: Props) {
         )}
       </div>
 
-      {/* Motivatie */}
+      {/* Motivation */}
       <div className="bg-white border border-gray-200 rounded-2xl p-5">
         <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4 flex items-center gap-2">
           <MessageSquare className="h-3.5 w-3.5" />
-          Motivatie
+          Motivation
         </h2>
         {app.motivation ? (
           <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
