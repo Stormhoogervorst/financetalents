@@ -92,7 +92,7 @@ const SECTIONS: Section[] = [
   {
     title: "Contact",
     body: [
-      "For privacy questions or requests, contact Finance Talents at storm@finance-talents.com. We may ask for information to verify your identity before handling a request.",
+      "For privacy questions or requests, contact Finance Talents at joris@finance-talents.nl. We may ask for information to verify your identity before handling a request.",
     ],
   },
 ];

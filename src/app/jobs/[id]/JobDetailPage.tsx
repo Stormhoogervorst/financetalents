@@ -525,7 +525,7 @@ export default async function JobDetailPage({ params, searchParams }: Props) {
                               href={`/companies/${firm.slug}`}
                               className="btn-primary w-full"
                             >
-                              View company profile
+                              More about this company
                             </Link>
                           )}
                           {firm.website_url && (

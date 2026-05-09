@@ -14,10 +14,10 @@ export default function Footer() {
                 E-mail
               </p>
               <a
-                href="mailto:storm@finance-talents.com"
+                href="mailto:joris@finance-talents.nl"
                 className="group inline-flex items-center gap-2 text-[clamp(18px,2vw,24px)] font-semibold text-white transition-colors duration-200 hover:text-[#E85A00]"
               >
-                storm@finance-talents.com
+                joris@finance-talents.nl
               </a>
               <p className="mt-6 text-[13px] text-white/45">
                 © {new Date().getFullYear()} Finance Talents

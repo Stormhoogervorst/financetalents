@@ -372,7 +372,7 @@ export default async function BlogArticlePage({ params }: Props) {
                       href={`/companies/${firm.slug}`}
                       className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[14px] font-medium text-[#222222] transition-colors duration-200 hover:bg-[#E85A00] hover:text-white"
                     >
-                      Companiesprofiel bekijken
+                      More about this company
                       <ArrowUpRight className="h-4 w-4" />
                     </Link>
                   </div>
