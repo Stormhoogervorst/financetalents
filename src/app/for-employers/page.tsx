@@ -45,13 +45,6 @@ const FEATURES = [
   },
 ];
 
-const LOGOS = [
-  "Private Equity",
-  "Venture Capital",
-  "Investment Banking",
-  "FinTech",
-];
-
 const STEPS = [
   {
     number: "01",
@@ -302,42 +295,6 @@ export default function VoorCompaniesPage() {
                 </div>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      <section
-        className="bg-white"
-        style={{
-          padding: "clamp(70px, 9vh, 130px) clamp(24px, 5vw, 80px)",
-        }}
-      >
-        <div className="mx-auto max-w-[1400px]">
-          <div className="grid grid-cols-1 border border-[#222222] bg-[#EBEBEB] lg:grid-cols-12">
-            <div className="p-6 md:p-8 lg:col-span-5">
-              <h2 className="ft-display text-[clamp(42px,7vw,104px)] font-extrabold leading-[0.9] tracking-[-0.075em] text-[#222222]">
-                Trusted by finance teams.
-              </h2>
-            </div>
-            <div className="border-t border-[#222222] p-6 md:p-8 lg:col-span-7 lg:border-l lg:border-t-0">
-              <p className="max-w-[660px] text-[clamp(22px,2.4vw,36px)] font-semibold leading-[1.15] tracking-[-0.04em] text-[#222222]">
-                "Reach candidates who already understand the market before
-                they open your vacancy."
-              </p>
-              <p className="mt-5 text-[15px] leading-[1.65] text-[#222222]/60">
-                Purpose-built visibility for finance hiring teams
-              </p>
-              <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-4">
-                {LOGOS.map((logo) => (
-                  <div
-                    key={logo}
-                    className="flex min-h-[88px] items-center justify-center border border-[#222222] bg-white p-4 text-center text-[13px] font-semibold leading-[1.25] tracking-[-0.01em] text-[#222222]/60"
-                  >
-                    {logo}
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </section>
