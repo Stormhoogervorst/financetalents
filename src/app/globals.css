@@ -92,6 +92,30 @@
   pointer-events: none;
 }
 
+ul.job-description {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+ul.job-description li {
+  position: relative;
+  padding-left: 1.5em;
+  margin-bottom: 0.75em;
+  line-height: 1.5;
+}
+
+ul.job-description li p {
+  margin: 0;
+}
+
+ul.job-description li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
 @layer components {
   /* Shared base for mesh-gradient buttons: soft silk-like multi-radial wash
      that shifts subtly on hover. `background-size` > 100% enables the

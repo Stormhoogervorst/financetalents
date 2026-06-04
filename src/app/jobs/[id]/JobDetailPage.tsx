@@ -35,6 +35,50 @@ function locationToCitySlug(location: string): string | null {
   return null;
 }
 
+function formatJobDescriptionHtml(description: string): string {
+  const bulletMarker = "(?:&middot;|&#183;|&bull;|·|•)";
+  const optionalSpace = "(?:\\s|&nbsp;)*";
+  const bulletParagraphs = new RegExp(
+    `((?:\\s*<p\\b[^>]*>${optionalSpace}${bulletMarker}${optionalSpace}[\\s\\S]*?<\\/p>)+)`,
+    "gi",
+  );
+  const singleBulletParagraph = new RegExp(
+    `<p\\b[^>]*>${optionalSpace}${bulletMarker}${optionalSpace}([\\s\\S]*?)<\\/p>`,
+    "gi",
+  );
+  const leadingLiBullet = new RegExp(
+    `(<li\\b[^>]*>${optionalSpace}(?:<p\\b[^>]*>${optionalSpace})?)${bulletMarker}${optionalSpace}`,
+    "gi",
+  );
+
+  const htmlWithLists = description
+    .replace(bulletParagraphs, (block) => {
+      const items = Array.from(block.matchAll(singleBulletParagraph))
+        .map((match) => `<li>${match[1].trim()}</li>`)
+        .join("");
+
+      return `<ul class="job-description">${items}</ul>`;
+    })
+    .replace(leadingLiBullet, "$1");
+
+  return htmlWithLists.replace(/<ul\b([^>]*)>/gi, (match, attrs) => {
+    const classAttribute = /\bclass\s*=\s*(["'])(.*?)\1/i;
+    const existingClass = attrs.match(classAttribute);
+
+    if (existingClass) {
+      const classes = existingClass[2].split(/\s+/);
+      if (classes.includes("job-description")) return match;
+
+      return match.replace(
+        classAttribute,
+        `class=${existingClass[1]}${existingClass[2]} job-description${existingClass[1]}`,
+      );
+    }
+
+    return `<ul${attrs} class="job-description">`;
+  });
+}
+
 interface Props {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ error?: string; status?: string }>;
@@ -169,6 +213,7 @@ export default async function JobDetailPage({ params, searchParams }: Props) {
     typedJob.location ? ` in ${typedJob.location}` : ""
   }`;
   const typeLabel = jobTypeLabels[typedJob.type] ?? typedJob.type;
+  const formattedJobDescription = formatJobDescriptionHtml(typedJob.description);
   const breadcrumbItems = [
     { label: "Home", href: "/" },
     { label: "Jobs", href: "/jobs" },
@@ -417,12 +462,12 @@ export default async function JobDetailPage({ params, searchParams }: Props) {
                     The opportunity.
                   </h2>
                   <div
-                    className="mt-10 max-w-[760px] text-[#222222]/70 [&_a]:text-[#E85A00] [&_a]:underline [&_a]:decoration-[#E85A00]/30 [&_a]:underline-offset-4 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-[clamp(28px,3vw,44px)] [&_h2]:font-extrabold [&_h2]:leading-[0.95] [&_h2]:tracking-[-0.055em] [&_h2]:text-[#222222] [&_h3]:mt-8 [&_h3]:mb-3 [&_h3]:text-[24px] [&_h3]:font-extrabold [&_h3]:tracking-[-0.04em] [&_h3]:text-[#222222] [&_li]:mb-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-5 [&_strong]:font-semibold [&_strong]:text-[#222222] [&_ul]:list-disc [&_ul]:pl-5"
+                    className="mt-10 max-w-[760px] text-[#222222]/70 [&_a]:text-[#E85A00] [&_a]:underline [&_a]:decoration-[#E85A00]/30 [&_a]:underline-offset-4 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-[clamp(28px,3vw,44px)] [&_h2]:font-extrabold [&_h2]:leading-[0.95] [&_h2]:tracking-[-0.055em] [&_h2]:text-[#222222] [&_h3]:mt-8 [&_h3]:mb-3 [&_h3]:text-[24px] [&_h3]:font-extrabold [&_h3]:tracking-[-0.04em] [&_h3]:text-[#222222] [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-5 [&_strong]:font-semibold [&_strong]:text-[#222222]"
                     style={{
                       fontSize: "clamp(16px, 1.15vw, 18px)",
                       lineHeight: 1.65,
                     }}
-                    dangerouslySetInnerHTML={{ __html: typedJob.description }}
+                    dangerouslySetInnerHTML={{ __html: formattedJobDescription }}
                   />
                 </div>
               )}
