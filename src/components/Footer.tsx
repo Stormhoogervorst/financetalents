@@ -28,6 +28,17 @@ export default function Footer() {
               >
                 Privacy Policy
               </Link>
+              <p className="mt-4 text-[13px] text-white/45">
+                Website door{" "}
+                <a
+                  href="https://neqst.nl/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-white/60 transition-colors duration-200 hover:text-[#E85A00]"
+                >
+                  Neqst
+                </a>
+              </p>
             </div>
 
             <div>
